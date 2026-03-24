@@ -3,7 +3,6 @@
 ![MiniWorld_Icon](./img/MiniWorld_Icon.png)
 
 - 作者: K_Lan
-- 声明文件版本: v0.2.2-main.3
 - 支持的游戏版本: v1.52
 - Lua版本: v5.1+
 - 开发套件版本: v3.0
@@ -61,9 +60,12 @@
 
     - 将本仓库中的 `./template/lua.code-snippets` 文件，复制到你项目文件夹下的 `.vscode` 目录中即可。
 
-## v0.2.2-main.3 更新内容
+## 更新内容
 
-1. 优化了 `CusotmUI` 模块的声明
+1. 更新了 `CusotmUI` 模块的声明
+2. 更新了 `枚举库` 的声明
+3. 移除了 `README.md` 关于版本号的信息
+4. 添加了 `tool.py`, 用于合并文件
 
 ### 当前进度
 

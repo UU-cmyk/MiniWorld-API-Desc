@@ -1165,8 +1165,15 @@ local TouchState = {}
 _G['TouchState'] = TouchState
 
 ---@class MiniShopData @皮肤数据类型
----@field Skin any @皮肤
----@field Avt any @所有AVT
----@field Mount any @所有坐骑
+---@field Skin number @皮肤
+---@field Avt number @所有AVT
+---@field Mount number @所有坐骑
+---@field AllMountLevel number @所有坐骑的等级总和
 local MiniShopData = {}
 _G['MiniShopData'] = MiniShopData
+
+---@class BeaconMapType
+---@field Position number @坐标
+---@field Object number @对象
+local BeaconMapType = {}
+_G['BeaconMapType'] = BeaconMapType

@@ -542,3 +542,47 @@ end
 function CustomUI:DeleteElement(playerId, uiId, elementId)
     return true
 end
+
+--- 设置信标映射类型
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param mapType number @信标映射类型枚举(BeaconMapType)
+function CustomUI:SetBeaconMapType(playerId, uiId, elementId, mapType)
+    return true
+end
+
+--- 设置信标位置
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param bandPosX number @信标X坐标
+--- @param bandPosY number @信标Y坐标
+--- @param bandPosZ number @信标Z坐标
+function CustomUI:SetBeaconBandPos(playerId, uiId, elementId, bandPosX, bandPosY, bandPosZ)
+    return true
+end
+
+--- 设置信标对象
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param objId number @信标对象ID
+function CustomUI:SetBeaconObjId(playerId, uiId, elementId, objId)
+    return true
+end
+
+--- 设置信标偏移
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param offsetX number @信标X偏移
+--- @param offsetY number @信标Y偏移
+--- @param offsetZ number @信标Z偏移
+function CustomUI:SetBeaconOffset(playerId, uiId, elementId, offsetX, offsetY, offsetZ)
+    return true
+end
