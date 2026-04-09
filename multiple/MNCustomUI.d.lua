@@ -586,3 +586,23 @@ end
 function CustomUI:SetBeaconOffset(playerId, uiId, elementId, offsetX, offsetY, offsetZ)
     return true
 end
+
+--- 设置信标限制范围类型
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param clampRange number @信标限制范围类型枚举(BeaconClampType)
+function CustomUI:SetBeaconClampType(playerId, uiId, elementId, clampRange)
+    return true
+end
+
+--- 设置信标显示半径
+--- @return boolean @成功返回True, 失败返回False
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param radius number @信标半径
+function CustomUI:SetBeaconRadius(playerId, uiId, elementId, radius)
+    return true
+end
