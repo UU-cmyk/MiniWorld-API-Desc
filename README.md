@@ -60,6 +60,10 @@
 
     - 将本仓库中的 `./template/lua.code-snippets` 文件，复制到你项目文件夹下的 `.vscode` 目录中即可。
 
+## AI提示词
+
+- 将 `MNDeclaration.d.lua` 加上 `AiDesc` 的全部内容喂给AI即可
+
 ### 当前进度
 
 | 声明类型 | 进度 |

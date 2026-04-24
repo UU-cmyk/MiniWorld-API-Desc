@@ -167,7 +167,7 @@
 --- @field DropItemPickup any @当掉落物被拾取
 --- @field ItemDisappear any @当掉落物消失
 local TriggerEvent = {}
-_G['TriggerEvent'] = TriggerEvent
+_G.TriggerEvent = TriggerEvent
 
 --- @class CurEventParam @事件参数类
 --- @field EventTargetPos any @事件中的位置
@@ -193,7 +193,7 @@ _G['TriggerEvent'] = TriggerEvent
 --- @field EventTargetDropItem any @事件中的掉落物
 --- @field Itemnum any @事件中的道具数量
 local CurEventParam = {}
-_G['CurEventParam'] = CurEventParam
+_G.CurEventParam = CurEventParam
 
 --- @class ObjectEvent @组件事件枚举
 --- @field OnPropertyChange any @当对象的属性发生改变
@@ -267,4 +267,4 @@ _G['CurEventParam'] = CurEventParam
 --- @field ObjectMountActor any @此角色骑乘
 --- @field ObjectDismountActor any @此角色取消骑乘
 local ObjectEvent = {}
-_G['ObjectEvent'] = ObjectEvent
+_G.ObjectEvent = ObjectEvent

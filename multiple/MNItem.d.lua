@@ -255,3 +255,10 @@ end
 function Item:GetGridAttr(objId, attrType)
     return 0
 end
+
+--- 获取道具定义中的标签组
+--- @return table @道具的标签组
+--- @param itemId number|string @道具定义ID/道具预制ID
+function Item:GetTags(itemId)
+    return {}
+end

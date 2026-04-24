@@ -5360,6 +5360,12 @@ function Item:GetGridAttr(objId, attrType)
     return 0
 end
 
+--- 获取道具定义中的标签组
+--- @return table @道具的标签组
+--- @param itemId number|string @道具定义ID/道具预制ID
+function Item:GetTags(itemId)
+    return {}
+end
 
 --- @class Backpack
 --- 背包模块管理接口 Backpack
@@ -6273,9 +6279,9 @@ function CustomUI:SetFloatDamageTxt(playerId, elementId, objId, text, color, off
 end
 
 ---获取客机屏幕分辨率
----@return table @返回屏幕大小:{w, h}
+---@return number, number @返回屏幕大小(width, height)
 function CustomUI:GetScreenSize(playerId)
-    return {}
+    return 0, 0
 end
 
 ---删除UI元件
@@ -6704,3 +6710,4 @@ end
 function Graphics:GetInnerGraphicsOffset(objid, nameType, callback)
     return 0
 end
+

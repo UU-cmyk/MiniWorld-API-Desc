@@ -529,9 +529,9 @@ function CustomUI:SetFloatDamageTxt(playerId, elementId, objId, text, color, off
 end
 
 ---获取客机屏幕分辨率
----@return table @返回屏幕大小:{w, h}
+---@return number, number @返回屏幕大小(width, height)
 function CustomUI:GetScreenSize(playerId)
-    return {}
+    return 0, 0
 end
 
 ---删除UI元件
