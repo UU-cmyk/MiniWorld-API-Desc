@@ -7,13 +7,13 @@
 
 ## 开头结尾
 
-- 脚本开头必须写:
+- 脚本开头 **必须** 写:
 
 ```lua
 local 任意合法标识符 = {}
 ```
 
-- 脚本结尾必须写:
+- 脚本结尾 **必须** 写:
 
 ```lua
 return 你开头定义的表
@@ -26,7 +26,25 @@ function 你的表名:OnStart()
 end
 ```
 
-- OnStart函数是 **最先启动** 的 -> OnStart 是 **主入口**
+> OnStart函数是 **最先启动** 的 -> OnStart 是 **主入口**
+
+## UGC API调用
+
+- 类名:API名(...)
+- API名(...)
+
+1. 例示
+
+  '''lua
+  CustomUI:HideElement(1001, "114514-1919810", "114514-1919810_1")
+  '''
+2. 例示
+
+  '''lua
+  GetWorld()
+  '''
+
+- PS: 可以将 `API` 全局局部化，以此 **提升性能**
 
 ## 事件注册/删除
 
@@ -195,6 +213,390 @@ self:AddCloudSeverEvent(事件枚举常量 或 自定义云服消息(广播), se
 self:RemoveCloudSeverEvent(事件枚举常量 或 自定义消息(广播))
 ```
 
+## 组件属性
+
+### 组件属性存储
+
+```lua
+你定义的表名.propertys = {}
+```
+
+- 例示:
+
+```lua
+local Script = {}
+
+Script.propertys = {
+    a = {
+        type = Mini.Bool,
+        default = true,
+        displayName = "布尔值",
+        sort = 1,
+        tips = "tip",
+    },
+}
+
+return Script
+```
+
+### 组件属性信息
+
+| 属性名 | 类型 |
+| :-: | :-: |
+| Mini.Number | 数值 |
+| Mini.String | 字符串 |
+| Mini.Bool | 布尔值 |
+| Mini.Color | 颜色 |
+| Mini.Vec3 | 位置 |
+| Mini.MobType | 生物类型 |
+| Mini.Block | 方块类型 |
+| Mini.Item | 道具类型 |
+| Mini.Effect | 特效类型 |
+| Mini.Picture | 图片 |
+| Mini.Buff | 状态 |
+| Mini.Sound | 音效 |
+| Mini.Model | 外观 |
+
+#### Mini.Number
+
+- 需传入 `number`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Number` | 是 |
+| default | 默认值 | `100` | 否 |
+| displayName | 属性别名 | `数字` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| minValue | 最小值 | `-1000` | 否 |
+| maxValue | 最大值 | `1000` | 否 |
+| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f米` | 否 |
+| style | 属性控件样式滑动条 | `ComponentUIStyle.NumberSlider` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+| stride | 步长 (在属性面板增减的步长) | `1` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Number,
+    default = 100,
+    displayName = "数字",
+    sort = 1,
+    minValue = -1000,
+    maxValue = 1000,
+    format = "%.0f米",
+    style = ComponentUIStyle.NumberSlider,
+    tips = "属性作用提示",
+    stride = 1,
+}
+```
+
+- 涉及枚举:
+
+| 样式枚举 | 说明 |
+| :-: | :-: |
+| ComponentUIStyle.NumberSlider | 滑动条 |
+| ComponentUIStyle.NumberButton | 按钮 |
+| ComponentUIStyle.NumberOnlyInput | 输入框 |
+
+#### Mini.String
+
+- 需传入 `string`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.String` | 是 |
+| default | 默认值 | `喵喵喵` | 否 |
+| displayName | 属性别名 | `字符串` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| multiLine | 可否多行 | `true` | 否 |
+| maxLength | 最大x个字符 | `10` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.String,
+    default = "您好！",
+    displayName = "字符串",
+    sort = 1,
+    multiLine = false,
+    maxLength = 10,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Bool
+
+- 需传入 `boolean`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Bool` | 是 |
+| default | 默认值 | `true` | 否 |
+| displayName | 属性别名 | `布尔值` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Bool,
+    default = true,
+    displayName = "布尔值",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Color
+
+- 需传入 `HEX` 或 `字符串` 颜色值
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Color` | 是 |
+| default | 默认值 | `0xFFFFFF` / `#FFFFFF` | 否 |
+| displayName | 属性别名 | `颜色` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Color,
+    default = 0xFFFFFF,
+    displayName = "颜色",
+    sort = 1,
+    tips = "属性作用提示",
+}
+```
+
+#### Mini.Vec3
+
+- 需传入 `三维坐标XYZ` 表
+- 例: `{1, 1, 1}`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Vec3` | 是 |
+| default | 默认值 | `Mini.Vec3(0, 0, 0)` | 否 |
+| displayNames | 属性别名 (不填默认为X, Y, Z) | `{"Yaw", "Pitch", "Roll"}` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f` | 否 |
+| minValue | 最小值 | `{-100, -200, -300}` | 否 |
+| maxValue | 最大值 | `{100, 200, 300}` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Vec3,
+    default = Mini.Vec3(0, 0, 0),
+    displayName = "位置",
+    displayNames = {"yaw", "pitch", "roll"},-
+    sort = 1,
+    format = "%.2f",
+    minValue = -10000,
+    maxValue = 10000,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.MobType
+
+- 需传入 `官方生物类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.MobType` | 是 |
+| default | 默认值 | `3400` | 否 |
+| displayName | 属性别名 | `生物类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.MobType,
+    default = 3400,
+    displayName = "生物类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Block
+
+- 传入 `方块ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Block` | 是 |
+| default | 默认值 | `11668` | 否 |
+| displayName | 属性别名 | `方块类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Block,
+    default = 100,
+    displayName = "方块类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Item
+
+- 传入 `物品ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Item` | 是 |
+| default | 默认值 | `11000` | 否 |
+| displayName | 属性别名 | `道具类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Item,
+    default = 100,
+    displayName = "道具类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Effect
+
+- 传入 `特效类型ID` ( `number` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Effect` | 是 |
+| default | 默认值 | `1051` | 否 |
+| displayName | 属性别名 | `特效类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Effect,
+    default = 1051,
+    displayName = "特性类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Picture
+
+- 传入 `图片ID` ( `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Picture` | 是 |
+| default | 默认值 | `0_10001` | 否 |
+| displayName | 属性别名 | `图像类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Picture,
+    default = "0_10001",
+    displayName = "图像类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Buff
+
+- 传入 `官方状态类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Buff` | 是 |
+| default | 默认值 | `6002` | 否 |
+| displayName | 属性别名 | `状态类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Buff,
+    default = 6002,
+    displayName = "状态类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Sound
+
+- 传入 `官方音效类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Sound` | 是 |
+| default | 默认值 | `6002` | 否 |
+| displayName | 属性别名 | `音效类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Sound,
+    default = 6002,
+    displayName = "音效类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+#### Mini.Model
+
+- 传入 `模型ID` ( `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Model` | 是 |
+| default | 默认值 | `mob_1145` | 否 |
+| displayName | 属性别名 | `模型类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+```lua
+{
+    type = Mini.Model,
+    default = "mob_1145",
+    displayName = "模型类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
 ## 开放函数
 
 ### 开放函数存储
@@ -287,11 +689,8 @@ return Script
             print("result", result)
 
             -- 跨对象操作
-
-            -- 获取一般对象
-            local obj = GameObject:FindObject("对象id")
-            -- 世界对象的获取方式
-            local world = GetWorld()
+            local obj = GameObject:FindObject("对象id") -- 获取一般对象    
+            local world = GetWorld() -- 世界对象的获取方式
 
             -- 获取对象上组件A
             local cmpA = world:GetComponent("组件id")
@@ -334,8 +733,8 @@ end)
 ## UI
 
 - `UI` 指 `UGCS` 中创建的 `UI`
-- `UI元件` 指 `UI` 中的`按钮`、`图片`等
-- `UI元件` 类型: `图片`、`按钮`、`滑动容器`、`输入框`、`进度条`、`3D模型加载框`
+- `UI元件` 指 `UI` 中的 `按钮` / `图片` 等元素
+- `UI元件` 类型: `图片` / `按钮` / `滑动容器` / `输入框` / `进度条` / `3D模型加载框`
 - `UI元件` 有 `父元件` 与 `子元件` 的概念，当你删除 `父元件` 对应的 `子元件` 也会被删除
 
 ### UI的ID
@@ -596,7 +995,7 @@ graph LR
 6. 每个 `Key` 只能设置 **一个** 回调，设置后 **不能随意修改**
 7. Update接口操作的数据，其 `Set操作` **只能** 在 `callback` 里面，并采用返回最新 `Value` 进行修改，**千万别基于自己调用Get拿到的数据进行操作，容易导致数据覆盖/出错**
 
-#### Q&A
+#### 排行榜 & K/V 数据 - Q&A
 
 - Q: 执行Set操作，出现请求失败
 - A：
@@ -635,13 +1034,63 @@ graph LR
   - 例:
 
     ```lua
-    "FindMaHongJun_5":{"questName":"FindMaHongJun_5","questProg":0,"questProgAll":1,"questSta":"no"}
+    "FindMaHongJun_5": { "questName": "FindMaHongJun_5", "questProg": 0, "questProgAll": 1, "questSta": "no" }
     ```
 
   - 这种可以简化，假设TaskID:10086表示该任务，那么:
 
     ```lua
-    "10086":[0,1,0]
+    "10086": [0, 1, 0]
     ```
 
     - 数组 `第1个元素` 表示 `questProg`，`第2个元素` 表示 `questProgAll`，`第3个元素` 表示 `questSta`
+
+### 二维表
+
+- 二维表的操作使用 `Table` API
+- 二维表变量是将数据以 **表格形式** 存储的新变量类型，使用非常简单。大家在制作 `RPG` / `塔防` 等需要 **大量配置** 的游戏时，再也不用新建多个数组，直接通过二维表就能快捷的实现。二维表支持 **全局变量** 和 **玩家变量**，其中玩家的二维表可以在服务器上保存数据，在新建变量时选择云变量即可
+- 在你 **第一次** 新建二维表变量时，需要 **先定义二维表的列字段**。点击 `查看/编辑` 按钮，进入二维表编辑页面
+- 二维表的格式定义 **仅支持** 导入 `.csv`，且 `.csv` 需要按照指定格式
+
+#### .csv格式
+
+1. `第一行` 为字段的备注，主要用来说明 **字段的用途**，避免混淆字段。备注填写后在调试或查看时，可以更快速的判断字段的用途。备注非必要字段，**可为空**
+2. `第二行` 为列名，用于在编辑和逻辑调用时区分不同的字段。该字段为 **必填项** 且 **不可重复**
+3. `第三行` 为列的 **类型**，我们会根据不同的类型，将下方填写的值解析成不同的数据类型。方便在逻辑中更好的运用。以下是当前版本支持的数据类型。注意数据类型为必填项，且必须和官方的定义 **完全一致**，**否则无法识别**
+4. `第四行` 之后的数据为实际数据
+
+| 参数类型 | 类型名 | 参考填写值 |
+| :-: | :-: | :-: |
+| 数值 | number | 1 |
+| 三维坐标 | position | 0\|7\|0 |
+| 字符串 | string | 迷你世界你好 |
+| 布尔值 | bool | 0 |
+| 方块类型 | block | 100 |
+| 道具类型 | item | 101 |
+| 生物类型 | actorid | 3400 |
+| 特效类型 | effectid | 1000 |
+| 玩家 | player | 1000077763 |
+| 对象实例 | objid | 154467589 |
+| 图案 | image | 8_400415944_1642835210 |
+| 颜色 | color | #91b8b8 |
+
+#### 二维表 - Q&A
+
+- Q1: 我可以在运行时动态扩充列吗
+  - A1: 不可以，必须在编辑模式下定义好所有的列数据类型
+- Q2: 最多可以导入多少行
+  - A2: 目前单个表格最多只支持 **2000行** 数据
+- Q3: 导入提示 `未能识别某列的列类型`
+  - A3: 支持的数据类型为上方表格限定范围，请检查是否与官方给定的一致
+- Q4: 导入提示 `列名不允许重复，请重新输入`
+  - A4: 列名需要保持唯一，否则在触发器中无法区分不同的字段，请修改表格后重试
+- Q5: 导出后提示 `缺少列名`
+  - A5: 列名不允许为空，请修改表格后重试
+- Q6: 导出后提示 `第X列中数据与数据类型不符，已自动置空`
+  - A6: 数据类型和下方的值需要对应，如果填写的值无法按数据类型解析，会将该值重置为空值
+- Q7: 行数据可以为空吗
+  - A7: 可以的，如果设置为空，在读取时也会返回空值
+- Q8: 运行过程中提示我 `数据超过上限，请联系开发者`
+  - A8: 单个玩家的二维表变量和其他云变量的存储总量受64K的限制
+- Q9: 为什么我的数据表都是正确的，但是提示 `数据与类型不符`
+  - A9: 这个是一个 **Bug**，等待下个版本修复
