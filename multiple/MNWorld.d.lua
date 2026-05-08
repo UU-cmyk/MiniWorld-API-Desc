@@ -545,3 +545,12 @@ end
 function World:GetGameMode()
     return 0
 end
+
+--- 获取XZ位置上是否加载了区块
+--- @param x number @位置坐标x
+--- @param z number @位置坐标z
+--- @param worldId number @世界ID
+--- @return boolean @是否加载了区块
+function World:IsChunkLoaded(x, z, worldId)
+    return true
+end

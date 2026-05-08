@@ -3,14 +3,14 @@ local json = {
     --- 解码Json字符串
     --- @return table @解码后的Table数据
     --- @param data string @Json字符串
-    decode = function(self, data) 
+    decode = function(data) 
         return {}
     end,
 
     --- 编码Table数据
     --- @return string @编码后的Json字符串
     --- @param data table @Table数据
-    encode = function(self, data) 
+    encode = function(data) 
         return ""
     end
 }
@@ -1286,6 +1286,8 @@ _G.GameSetting = GameSetting
 --- @field None number @无限制
 --- @field Circle number @圆形限制
 --- @field Rectangle number @矩形限制
+local BeaconClampType = {}
+_G.BeaconClampType = BeaconClampType
 
 
 --- @class Data
@@ -1879,6 +1881,7 @@ function Component:RemoveCloudSeverEvent(eventType)
     return nil
 end
 
+--- @type Component self
 
 --- @class TriggerEvent @触发器事件枚举
 --- @field GroupWeatherChanged any @当地形组的天气改变
@@ -2049,7 +2052,7 @@ end
 --- @field DropItemPickup any @当掉落物被拾取
 --- @field ItemDisappear any @当掉落物消失
 local TriggerEvent = {}
-_G['TriggerEvent'] = TriggerEvent
+_G.TriggerEvent = TriggerEvent
 
 --- @class CurEventParam @事件参数类
 --- @field EventTargetPos any @事件中的位置
@@ -2075,7 +2078,7 @@ _G['TriggerEvent'] = TriggerEvent
 --- @field EventTargetDropItem any @事件中的掉落物
 --- @field Itemnum any @事件中的道具数量
 local CurEventParam = {}
-_G['CurEventParam'] = CurEventParam
+_G.CurEventParam = CurEventParam
 
 --- @class ObjectEvent @组件事件枚举
 --- @field OnPropertyChange any @当对象的属性发生改变
@@ -2149,7 +2152,7 @@ _G['CurEventParam'] = CurEventParam
 --- @field ObjectMountActor any @此角色骑乘
 --- @field ObjectDismountActor any @此角色取消骑乘
 local ObjectEvent = {}
-_G['ObjectEvent'] = ObjectEvent
+_G.ObjectEvent = ObjectEvent
 
 
 --- @class Timer
@@ -2981,6 +2984,14 @@ function World:GetGameMode()
     return 0
 end
 
+--- 获取XZ位置上是否加载了区块
+--- @param x number @位置坐标x
+--- @param z number @位置坐标z
+--- @param worldId number @世界ID
+--- @return boolean @是否加载了区块
+function World:IsChunkLoaded(x, z, worldId)
+    return true
+end
 
 --- 回调设置kv数据
 --- @param varId string @排行榜/排行榜变量ID
@@ -4091,6 +4102,19 @@ function Actor:GetPickupObjID(objid)
     return 0
 end
 
+--- 获取指定角色当前所在的星球ID
+--- @param objId number @对象ID
+--- @return number @星球ID (失败返回 -1)
+function Actor:GetObjWorldId(objId)
+    return 0
+end
+
+--- 检测指定对象ID是否为玩家对象
+--- @param objId number @对象ID
+--- @return boolean @是否为玩家对象
+function Actor:IsPlayer(objId)
+    return true
+end
 
 --- @class Player
 --- 玩家模块管理接口 Player
@@ -4649,6 +4673,49 @@ function Player:RemovePlayer(objid)
     return true
 end
 
+--- 将玩家移出本局游戏
+--- @param objId number @对象ID
+--- @return boolean @操作是否成功
+function Player:RemovePlayer(objId)
+    return true
+end
+
+--- 获取玩家好友列表信息
+--- @param objId number @玩家Uin
+--- @param index number @起始索引
+--- @param size number @获取数量
+--- @return number @最大好友数量
+--- @return table {{name: string, uin: number, headframe: string, live: boolean, online: boolean}, ...} @好友列表信息
+function Player:GetFriendList(objId, index, size)
+    return 0, {}
+end
+
+--- 设置游戏设置开关
+--- @param playerId number @玩家ID
+--- @param iType number @设置类型 (GameSetting)
+--- @param enable boolean @开关
+--- @return boolean @操作是否成功
+function Player:SetSettingEnable(playerId, iType, enable)
+    return true
+end
+
+--- 设置游戏设置权限开关
+--- @param playerId number @玩家ID
+--- @param iType number @设置类型 (GameSetting)
+--- @param enable boolean @开关
+--- @return boolean @操作是否成功
+function Player:SetSettingAbility(playerId, iType, enable)
+    return true
+end
+
+--- 旋转玩家模型
+--- @param playerId number @玩家ID
+--- @param yaw number @偏航角(X轴)
+--- @param pitch number @俯仰角(Y轴)
+--- @return boolean @操作是否成功
+function Player:RotateMainModel(playerId, yaw, pitch)
+    return true
+end
 
 --- @class Monster
 --- 生物模块管理接口 Monster
@@ -5727,16 +5794,6 @@ end
 local Chat = {}
 _G.Chat = Chat
 
---- 发送聊天信息
---- 
---- **注意：playerId参数传0，表示发送给所有玩家**
---- @param content string @内容
---- @param playerId number @玩家ID
---- @return boolean @是否发送成功
-function Chat:SendChat(content, playerId)
-    return true
-end
-
 --- 发送系统信息
 --- 
 --- **注意：playerId参数传0，表示发送给所有玩家**
@@ -6279,9 +6336,9 @@ function CustomUI:SetFloatDamageTxt(playerId, elementId, objId, text, color, off
 end
 
 ---获取客机屏幕分辨率
----@return number, number @返回屏幕大小(width, height)
+---@return table @返回屏幕大小:{w, h}
 function CustomUI:GetScreenSize(playerId)
-    return 0, 0
+    return {}
 end
 
 ---删除UI元件
@@ -6711,3 +6768,21 @@ function Graphics:GetInnerGraphicsOffset(objid, nameType, callback)
     return 0
 end
 
+--- 在指定位置创建笔刷区域图文
+--- @param pos table {x: number, y: number, z: number} @位置坐标
+--- @param dim table {x: number, y: number, z: number} @区域范围
+--- @param color string @颜色值(十六进制)
+--- @param showUin number @显示玩家ID (0:全部)
+--- @param iType number @类型ID
+--- @param worldId? number @世界ID (可选)
+--- @return number|false @图文实例ID, 失败返回false
+function Graphics:CreateBrushByPos(pos, dim, color, showUin, iType, worldId)
+    return 0
+end
+
+--- 按图文实例ID删除图文信息
+--- @param objId number @图文实例ID
+--- @return boolean @操作是否成功
+function Graphics:RemoveGraphicsByGraphicsID(objId)
+    return true
+end

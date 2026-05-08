@@ -574,3 +574,17 @@ end
 function Actor:GetPickupObjID(objid)
     return 0
 end
+
+--- 获取指定角色当前所在的星球ID
+--- @param objId number @对象ID
+--- @return number @星球ID (失败返回 -1)
+function Actor:GetObjWorldId(objId)
+    return 0
+end
+
+--- 检测指定对象ID是否为玩家对象
+--- @param objId number @对象ID
+--- @return boolean @是否为玩家对象
+function Actor:IsPlayer(objId)
+    return true
+end

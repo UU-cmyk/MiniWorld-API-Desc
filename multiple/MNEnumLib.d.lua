@@ -1211,3 +1211,5 @@ _G.GameSetting = GameSetting
 --- @field None number @无限制
 --- @field Circle number @圆形限制
 --- @field Rectangle number @矩形限制
+local BeaconClampType = {}
+_G.BeaconClampType = BeaconClampType

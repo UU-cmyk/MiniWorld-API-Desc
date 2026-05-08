@@ -350,3 +350,22 @@ end
 function Graphics:GetInnerGraphicsOffset(objid, nameType, callback)
     return 0
 end
+
+--- 在指定位置创建笔刷区域图文
+--- @param pos table {x: number, y: number, z: number} @位置坐标
+--- @param dim table {x: number, y: number, z: number} @区域范围
+--- @param color string @颜色值(十六进制)
+--- @param showUin number @显示玩家ID (0:全部)
+--- @param iType number @类型ID
+--- @param worldId? number @世界ID (可选)
+--- @return number|false @图文实例ID, 失败返回false
+function Graphics:CreateBrushByPos(pos, dim, color, showUin, iType, worldId)
+    return 0
+end
+
+--- 按图文实例ID删除图文信息
+--- @param objId number @图文实例ID
+--- @return boolean @操作是否成功
+function Graphics:RemoveGraphicsByGraphicsID(objId)
+    return true
+end

@@ -181,3 +181,5 @@ end
 function Component:RemoveCloudSeverEvent(eventType)
     return nil
 end
+
+--- @type Component self

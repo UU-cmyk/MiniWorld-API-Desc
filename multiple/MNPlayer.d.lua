@@ -114,9 +114,9 @@ end
 
 --- 玩家旋转摄像机角度朝向actor
 --- @param uin number @玩家uin
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return boolean @操作是否成功
-function Player:RotateCameraToActor(uin, objid)
+function Player:RotateCameraToActor(uin, objId)
     return true
 end
 
@@ -145,16 +145,16 @@ function Player:GetAimPos(uin)
 end
 
 --- 获取玩家准心方向
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return table @单位方向向量
-function Player:GetAimDir(objid)
+function Player:GetAimDir(objId)
     return {}
 end
 
 --- 获取玩家射线检测起点位置
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return number,number,number @x,y,z方块坐标
-function Player:GetRayOriginPos(objid)
+function Player:GetRayOriginPos(objId)
     return 0, 0, 0
 end
 
@@ -214,51 +214,51 @@ function Player:GetClientInfo(uin)
 end
 
 --- 获取玩家昵称
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return string @玩家昵称
-function Player:GetNickname(objid)
+function Player:GetNickname(objId)
     return ""
 end
 
 --- 打开开发者商店商品购买弹框(开发者账号和自定义按钮点击事件可用)
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param devGoodsId string @开发者商品ID
 --- @param customDesc string @自定义商品描述
 --- @return number @操作结果代码
-function Player:OpenDevGoodsBuyDialog(objid, devGoodsId, customDesc)
+function Player:OpenDevGoodsBuyDialog(objId, devGoodsId, customDesc)
     return 0
 end
 
 --- 打开开发者商店商品详情页
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param devGoodsId string @开发者商品ID
 --- @return number @操作结果代码
-function Player:OpenDevGoodsBuyDetailedDialog(objid, devGoodsId)
+function Player:OpenDevGoodsBuyDetailedDialog(objId, devGoodsId)
     return 0
 end
 
 --- 玩家打开开发者商店(仅开发者可用)
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return any @操作结果
-function Player:OpenDevStore(objid)
+function Player:OpenDevStore(objId)
     return nil
 end
 
 --- 打开开发者商品二级分类
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param page number @分类页码
 --- @param name string @分类名称
 --- @return any @操作结果
-function Player:OpenDevStoreTab(objid, page, name)
+function Player:OpenDevStoreTab(objId, page, name)
     return nil
 end
 
 --- 打开开发者商店一级页面
---- @param playerid number @玩家ID
+--- @param playerId number @玩家ID
 --- @param pagetype number @页面类型
 --- @param pagetitle string @页面标题
 --- @return any @操作结果
-function Player:OpenDevGoodsPage(playerid, pagetype, pagetitle)
+function Player:OpenDevGoodsPage(playerId, pagetype, pagetitle)
     return nil
 end
 
@@ -308,12 +308,12 @@ function Player:GetScreenSpacePos(uin, x, y, z)
 end
 
 --- 根据玩家uin,3D坐标获取玩家屏幕2D坐标(V2版本)
---- @param playerid number @玩家ID
+--- @param playerId number @玩家ID
 --- @param x number @坐标x
 --- @param y number @坐标y
 --- @param z number @坐标z
 --- @return number @屏幕x坐标
-function Player:GetScreenSpacePosV2(playerid, x, y, z)
+function Player:GetScreenSpacePosV2(playerId, x, y, z)
     return 0
 end
 
@@ -549,8 +549,45 @@ function Player:GetRentCloudServerOwner()
 end
 
 --- 将玩家移出本局游戏
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return boolean @操作是否成功
-function Player:RemovePlayer(objid)
+function Player:RemovePlayer(objId)
+    return true
+end
+
+--- 获取玩家好友列表信息
+--- @param objId number @玩家Uin
+--- @param index number @起始索引
+--- @param size number @获取数量
+--- @return number @最大好友数量
+--- @return table {{name: string, uin: number, headframe: string, live: boolean, online: boolean}, ...} @好友列表信息
+function Player:GetFriendList(objId, index, size)
+    return 0, {}
+end
+
+--- 设置游戏设置开关
+--- @param playerId number @玩家ID
+--- @param iType number @设置类型 (GameSetting)
+--- @param enable boolean @开关
+--- @return boolean @操作是否成功
+function Player:SetSettingEnable(playerId, iType, enable)
+    return true
+end
+
+--- 设置游戏设置权限开关
+--- @param playerId number @玩家ID
+--- @param iType number @设置类型 (GameSetting)
+--- @param enable boolean @开关
+--- @return boolean @操作是否成功
+function Player:SetSettingAbility(playerId, iType, enable)
+    return true
+end
+
+--- 旋转玩家模型
+--- @param playerId number @玩家ID
+--- @param yaw number @偏航角(X轴)
+--- @param pitch number @俯仰角(Y轴)
+--- @return boolean @操作是否成功
+function Player:RotateMainModel(playerId, yaw, pitch)
     return true
 end

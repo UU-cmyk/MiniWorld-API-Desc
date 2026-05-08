@@ -3,14 +3,14 @@ local json = {
     --- 解码Json字符串
     --- @return table @解码后的Table数据
     --- @param data string @Json字符串
-    decode = function(self, data) 
+    decode = function(data) 
         return {}
     end,
 
     --- 编码Table数据
     --- @return string @编码后的Json字符串
     --- @param data table @Table数据
-    encode = function(self, data) 
+    encode = function(data) 
         return ""
     end
 }
