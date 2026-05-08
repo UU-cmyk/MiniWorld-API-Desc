@@ -3,102 +3,95 @@
 ![MiniWorld_Icon](./img/MiniWorld_Icon.png)
 
 - 作者: K_Lan
-- 支持的游戏版本: v1.52
-- Lua版本: v5.1+
-- 开发套件版本: v3.0
+- 游戏版本: v1.54
+- `Lua` 版本: v5.1+
+- `UGC` 开发套件: v3.0
 
-## 概述
+## 项目简介
 
-《迷你世界》脚本 **API声明文件** 与 **模版文件**，消除VSC中的错误提示并提供代码自动补全，提高开发效率。
+本仓库提供《迷你世界》Lua 脚本开发的 API 声明文件和代码片段模板。通过将声明文件加入 `lua.workspace.library`，可以在 VS Code 中消除语法错误提示，提升代码补全体验。
 
-## 下载
+## 目录说明
 
-1. **访问仓库页面**
-    打开链接：[GitHub仓库链接 - MiniWorld-API-Docs](https://github.com/UU-cmyk/MiniWorld-API-Docs/)
+- `MNDeclaration.d.lua`：全集成声明文件，适合直接导入项目。
+- `multiple/`：按模块拆分的声明文件，适合只使用部分模块时加载。
+- `template/lua.code-snippets`：VS Code Lua 代码片段模板。
+- `AiDesc/`：AI 描述内容，便于喂给智能助手使用。
 
-2. **选择下载方式**
-    您有三种主要方式获取文件：
-    - **方式一：下载整个仓库**
-        - 在仓库主页，找到并点击绿色的 "**<> Code**" 按钮。
-        - 在弹出的菜单中，选择 "**Download ZIP**"。
-        - 这将下载一个包含仓库所有文件的压缩包。解压后即可使用。
+## 安装与使用
 
-    - **方式二：克隆仓库**
-        - 终端或命令行中，输入以下命令：
+### 1. 使用声明文件
 
-        ```shell
-        git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
-        ```
+1. 将 `MNDeclaration.d.lua` 或 `multiple/` 文件夹复制到你的项目目录。
+2. 打开项目中的 `.vscode/settings.json`。
+3. 在配置中添加或更新：
 
-        - 这将下载仓库的所有文件到本地。
-        - **注意：如果您没有安装Git，请先下载安装。**
+```json
+"lua.workspace.library": [
+  "./MNDeclaration.d.lua"
+]
+```
 
-    - **方式三：下载单个文件**
-        - 点开单个文件，点击下载按钮。
-        - 这将下载单个文件。
+如果你复制的是 `multiple/` 文件夹，则写入该文件夹路径：
 
-## 使用
+```json
+"lua.workspace.library": [
+  "./multiple"
+]
+```
 
-1. ### 如何使用 API 声明文件
+- 保存后重启 VS Code 或重新加载窗口，以确保语言服务生效。
 
-    **步骤 1：复制声明文件**
-        - 从本仓库中，将 `multiple` 文件夹 **或** `MNDeclaration.d.lua` 文件复制到你的项目文件夹中。
+### 2. 使用代码片段模板
 
-    **步骤 2：定位配置文件**
-        - 打开你的项目文件夹，找到并进入 `.vscode` 子文件夹，然后用文本编辑器打开其中的 `settings.json` 文件。
+将 `template/lua.code-snippets` 复制到你的项目 `.vscode/` 目录下即可。
 
-    **步骤 3：修改配置路径**
-        - 在 `settings.json` 文件中，找到 `lua.workspace.library` 这项配置，将其对应的路径值修改为：
+## 下载方式
 
-    - **情况一：** 如果你复制的是 `multiple` 文件夹，则填写这个文件夹的路径。
+- 下载 ZIP：仓库页面点击绿色 "<> Code" 按钮，然后选择 "Download ZIP"。
+- 克隆仓库：
 
-    - **情况二：** 如果你复制的是 `MNDeclaration.d.lua` 文件，则填写这个文件本身的路径。
+```bash
+git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
+```
 
-    - 最终保存 `settings.json` 文件即可。
+- 下载单个文件：直接打开文件后点击下载按钮。
 
-2. ### 如何使用模版文件
+## 进度说明
 
-    - 将本仓库中的 `./template/lua.code-snippets` 文件，复制到你项目文件夹下的 `.vscode` 目录中即可。
+以下模块已完成声明：
 
-## AI提示词
+- 事件
+- 枚举库
+- 全局函数
+- CustomUI
+- World
+- GameObject
+- Actor
+- Player
+- Item
+- Monster
+- Block
+- Backpack
+- Graphics
+- Area
+- WorldContainer
+- Mod
+- Timer
+- Buff
+- Chat
+- Data
+- Array
+- Table
+- Map
+- Component
 
-- 将 `MNDeclaration.d.lua` 加上 `AiDesc` 的全部内容喂给AI即可
+## AI 使用提示
 
-### 当前进度
+- 可将 `MNDeclaration.d.lua` 与 `AiDesc/` 中的内容一起输入 AI，以获得更准确的代码建议。
 
-| 声明类型 | 进度 |
-| --- | --- |
-| 事件 | 完成 |
-| 枚举库 | 完成 |
-| 全局函数 | 完成 |
-| 界面模块管理接口 - CustomUI | 完成 |
-| 世界模块管理接口 - World | 完成 |
-| 对象模块管理接口 - GameObject | 完成 |
-| 角色模块管理接口 - Actor | 完成 |
-| 玩家模块管理接口 - Player | 完成 |
-| 物品模块管理接口 - Item | 完成 |
-| 生物模块管理接口 - Monster | 完成 |
-| 方块模块管理接口 - Block | 完成 |
-| 背包模块管理接口 - Backpack | 完成 |
-| 图文信息模块管理接口 - Graphics | 完成 |
-| 区域模块管理接口 - Area | 完成 |
-| 容器模块管理接口 - WorldContainer | 完成 |
-| 资源模块管理接口 - Mod | 完成 |
-| 计时器模块管理接口 - Timer | 完成 |
-| 状态模块管理接口 - Buff | 完成 |
-| 消息模块管理接口 - Chat | 完成 |
-| 普通变量数据管理接口 - Data | 完成 |
-| 数组变量数据管理接口 - Array | 完成 |
-| 二维表变量数据管理接口 - Table | 完成 |
-| 一维表 (KV表) 变量数据管理接口 - Map | 完成 |
-| 组件管理接口 - Component | 完成 |
+## 注意事项
 
-## 注意
-
-- 此声明文件与模版文件仅支持 **开发3.0**。
-- 此声明文件与模版文件可能与实际游戏版本有所出入，请以游戏版本为准。
-- 如此声明文件与模版文件有问题请联系仓库管理员或所有者，或"Fork + Pull Request"。
-
-## 其他
-
-- 此项目所缘更新
+- 本仓库声明文件与模板仅支持开发套件 **3.0**。
+- 部分接口可能与实际游戏版本存在差异，请以游戏实际行为为准。
+- 发现问题欢迎提交 Issues 或 Fork 后发起 Pull Request。
