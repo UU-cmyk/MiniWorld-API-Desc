@@ -3,7 +3,7 @@ import sys
 import io
 import os
 import re
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from typing import Optional, Dict, List, Any
 
 ENUM_LIB_URL: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/global.html"
@@ -18,57 +18,86 @@ def init() -> None:
     """
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
-def analyze_file(path: str) -> Dict[str, list[str]]:
+def analyze_file(path: str) -> dict[str, list[str]]:
     """分析文件
     Args:
         path (str): 文件路径
     Returns:
-        Dict[str, list[str]]: 分析结果
+        dict[str, list[str]]: 分析结果
     """
-    out_dict: Dict[str, list[str]] = {}
+    out_dict: dict[str, list[str]] = {}
+    class_name: Optional[str] = None
     with open(path, 'r', encoding='utf-8') as file:
         for line in file:
             if re.match(CLASS_RE, line):
-                class_name: str = re.search(r'--- @class (\w+)', line).group(1)
-                out_dict[class_name] = []
+                match = re.search(r'--- @class (\w+)', line)
+                if match:
+                    current_class_name = match.group(1)
+                    class_name = current_class_name
+                    out_dict[current_class_name] = []
             elif re.match(FIELD_RE, line):
-                field_name: str = re.search(r'--- @field (\w+)', line).group(1)
-                if class_name in out_dict:
+                match = re.search(r'--- @field (\w+)', line)
+                if match and class_name and class_name in out_dict:
+                    field_name = match.group(1)
                     out_dict[class_name].append(field_name)
 
     return out_dict
 
-def analyze_web(url: str) -> Dict[str, list[str]]:
+def analyze_web(url: str) -> dict[str, list[str]]:
     """分析网页内容
     Args:
         url (str): 网页URL
     Returns:
-        Dict[str, list[str]]: 分析结果
+        dict[str, list[str]]: 分析结果
     """
-    out_dict: Dict[str, list[str]] = {}
+    out_dict: dict[str, list[str]] = {}
     response: requests.Response = requests.get(url, timeout=10)
     response.encoding = 'utf-8'
     soup: BeautifulSoup = BeautifulSoup(response.text, 'html.parser')
-    all_enums: List[BeautifulSoup] = soup.find_all('table', attrs={'tabindex': '0'})
+    all_enums: list[Tag] = soup.find_all('table', attrs={'tabindex': '0'})
     if all_enums:
         all_enums.pop(0)  # 移除第一个表格
     current_class: str = ""
     for enum in all_enums:
-        class_name: str = enum.tbody.tr.td.text.strip().split('.')[0]
+        tbody = enum.tbody
+        if not tbody:
+            continue
+
+        first_row = tbody.tr
+        if not first_row:
+            continue
+
+        first_cell = first_row.td
+        if not first_cell or not first_cell.text:
+            continue
+
+        first_text = first_cell.text.strip()
+        if '.' not in first_text:
+            continue
+
+        class_name = first_text.split('.', 1)[0]
         if class_name != current_class:
             current_class = class_name
-            current_fields: List[str] = []
-            for field in enum.tbody.find_all('tr'):
-                current_fields.append(field.td.text.strip().split('.')[1])
+            current_fields: list[str] = []
+            for field in tbody.find_all('tr'):
+                field_cell = field.td
+                if not field_cell or not field_cell.text:
+                    continue
+
+                field_text = field_cell.text.strip()
+                if '.' not in field_text:
+                    continue
+
+                current_fields.append(field_text.split('.', 1)[1])
             out_dict[current_class] = current_fields
     return out_dict
 
 
-def compare_enums(local_enums: Dict[str, list[str]], web_enums: Dict[str, list[str]]) -> list[str]:
+def compare_enums(local_enums: dict[str, list[str]], web_enums: dict[str, list[str]]) -> list[str]:
     """比较本地枚举定义和网页枚举定义之间的差异
     Args:
-        local_enums (Dict[str, list[str]]): 本地文件中的枚举定义
-        web_enums (Dict[str, list[str]]): 网页中的枚举定义
+        local_enums (dict[str, list[str]]): 本地文件中的枚举定义
+        web_enums (dict[str, list[str]]): 网页中的枚举定义
     Returns:
         list[str]: 差异描述列表
     """
