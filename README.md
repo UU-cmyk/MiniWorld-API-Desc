@@ -3,7 +3,7 @@
 ![MiniWorld_Icon](./img/MiniWorld_Icon.png)
 
 - 作者: K_Lan
-- 游戏版本: v1.54
+- 游戏版本: v1.55
 - `Lua` 版本: v5.1+
 - `UGC` 开发套件: v3.0
 
