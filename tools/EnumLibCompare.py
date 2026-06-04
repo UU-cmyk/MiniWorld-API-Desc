@@ -9,6 +9,21 @@ ENUM_LIB_URL: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/global.html"
 ENUM_LIB_FILE_PATH: str = os.getcwd() + r"\multiple\MNEnumLib.d.lua"
 CLASS_RE = r"--- @class"
 FIELD_RE = r"--- @field"
+MINI = [
+    "Block",
+    "Bool",
+    "Buff",
+    "Effect",
+    "MobType",
+    "Model",
+    "Number",
+    "Picture",
+    "Sound",
+    "String",
+    "Vec3",
+    "Color",
+    "Item",
+]
 
 
 def init() -> None:
@@ -59,7 +74,6 @@ def analyze_web(url: str) -> dict[str, list[str]]:
     all_enums: list[Tag] = soup.find_all("table", attrs={"tabindex": "0"})
     if all_enums:
         all_enums.pop(0)  # 移除第一个表格
-    current_class: str = ""
     for enum in all_enums:
         tbody = enum.tbody
         if not tbody:
@@ -78,20 +92,25 @@ def analyze_web(url: str) -> dict[str, list[str]]:
             continue
 
         class_name = first_text.split(".", 1)[0]
-        if class_name != current_class:
-            current_class = class_name
-            current_fields: list[str] = []
-            for field in tbody.find_all("tr"):
-                field_cell = field.td
-                if not field_cell or not field_cell.text:
-                    continue
+        current_fields: list[str] = []
+        for field in tbody.find_all("tr"):
+            field_cell = field.td
+            if not field_cell or not field_cell.text:
+                continue
 
-                field_text = field_cell.text.strip()
-                if "." not in field_text:
-                    continue
+            field_text = field_cell.text.strip()
+            if "." not in field_text:
+                continue
 
-                current_fields.append(field_text.split(".", 1)[1])
-            out_dict[current_class] = current_fields
+            current_fields.append(field_text.split(".", 1)[1])
+        # 合并同名类的字段，避免重复覆盖（并去重）
+        if class_name in out_dict:
+            existing = out_dict[class_name]
+            for f in current_fields:
+                if f not in existing:
+                    existing.append(f)
+        else:
+            out_dict[class_name] = current_fields
     return out_dict
 
 
@@ -113,17 +132,19 @@ def compare_enums(
         if class_name not in local_enums:
             diff_lines.append(f"此class只在网页: {class_name}")
             continue
-        if class_name not in web_enums:
+        if class_name not in web_enums and class_name != "Mini":
             diff_lines.append(f"此class只在本地: {class_name}")
             continue
         only_local = sorted(local_fields - web_fields)
         only_web = sorted(web_fields - local_fields)
         if only_local or only_web:
-            diff_lines.append(f"Class: {class_name}")
-            for field in only_local:
-                diff_lines.append(f"  此field只在本地: {field}")
+            if class_name != "Mini":  # Mini类的差异不报告
+                diff_lines.append(f"Class: {class_name}")
             for field in only_web:
                 diff_lines.append(f"  此field只在网页: {field}")
+            for field in only_local:
+                if field not in MINI:  # 过滤掉Mini类中不需要报告的字段
+                    diff_lines.append(f"  此field只在本地: {field}")
     return diff_lines
 
 
