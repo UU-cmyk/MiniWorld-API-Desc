@@ -166,6 +166,8 @@
 --- @field ItemCreate any @当掉落物创建
 --- @field DropItemPickup any @当掉落物被拾取
 --- @field ItemDisappear any @当掉落物消失
+--- @field PlayerOpenInnerView any @当玩家打开内置界面
+--- @field PlayerCloseInnerView any @当玩家关闭内置界面
 local TriggerEvent = {}
 _G.TriggerEvent = TriggerEvent
 
@@ -212,6 +214,7 @@ _G.CurEventParam = CurEventParam
 --- @field PlayerInputKeyUp any @当此玩家抬起按键
 --- @field PlayerInputKeyOnPress any @当此玩家长按按键
 --- @field PlayerNewInputContent any @此玩家发送聊天信息
+--- @field ObjectMotionStateChangeEnd any @当此玩家离开运动状态
 --- @field ObjectMotionStateChange any @当此玩家运动状态发生改变
 --- @field PlayerAddItem any @当此玩家获得道具
 --- @field PlayerUseItem any @当此玩家开始使用道具
