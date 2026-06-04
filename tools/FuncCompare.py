@@ -5,8 +5,8 @@ import os
 import re
 from bs4 import BeautifulSoup
 
-FUNC_URL_START: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/"
-FUNC_URL: list[str] = [
+FUNC_URL_START: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/"  # 文档 URL 前缀
+FUNC_URL: list[str] = [  # 函数链接
     "world.html",
     "gameobject.html",
     "actor.html",
@@ -28,11 +28,13 @@ FUNC_URL: list[str] = [
     "table.html",
     "map.html",
 ]
-FUNC_FILES_PATH: str = os.path.join(os.getcwd(), "multiple")
-FUNCTION_RE: re.Pattern[str] = re.compile(r"^function\s+([A-Za-z_][\w\.:]*)")
+FUNC_FILES_PATH: str = os.path.join(os.getcwd(), "multiple")  # 本地声明文件所在目录
+FUNCTION_RE: re.Pattern[str] = re.compile(
+    r"^function\s+([A-Za-z_][\w\.:]*)"
+)  # 匹配函数声明行，捕获函数名（支持冒号和点分隔的形式）
 PAGE_FUNC_RE: re.Pattern[str] = re.compile(
     r'##\s*([A-Za-z_]\w*)Permalink to "([A-Za-z_]\w*)"'
-)
+)  # 匹配函数标题行，捕获函数名（可能包含 "Permalink to" 的格式）
 
 
 def init() -> None:
@@ -161,7 +163,7 @@ def main() -> None:
     Returns:
         None: 无返回值
     """
-    init()
+    init()  # 初始化环境
     all_diff: list[str] = []
     for url in FUNC_URL:
         module_name: str = module_name_from_url(url)

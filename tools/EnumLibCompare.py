@@ -46,15 +46,15 @@ def analyze_file(path: str) -> dict[str, list[str]]:
     with open(path, "r", encoding="utf-8") as file:
         for line in file:
             if re.match(CLASS_RE, line):
-                match = re.search(r"--- @class (\w+)", line)
+                match: re.Match | None = re.search(r"--- @class (\w+)", line)
                 if match:
-                    current_class_name = match.group(1)
-                    class_name = current_class_name
+                    current_class_name: str = match.group(1)
+                    class_name: str | None = current_class_name
                     out_dict[current_class_name] = []
             elif re.match(FIELD_RE, line):
-                match = re.search(r"--- @field (\w+)", line)
+                match: re.Match | None = re.search(r"--- @field (\w+)", line)
                 if match and class_name and class_name in out_dict:
-                    field_name = match.group(1)
+                    field_name: str = match.group(1)
                     out_dict[class_name].append(field_name)
 
     return out_dict
@@ -75,37 +75,37 @@ def analyze_web(url: str) -> dict[str, list[str]]:
     if all_enums:
         all_enums.pop(0)  # 移除第一个表格
     for enum in all_enums:
-        tbody = enum.tbody
+        tbody: Tag | None = enum.tbody
         if not tbody:
             continue
 
-        first_row = tbody.tr
+        first_row: Tag | None = tbody.tr
         if not first_row:
             continue
 
-        first_cell = first_row.td
+        first_cell: Tag | None = first_row.td
         if not first_cell or not first_cell.text:
             continue
 
-        first_text = first_cell.text.strip()
+        first_text: str = first_cell.text.strip()
         if "." not in first_text:
             continue
 
-        class_name = first_text.split(".", 1)[0]
+        class_name: str = first_text.split(".", 1)[0]
         current_fields: list[str] = []
         for field in tbody.find_all("tr"):
-            field_cell = field.td
+            field_cell: Tag | None = field.td
             if not field_cell or not field_cell.text:
                 continue
 
-            field_text = field_cell.text.strip()
+            field_text: str = field_cell.text.strip()
             if "." not in field_text:
                 continue
 
             current_fields.append(field_text.split(".", 1)[1])
         # 合并同名类的字段，避免重复覆盖（并去重）
         if class_name in out_dict:
-            existing = out_dict[class_name]
+            existing: list[str] = out_dict[class_name]
             for f in current_fields:
                 if f not in existing:
                     existing.append(f)
@@ -125,25 +125,27 @@ def compare_enums(
         list[str]: 差异描述列表
     """
     diff_lines: list[str] = []
-    all_classes = sorted(set(local_enums) | set(web_enums))
+    all_classes: list[str] = sorted(set(local_enums) | set(web_enums))
     for class_name in all_classes:
-        local_fields = set(local_enums.get(class_name, []))
-        web_fields = set(web_enums.get(class_name, []))
+        local_fields: set[str] = set(local_enums.get(class_name, []))
+        web_fields: set[str] = set(web_enums.get(class_name, []))
         if class_name not in local_enums:
-            diff_lines.append(f"此class只在网页: {class_name}")
+            if class_name != "Mini":
+                diff_lines.append(f"此class只在网页: {class_name}")
             continue
-        if class_name not in web_enums and class_name != "Mini":
-            diff_lines.append(f"此class只在本地: {class_name}")
+        if class_name not in web_enums:
+            if class_name != "Mini":
+                diff_lines.append(f"此class只在本地: {class_name}")
             continue
-        only_local = sorted(local_fields - web_fields)
-        only_web = sorted(web_fields - local_fields)
+        only_local: list[str] = sorted(local_fields - web_fields)
+        only_web: list[str] = sorted(web_fields - local_fields)
         if only_local or only_web:
             if class_name != "Mini":  # Mini类的差异不报告
                 diff_lines.append(f"Class: {class_name}")
             for field in only_web:
                 diff_lines.append(f"  此field只在网页: {field}")
             for field in only_local:
-                if field not in MINI:  # 过滤掉Mini类中不需要报告的字段
+                if not (class_name == "Mini" and field in MINI):
                     diff_lines.append(f"  此field只在本地: {field}")
     return diff_lines
 
