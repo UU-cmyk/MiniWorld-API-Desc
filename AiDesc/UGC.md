@@ -29,6 +29,8 @@ end
 
 > OnStart函数是 **最先启动** 的 -> OnStart 是 **主入口**
 
+- PS: 你的组件表不可设置元表，其他的表可以设置
+
 ## goto
 
 - 在 MiniUGC 系统中，Lua 是拥有 `goto` 的
