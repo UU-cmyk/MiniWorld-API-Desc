@@ -20,31 +20,34 @@
 
 ## 安装与使用
 
-### 1. 使用声明文件
+```mermaid
+sequenceDiagram
+    participant U as 用户
+    participant V as VS Code
+    participant L as Lua 语言服务器
 
-1. 将 `MNDeclaration.d.lua` 或 `multiple/` 文件夹复制到你的项目目录。
-2. 打开项目中的 `.vscode/settings.json`。
-3. 在配置中添加或更新：
+    Note over U: 准备声明文件
+    U->>U: 复制 MNDeclaration.d.lua 或 multiple/ 到项目目录
 
-```json
-"lua.workspace.library": [
-  "./MNDeclaration.d.lua"
-]
+    Note over U,V: 配置语言服务
+    U->>V: 打开 .vscode/settings.json
+
+    alt 使用单文件声明
+        U->>V: 添加 "./MNDeclaration.d.lua" 到 lua.workspace.library
+    else 使用多文件声明
+        U->>V: 添加 "./multiple" 到 lua.workspace.library
+    end
+
+    U->>V: 保存 settings.json
+    U->>V: 重启窗口或重新加载
+    V->>L: 重新加载工作区配置
+    L-->>V: 语言服务已生效
+
+    Note over U,V: 配置代码片段
+    U->>U: 复制 lua.code-snippets 文件
+    U->>V: 放入 .vscode/ 目录
+    V-->>U: 代码片段已可用
 ```
-
-如果你复制的是 `multiple/` 文件夹，则写入该文件夹路径：
-
-```json
-"lua.workspace.library": [
-  "./multiple"
-]
-```
-
-- 保存后重启 VS Code 或重新加载窗口，以确保语言服务生效。
-
-### 2. 使用代码片段模板
-
-将 `template/lua.code-snippets` 复制到你的项目 `.vscode/` 目录下即可。
 
 ## 下载方式
 
@@ -56,35 +59,6 @@ git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
 ```
 
 - 下载单个文件：直接打开文件后点击下载按钮。
-
-## 进度说明
-
-以下模块已完成声明：
-
-- 事件
-- 枚举库
-- 全局函数
-- CustomUI
-- World
-- GameObject
-- Actor
-- Player
-- Item
-- Monster
-- Block
-- Backpack
-- Graphics
-- Area
-- WorldContainer
-- Mod
-- Timer
-- Buff
-- Chat
-- Data
-- Array
-- Table
-- Map
-- Component
 
 ## AI 使用提示
 
