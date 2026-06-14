@@ -7,9 +7,9 @@ from bs4 import BeautifulSoup, Tag
 
 ENUM_LIB_URL: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/global.html"
 ENUM_LIB_FILE_PATH: str = os.getcwd() + r"\multiple\MNEnumLib.d.lua"
-CLASS_RE = r"--- @class"
-FIELD_RE = r"--- @field"
-MINI = [
+CLASS_RE: str = r"--- @class"
+FIELD_RE: str = r"--- @field"
+MINI: list[str] = [
     "Block",
     "Bool",
     "Buff",
@@ -156,15 +156,15 @@ def main() -> None:
         None: 无返回值
     """
     init()
-    local_enums = analyze_file(ENUM_LIB_FILE_PATH)
-    web_enums = analyze_web(ENUM_LIB_URL)
-    diff_lines = compare_enums(local_enums, web_enums)
+    local_enums: dict[str, list[str]] = analyze_file(ENUM_LIB_FILE_PATH)
+    web_enums: dict[str, list[str]] = analyze_web(ENUM_LIB_URL)
+    diff_lines: list[str] = compare_enums(local_enums, web_enums)
 
     if not diff_lines:
         print("没有不同之处，枚举定义完全一致")
         return
 
-    print("Differences found:")
+    print("发现的差异：")
     for line in diff_lines:
         print(line)
 

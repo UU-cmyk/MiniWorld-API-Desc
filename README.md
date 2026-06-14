@@ -1,11 +1,13 @@
-# MiniWorld-API-Docs
+# MiniWorld-API-Desc
 
-![MiniWorld_Icon](./img/MiniWorld_Icon.png)
+- 游戏版本: `v1.56`
+- `Lua` 版本: `v5.1+`
+- `UGC` 开发套件: `v3.0`
+- 项目工具需使用 `Python3.9`
 
-- 作者: K_Lan
-- 游戏版本: v1.55
-- `Lua` 版本: v5.1+
-- `UGC` 开发套件: v3.0
+[![GitHub stars](https://img.shields.io/github/stars/LK-cmyk/MiniWorld-API-Desc?style=flat-square)](https://github.com/LK-cmyk/MiniWorld-API-Desc)
+![License](https://img.shields.io/github/license/LK-cmyk/MiniWorld-API-Desc)
+![Python](https://img.shields.io/badge/python-3.9%2B-yellow)
 
 ## 项目简介
 
@@ -13,10 +15,25 @@
 
 ## 目录说明
 
-- `MNDeclaration.d.lua`：全集成声明文件，适合直接导入项目。
-- `multiple/`：按模块拆分的声明文件，适合只使用部分模块时加载。
-- `template/lua.code-snippets`：VS Code Lua 代码片段模板。
-- `AiDesc/`：AI 描述内容，便于喂给智能助手使用。
+```shell
+MiniWorld-API-Desc/
+├── .gitignore
+├── LICENSE
+├── pyproject.toml
+├── README.md
+├── MNDeclaration.d.lua  # 全集成声明文件，适合直接导入项目
+├── AiDesc/  # AI 描述内容，便于喂给智能助手使用
+│   └── UGC.md  # UGC 描述文件
+├── multiple/  # 按模块拆分的声明文件，适合只使用部分模块时加载
+│   └── ......  # 各模块声明文件
+├── template/  # VS Code Lua 代码片段模板存放目录
+│   └── lua.code-snippets  # 代码片段文件
+└── tools/  # 辅助脚本和比较工具
+    ├── EnumLibCompare.py  # 枚举比较工具
+    ├── EventCompare.py  # 事件比较工具
+    ├── FuncCompare.py  # 函数比较工具
+    └── Merge.py  # 声明文件合并工具
+```
 
 ## 安装与使用
 
@@ -51,14 +68,14 @@ sequenceDiagram
 
 ## 下载方式
 
-- 下载 ZIP：仓库页面点击绿色 "<> Code" 按钮，然后选择 "Download ZIP"。
-- 克隆仓库：
+1. 下载 ZIP：仓库页面点击绿色 "<> Code" 按钮，然后选择 "Download ZIP"。
+2. 克隆仓库：
 
-```bash
-git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
-```
+    ```bash
+    git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
+    ```
 
-- 下载单个文件：直接打开文件后点击下载按钮。
+3. 下载单个文件：直接打开文件后点击下载按钮。
 
 ## AI 使用提示
 
@@ -66,6 +83,6 @@ git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
 
 ## 注意事项
 
-- 本仓库声明文件与模板仅支持开发套件 **3.0**。
+- 本仓库声明文件与模板仅支持UGC **3.0**。
 - 部分接口可能与实际游戏版本存在差异，请以游戏实际行为为准。
 - 发现问题欢迎提交 Issues 或 Fork 后发起 Pull Request。

@@ -1,0 +1,37 @@
+[project]
+name = "miniworld-api-desc"
+version = "0.3.3"
+description = "MiniWorld API Desc"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+dependencies = [
+    "beautifulsoup4==4.15.0",
+    "certifi==2026.5.20",
+    "charset-normalizer==3.4.7",
+    "idna==3.18",
+    "packaging==26.2",
+    "requests==2.34.2",
+    "soupsieve==2.8.4",
+    "typing_extensions==4.15.0",
+    "urllib3==2.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "ruff",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+target-version = ["py312"]
+line-length = 120
