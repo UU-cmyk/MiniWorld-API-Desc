@@ -3635,13 +3635,6 @@ function Actor:GetNickName(objid)
     return ""
 end
 
---- 获取角色所在的mapid
---- @param objId number @对象ID
---- @return number @地图ID
-function Actor:GetCurMapId(objId)
-    return 0
-end
-
 --- 在指定角色身上播放音效
 --- @param objid number @对象ID
 --- @param soundId number @音效ID
@@ -3683,13 +3676,6 @@ end
 --- @return number, number, number @x,y,z方向速度
 function Actor:GetMotion(objId)
     return 0, 0, 0
-end
-
---- 对象是否存在
---- @param objId number @对象ID
---- @return boolean @是否存在
-function Actor:HasActor(objId)
-    return false
 end
 
 --- 设置目标仇恨目标
