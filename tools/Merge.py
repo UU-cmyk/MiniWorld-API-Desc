@@ -37,13 +37,15 @@ def get_ordered_files(folder_path: str) -> list[str]:
         list[str]: 有序文件列表
     """
 
-    all_files: list[str] = [f for f in os.listdir(folder_path) if f.endswith(".lua")]  # 获取所有.lua文件
+    all_files: set[str] = {
+        f for f in os.listdir(folder_path) if f.endswith(".lua")
+    }  # 获取所有.lua文件（集合，O(1)查找）
     ordered_files: list[str] = []  # 用于存储有序文件列表
     for name in ORDER_DEFINITION:
         filename: str = f"{name}.d.lua"  # 构建当前名称对应的文件名
         if filename in all_files:
             ordered_files.append(filename)  # 将当前名称对应的文件添加到有序列表中
-            all_files.remove(filename)  # 从所有文件列表中移除当前名称对应的文件
+            all_files.discard(filename)  # 从集合中移除当前名称对应的文件（O(1)）
 
     if all_files:
         ordered_files.extend(sorted(all_files))  # 将剩余文件按字母顺序添加到有序列表末尾
@@ -65,7 +67,7 @@ def merge_lua_files(folder_path: str, output_file: str) -> None:
         print("错误：未找到任何.lua文件")
         return
 
-    merged_content: list[str] = []  # 用于存储合并后的内容
+    merged_parts: list[str] = []  # 用于存储合并后的内容
     total_lines: int = 0  # 统计总行数
 
     for filename in ordered_files:
@@ -75,19 +77,20 @@ def merge_lua_files(folder_path: str, output_file: str) -> None:
             with open(file_path, "r", encoding="utf-8") as f:
                 content: str = f.read()  # 读取文件内容
 
-            lines: list[str] = content.split("\n")  # 将内容按行分割
-            file_lines: int = len(lines)  # 统计当前文件行数
-            total_lines += file_lines  # 统计行数
+            total_lines += content.count("\n") + (
+                0 if content.endswith("\n") else 1
+            )  # 统计行数（避免 split 创建临时列表）
 
-            merged_content.append(content)  # 将当前文件内容添加到合并内容列表
-            merged_content.append("\n")
+            # 去除末尾换行/空白，保证 join 后每个文件之间恰好一个换行
+            merged_parts.append(content.rstrip("\n\r"))
 
         except Exception as e:
             print(f"错误：处理文件 {filename} 时出错 - {e}")
 
     try:
+        result: str = "\n".join(merged_parts)  # 文件之间恰好一个换行
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write("\n".join(merged_content))
+            f.write(result)
 
         print(f"合并完成！合并了 {len(ordered_files)} 个文件，总 {total_lines} 行")
         print(f"输出文件：{output_file}")
