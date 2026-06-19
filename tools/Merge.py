@@ -63,7 +63,7 @@ def merge_lua_files(folder_path: str, output_file: str) -> None:
     """
     ordered_files: list[str] = get_ordered_files(folder_path)  # 获取有序文件列表
 
-    if not ordered_files:
+    if not ordered_files:  # 检查是否有文件
         print("错误：未找到任何.lua文件")
         return
 

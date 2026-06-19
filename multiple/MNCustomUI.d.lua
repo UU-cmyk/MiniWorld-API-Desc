@@ -342,18 +342,6 @@ function CustomUI:SetLoaderModelPosition(playerId, uiId, elementId, x, y, z)
     return true
 end
 
----设置装载器的模型动画
----@return boolean @成功返回True, 失败返回False
----@param playerId number @玩家ID
----@param uiId string @界面ID
----@param elementId string @元件ID
----@param animId number @动画ID
----@param playMode number @播放模式枚举(AnimMode)
----@param spend number @播放速度(0-1)
-function CustomUI:SetLoaderModelAnim(playerId, uiId, elementId, animId, playMode, spend)
-    return true
-end
-
 ---滑动列表跳转到某位置
 ---@return boolean @成功返回True, 失败返回False
 ---@param playerId number @玩家ID
