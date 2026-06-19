@@ -591,3 +591,11 @@ end
 function Player:RotateMainModel(playerId, yaw, pitch)
     return true
 end
+
+--- 获取本地玩家迷你币数量 (阻塞等待函数)
+--- @param objId number @玩家对象ID
+--- @param iType number @币种类型 (MiniCurrency)
+--- @return number @货币数量
+function Player:GetMiniCurrency(objId, iType)
+    return 0
+end

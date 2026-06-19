@@ -594,3 +594,28 @@ end
 function CustomUI:SetBeaconRadius(playerId, uiId, elementId, radius)
     return true
 end
+
+--- 设置信标矩形限制范围
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param rectMinX number @矩形范围最小X坐标
+--- @param rectMinY number @矩形范围最小Y坐标
+--- @param rectMaxX number @矩形范围最大X坐标
+--- @param rectMaxY number @矩形范围最大Y坐标
+--- @return boolean @成功返回True, 失败返回False
+function CustomUI:SetBeaconMargin(playerId, uiId, elementId, rectMinX, rectMinY, rectMaxX, rectMaxY)
+    return true
+end
+
+--- 设置装载器元件模型播放的动画
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param animId number @动画ID
+--- @param playMode number @播放模式枚举(`AnimMode`)
+--- @param speed number @动画播放速度(`0` ~ `1`)
+--- @return boolean @成功返回True, 失败返回False
+function CustomUI:SetLoaderModelAct(playerId, uiId, elementId, animId, playMode, speed)
+    return true
+end

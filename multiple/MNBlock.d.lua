@@ -39,7 +39,7 @@ end
 --- @param z number @位置坐标z
 --- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return number @方块类型ID
-function Block:GetblockId(x, y, z, worldId)
+function Block:GetBlockID(x, y, z, worldId)
     return 0
 end
 
@@ -166,7 +166,7 @@ end
 
 --- 在资源库里随机获取一个方块
 --- @return number @随机的方块类型ID
-function Block:RandomblockId()
+function Block:RandomBlockID()
     return 0
 end
 
