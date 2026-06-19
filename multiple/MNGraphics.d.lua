@@ -56,6 +56,17 @@ function Graphics:MakeGraphicsLineToPos(x, y, z, size, color, apha)
     return {}
 end
 
+--- 生成指向位置的寻路引导线数据
+--- @param x number @方块坐标x
+--- @param y number @方块坐标y
+--- @param z number @方块坐标z
+--- @param itype number @线ID
+--- @param tCanSeePlayers? table @可见玩家列表(可选)
+--- @return table @寻路线信息内容
+function Graphics:MakeGraphicsNavPathToPos(x, y, z, itype, tCanSeePlayers)
+    return {}
+end
+
 --- 生成指向位置的面数据
 --- @param x number @方块坐标x
 --- @param y number @方块坐标y
@@ -69,32 +80,32 @@ function Graphics:MakeGraphicsSurfaceToPos(x, y, z, size, color, apha)
 end
 
 --- 生成指向对象的箭头数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @箭头信息内容
-function Graphics:MakeGraphicsArrowToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsArrowToActor(objId, size, color, apha)
     return {}
 end
 
 --- 生成指向对象的线数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @线信息内容
-function Graphics:MakeGraphicsLineToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsLineToActor(objId, size, color, apha)
     return {}
 end
 
 --- 生成指向对象的面数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @面信息内容
-function Graphics:MakeGraphicsSurfaceToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsSurfaceToActor(objId, size, color, apha)
     return {}
 end
 
@@ -121,12 +132,12 @@ function Graphics:CreateGraphicsTxtByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建文字板
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return number @图文实例ID
-function Graphics:CreateGraphicsTxtByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsTxtByActor(objId, info, offset, distance)
     return 0
 end
 
@@ -143,12 +154,12 @@ function Graphics:CreateflotageTextByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建漂浮文字
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return number @图文实例ID
-function Graphics:CreateflotageTextByActor(objid, info, offset, distance)
+function Graphics:CreateflotageTextByActor(objId, info, offset, distance)
     return 0
 end
 
@@ -165,12 +176,12 @@ function Graphics:CreateGraphicsProgressByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建进度条
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsProgressByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsProgressByActor(objId, info, offset, distance)
     return true
 end
 
@@ -186,11 +197,11 @@ function Graphics:RemoveGraphicsByPos(x, y, z, graphid, graphType)
 end
 
 --- 删除生物的图文信息
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param graphid number @图文ID
 --- @param graphType number @图文类型
 --- @return boolean @操作是否成功
-function Graphics:RemoveGraphicsByObjID(objid, graphid, graphType)
+function Graphics:RemoveGraphicsByObjID(objId, graphid, graphType)
     return true
 end
 
@@ -204,23 +215,33 @@ function Graphics:UpdateGraphicsTextById(graphid, title, fontsize, apha)
     return true
 end
 
+--- 按实例ID更新进度条图文的当前值/最大值
+--- @param graphId number @图文实例ID
+--- @param val1 number @当前值
+--- @param val2 number @最大值
+--- @param isync? boolean @是否同步到客机(可选)
+--- @return boolean @是否更新成功
+function Graphics:UpdateGraphicsProgressById(graphId, val1, val2, isync)
+    return true
+end
+
 --- 创建生物指向位置的箭头
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsArrowByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsArrowByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建生物指向生物的箭头
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsArrowByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsArrowByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -241,22 +262,32 @@ function Graphics:CreateGraphicsArrowByPosToActor(pos, info)
 end
 
 --- 创建生物与位置的线
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsLineByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsLineByActorToPos(objId, info, offset, distance)
+    return true
+end
+
+--- 创建生物到位置的寻路引导线
+--- @param objId number @对象ID
+--- @param info table @图文信息(含pos、id、tCanSeePlayers等)
+--- @param offset table @方向偏移距离{x=x, y=y, z=z}
+--- @param distance number @偏移距离
+--- @return boolean @是否创建成功
+function Graphics:CreateGraphicsNavPathByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建指向生物的线
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsLineByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsLineByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -277,22 +308,22 @@ function Graphics:CreateGraphicsLineByPosToActor(pos, info)
 end
 
 --- 创建生物与位置的面
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsSurfaceByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsSurfaceByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建生物与生物的引导面
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsSurfaceByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsSurfaceByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -313,10 +344,10 @@ function Graphics:CreateGraphicsSurfaceByPosToActor(pos, info)
 end
 
 --- 将src相关的所有图文信息转移到des身上
---- @param srcObjid number @源对象ID
---- @param desObjid number @目标对象ID
+--- @param srcobjId number @源对象ID
+--- @param desobjId number @目标对象ID
 --- @return boolean @是否成功
-function Graphics:ReplaceAllGraphics(srcObjid, desObjid)
+function Graphics:ReplaceAllGraphics(srcobjId, desobjId)
     return true
 end
 
@@ -333,21 +364,21 @@ function Graphics:CreateGraphicsImageByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物上创建图像
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @是否成功
-function Graphics:CreateGraphicsImageByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsImageByActor(objId, info, offset, distance)
     return true
 end
 
 --- 获取玩家昵称或称号的偏移高度
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param nameType number @名称类型
 --- @param callback function @回调函数
 --- @return number @高度值(未展示返回0)
-function Graphics:GetInnerGraphicsOffset(objid, nameType, callback)
+function Graphics:GetInnerGraphicsOffset(objId, nameType, callback)
     return 0
 end
 

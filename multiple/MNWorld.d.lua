@@ -34,6 +34,16 @@ function World:PlayParticle(pos, particleIdArg, ptimeArg, scale)
     return true
 end
 
+--- 获取指定位置的光照强度
+--- @param x number @位置坐标x
+--- @param y number @位置坐标y
+--- @param z number @位置坐标z
+--- @param worldId? number @星球ID(可选)
+--- @return number @光照强度(0~16)，失败为-1
+function World:GetLightByPos(x, y, z, worldId)
+    return 0
+end
+
 --- 生成生物(包括怪物、NPC、动物等)
 --- @param x number @方块坐标x
 --- @param y number @方块坐标y
@@ -166,6 +176,12 @@ end
 --- @param z number @位置坐标z
 --- @return number @可创建的Y轴位置(不可创建返回0)
 function World:CanMobSpawnOnPosXZ(x, y, z)
+    return 0
+end
+
+--- 获取主机所在星球ID
+--- @return number @星球ID
+function World:GetHostWorldId()
     return 0
 end
 
@@ -329,6 +345,14 @@ function World:SetSkyBoxAttr(timeType, attrType, value)
     return true
 end
 
+--- 设置天空盒属性参数(不带时间维度，直接作用于当前配置)
+--- @param attrType number @属性类型(SkyboxAttr)
+--- @param value number @参数值(0~100)
+--- @return boolean @是否设置成功
+function World:SetSkyBoxAttrWithNoTime(attrType, value)
+    return true
+end
+
 --- 设置天空盒滤镜参数
 --- @param uin number @玩家ID
 --- @param filterType number @滤镜类型
@@ -367,6 +391,26 @@ end
 --- @return boolean @操作是否成功
 function World:SetSkyBoxFilterAnim(uin, filterType, value, easingType, time)
     return true
+end
+
+--- 获取本地设备时间的指定字段
+--- @param enum number @枚举值(EventDate)
+--- @return number @时间值
+function World:GetLocalDate(enum)
+    return 0
+end
+
+--- 获取完整本地设备时间字符串
+--- @return string @时间字符串
+function World:GetLocalDateString()
+    return ''
+end
+
+--- 获取服务器时间的指定字段(云服模式下会回退到本地时间)
+--- @param enum number @枚举值(EventDate)
+--- @return number @时间值(取不到返回0)
+function World:GetServerDate(enum)
+    return 0
 end
 
 --- 获取对象到某个方向上的射线检测目标
@@ -538,6 +582,17 @@ end
 --- @return number @游戏模式
 function World:GetGameMode()
     return 0
+end
+
+--- 设置指定位置的方块光照强度(<1.50+>)
+--- @param x number @位置坐标x
+--- @param y number @位置坐标y
+--- @param z number @位置坐标z
+--- @param value number @光照强度(0~15)
+--- @param worldId? number @星球ID(可选)
+--- @return boolean @是否设置成功
+function World:SetLightByPos(x, y, z, value, worldId)
+    return true
 end
 
 --- 获取XZ位置上是否加载了区块

@@ -567,3 +567,54 @@ end
 function Actor:IsPlayer(objId)
     return true
 end
+
+--- 检测指定对象是否具有指定标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param matchmode number @匹配方式(MatchMode)
+--- @param bexactmatch boolean @每条标签是否精确匹配
+--- @return boolean @是否具有标签
+function Actor:HasTags(objid, tags, matchmode, bexactmatch)
+    return false
+end
+
+--- 获取指定对象的所有标签列表
+--- @param objid number @对象ID
+--- @return table|nil @标签数组(失败返回nil)
+function Actor:GetTags(objid)
+    return {}
+end
+
+--- 为指定对象添加标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param icount number @引用计数(默认1)
+--- @return boolean @是否添加成功
+function Actor:AddTags(objid, tags, icount)
+    return true
+end
+
+--- 从指定对象删除标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param icount number @引用计数(默认0，传0全部删除)
+--- @return boolean @是否删除成功
+function Actor:RemoveTags(objid, tags, icount)
+    return true
+end
+
+--- 清空指定对象的所有标签
+--- @param objid number @对象ID
+--- @return boolean @是否清空成功
+function Actor:ClearTags(objid)
+    return true
+end
+
+--- 使对象A播放对象B的动作(仅玩家、生物和实体生效)
+--- @param objidA number @对象ID A
+--- @param objidB number @对象ID B
+--- @param breplay boolean @是否重新播放(默认false)
+--- @return boolean @是否播放成功
+function Actor:PlayAnimByObj(objidA, objidB, breplay)
+    return true
+end
