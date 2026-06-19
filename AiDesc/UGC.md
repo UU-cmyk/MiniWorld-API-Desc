@@ -35,6 +35,14 @@ end
 
 - 在 MiniUGC 系统中，Lua 是拥有 `goto` 的
 
+## pcall
+
+- 在 MiniUGC 系统中，可使用 `pcall()`
+
+## debug库
+
+- 在 MiniUGC 系统中，`debug` 库已经被精简
+
 ## UGC API调用
 
 - 类名:API名(...)
@@ -134,7 +142,7 @@ self:RemoveEvent(事件枚举常量 或 自定义消息(广播))
 
 ### 事件回调函数
 
-- 事件的回调函数，传参必须只写一个 `event` ( `event` 可以改为任意合法标识符)，`event` 中将会有事件的信息且 `event` 是一个表，**不会出现信息有 `nil` 的情况，无需检查 `event` 中的值**
+- 事件的回调函数，传参必须只写一个 `event` ( `event` 可以改为任意合法标识符)，`event` 中将会有事件的信息且 `event` 是一个表，**通常不会出现信息有 `nil` 的情况，无需检查 `event` 中的值**，每个事件具体有什么事件信息请参考 `MNDeclaration.d.lua`
 - 例如:
 
     ```lua
@@ -258,430 +266,6 @@ self:RemoveCloudSeverEvent(事件枚举常量 或 自定义消息(广播))
   - Y: 上为增加，下为减少
   - Z: N为增加，S为减少
 
-## 组件属性
-
-### 组件属性存储
-
-```lua
-你定义的表名.propertys = {}
-```
-
-- 例示:
-
-```lua
-local Script = {}
-
-Script.propertys = {
-    a = {
-        type = Mini.Bool,
-        default = true,
-        displayName = "布尔值",
-        sort = 1,
-        tips = "tip",
-    },
-}
-
-return Script
-```
-
-### 组件属性信息
-
-| 属性名 | 类型 |
-| :-: | :-: |
-| Mini.Number | 数值 |
-| Mini.String | 字符串 |
-| Mini.Bool | 布尔值 |
-| Mini.Color | 颜色 |
-| Mini.Vec3 | 位置 |
-| Mini.MobType | 生物类型 |
-| Mini.Block | 方块类型 |
-| Mini.Item | 道具类型 |
-| Mini.Effect | 特效类型 |
-| Mini.Picture | 图片 |
-| Mini.Buff | 状态 |
-| Mini.Sound | 音效 |
-| Mini.Model | 外观 |
-
-#### Mini.Number
-
-- 需传入 `number`
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Number` | 是 |
-| default | 默认值 | `100` | 否 |
-| displayName | 属性别名 | `数字` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| minValue | 最小值 | `-1000` | 否 |
-| maxValue | 最大值 | `1000` | 否 |
-| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f米` | 否 |
-| style | 属性控件样式滑动条 | `ComponentUIStyle.NumberSlider` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-| stride | 步长 (在属性面板增减的步长) | `1` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Number,
-    default = 100,
-    displayName = "数字",
-    sort = 1,
-    minValue = -1000,
-    maxValue = 1000,
-    format = "%.0f米",
-    style = ComponentUIStyle.NumberSlider,
-    tips = "属性作用提示",
-    stride = 1,
-}
-```
-
-- 涉及枚举:
-
-| 样式枚举 | 说明 |
-| :-: | :-: |
-| ComponentUIStyle.NumberSlider | 滑动条 |
-| ComponentUIStyle.NumberButton | 按钮 |
-| ComponentUIStyle.NumberOnlyInput | 输入框 |
-
-#### Mini.String
-
-- 需传入 `string`
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.String` | 是 |
-| default | 默认值 | `喵喵喵` | 否 |
-| displayName | 属性别名 | `字符串` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| multiLine | 可否多行 | `true` | 否 |
-| maxLength | 最大x个字符 | `10` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.String,
-    default = "您好！",
-    displayName = "字符串",
-    sort = 1,
-    multiLine = false,
-    maxLength = 10,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Bool
-
-- 需传入 `boolean`
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Bool` | 是 |
-| default | 默认值 | `true` | 否 |
-| displayName | 属性别名 | `布尔值` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Bool,
-    default = true,
-    displayName = "布尔值",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Color
-
-- 需传入 `HEX` 或 `字符串` 颜色值
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Color` | 是 |
-| default | 默认值 | `0xFFFFFF` / `#FFFFFF` | 否 |
-| displayName | 属性别名 | `颜色` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Color,
-    default = 0xFFFFFF,
-    displayName = "颜色",
-    sort = 1,
-    tips = "属性作用提示",
-}
-```
-
-#### Mini.Vec3
-
-- 需传入 `三维坐标XYZ` 表
-- 例: `{1, 1, 1}`
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Vec3` | 是 |
-| default | 默认值 | `Mini.Vec3(0, 0, 0)` | 否 |
-| displayNames | 属性别名 (不填默认为X, Y, Z) | `{"Yaw", "Pitch", "Roll"}` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f` | 否 |
-| minValue | 最小值 | `{-100, -200, -300}` | 否 |
-| maxValue | 最大值 | `{100, 200, 300}` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Vec3,
-    default = Mini.Vec3(0, 0, 0),
-    displayName = "位置",
-    displayNames = {"yaw", "pitch", "roll"},-
-    sort = 1,
-    format = "%.2f",
-    minValue = -10000,
-    maxValue = 10000,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.MobType
-
-- 需传入 `官方生物类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.MobType` | 是 |
-| default | 默认值 | `3400` | 否 |
-| displayName | 属性别名 | `生物类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.MobType,
-    default = 3400,
-    displayName = "生物类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Block
-
-- 传入 `方块ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Block` | 是 |
-| default | 默认值 | `11668` | 否 |
-| displayName | 属性别名 | `方块类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Block,
-    default = 100,
-    displayName = "方块类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Item
-
-- 传入 `物品ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Item` | 是 |
-| default | 默认值 | `11000` | 否 |
-| displayName | 属性别名 | `道具类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Item,
-    default = 100,
-    displayName = "道具类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Effect
-
-- 传入 `特效类型ID` ( `number` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Effect` | 是 |
-| default | 默认值 | `1051` | 否 |
-| displayName | 属性别名 | `特效类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Effect,
-    default = 1051,
-    displayName = "特性类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Picture
-
-- 传入 `图片ID` ( `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Picture` | 是 |
-| default | 默认值 | `0_10001` | 否 |
-| displayName | 属性别名 | `图像类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Picture,
-    default = "0_10001",
-    displayName = "图像类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Buff
-
-- 传入 `官方状态类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Buff` | 是 |
-| default | 默认值 | `6002` | 否 |
-| displayName | 属性别名 | `状态类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Buff,
-    default = 6002,
-    displayName = "状态类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Sound
-
-- 传入 `官方音效类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Sound` | 是 |
-| default | 默认值 | `6002` | 否 |
-| displayName | 属性别名 | `音效类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Sound,
-    default = 6002,
-    displayName = "音效类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-#### Mini.Model
-
-- 传入 `模型ID` ( `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Model` | 是 |
-| default | 默认值 | `mob_1145` | 否 |
-| displayName | 属性别名 | `模型类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-```lua
-{
-    type = Mini.Model,
-    default = "mob_1145",
-    displayName = "模型类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-## 开放函数
-
-### 开放函数存储
-
-你定义的表名.openFnArgs = {}
-
-### 开放函数信息
-
-- 例示:
-
-```lua
-local Script = {}
-
-Script.openFnArgs = {
-    Add = {
-        returnType = Mini.Number,   -- 返回值
-        displayName = "函数别名",   -- 触发器上显示的别名
-        params = {Mini.Number, Mini.Number},-- 参数列表类型
-    },
-
-    -- 如果只想让其他的脚本组件访问的话，可以这样配置
-    func = true
-}
-
-local function Script:Add(a, b)
-    return a + b
-end
-
-local function Script:func()
-    return 114514
-end
-
-return Script
-```
-
-### 开放的作用
-
-1. 其他组件可以访问
-2. 触发器可以访问
-
 ## 组件的互操作
 
 - 组件A:
@@ -788,6 +372,7 @@ end)
   - `滑动容器` 有自己的 `滚动方向` & `滚动条图片` 等属性
   - `3D模型加载框` 有自己的 `模型` 等属性
   - `文本` 有自己的 `文本` & `字体描边` & `字体阴影` & `文字水平对齐 (左/中/右)` & `文字垂直对齐 (上/中/下)` 等属性
+- `字体描边` & `字体阴影` & `文字水平对齐 (左/中/右)` & `文字垂直对齐 (上/中/下)` 属性无法通过 `CustomUI API` 修改，官方暂时未开放接口
 
 ### UI的ID
 
@@ -1151,3 +736,432 @@ graph LR
   - A8: 单个玩家的二维表变量和其他云变量的存储总量受64K的限制
 - Q9: 为什么我的数据表都是正确的，但是提示 `数据与类型不符`
   - A9: 这个是一个 **Bug**，等待下个版本修复
+
+### 组件属性 (组件变量)
+
+#### 组件属性存储
+
+```lua
+你定义的表名.propertys = {}
+```
+
+- 例示:
+
+```lua
+local Script = {}
+
+Script.propertys = {
+    a = {
+        type = Mini.Bool,
+        default = true,
+        displayName = "布尔值",
+        sort = 1,
+        tips = "tip",
+    },
+}
+
+return Script
+```
+
+#### 组件属性 (组件变量) 的访问
+
+- 假如你在 `propertys` 中定义了组件属性 `a`，则需要通过 `self.a` 来进行访问，直接访问 `XXX.propertys.a` 是 **错误** 的
+- 如果要跨组件访问组件属性，则需要先在本组件中获得目标组件，通过获取到的目标组件来访问，`获取到的目标组件.a`（获取组件请参考[组件的互操作](#组件的互操作)）
+
+#### 组件属性信息
+
+| 属性名 | 类型 |
+| :-: | :-: |
+| Mini.Number | 数值 |
+| Mini.String | 字符串 |
+| Mini.Bool | 布尔值 |
+| Mini.Color | 颜色 |
+| Mini.Vec3 | 位置 |
+| Mini.MobType | 生物类型 |
+| Mini.Block | 方块类型 |
+| Mini.Item | 道具类型 |
+| Mini.Effect | 特效类型 |
+| Mini.Picture | 图片 |
+| Mini.Buff | 状态 |
+| Mini.Sound | 音效 |
+| Mini.Model | 外观 |
+
+##### Mini.Number
+
+- 需传入 `number`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Number` | 是 |
+| default | 默认值 | `100` | 否 |
+| displayName | 属性别名 | `数字` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| minValue | 最小值 | `-1000` | 否 |
+| maxValue | 最大值 | `1000` | 否 |
+| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f米` | 否 |
+| style | 属性控件样式滑动条 | `ComponentUIStyle.NumberSlider` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+| stride | 步长 (在属性面板增减的步长) | `1` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Number,
+    default = 100,
+    displayName = "数字",
+    sort = 1,
+    minValue = -1000,
+    maxValue = 1000,
+    format = "%.0f米",
+    style = ComponentUIStyle.NumberSlider,
+    tips = "属性作用提示",
+    stride = 1,
+}
+```
+
+- 涉及枚举:
+
+| 样式枚举 | 说明 |
+| :-: | :-: |
+| ComponentUIStyle.NumberSlider | 滑动条 |
+| ComponentUIStyle.NumberButton | 按钮 |
+| ComponentUIStyle.NumberOnlyInput | 输入框 |
+
+##### Mini.String
+
+- 需传入 `string`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.String` | 是 |
+| default | 默认值 | `喵喵喵` | 否 |
+| displayName | 属性别名 | `字符串` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| multiLine | 可否多行 | `true` | 否 |
+| maxLength | 最大x个字符 | `10` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.String,
+    default = "您好！",
+    displayName = "字符串",
+    sort = 1,
+    multiLine = false,
+    maxLength = 10,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Bool
+
+- 需传入 `boolean`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Bool` | 是 |
+| default | 默认值 | `true` | 否 |
+| displayName | 属性别名 | `布尔值` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Bool,
+    default = true,
+    displayName = "布尔值",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Color
+
+- 需传入 `HEX` 或 `字符串` 颜色值
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Color` | 是 |
+| default | 默认值 | `0xFFFFFF` / `#FFFFFF` | 否 |
+| displayName | 属性别名 | `颜色` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Color,
+    default = 0xFFFFFF,
+    displayName = "颜色",
+    sort = 1,
+    tips = "属性作用提示",
+}
+```
+
+##### Mini.Vec3
+
+- 需传入 `三维坐标XYZ` 表
+- 例: `{1, 1, 1}`
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Vec3` | 是 |
+| default | 默认值 | `Mini.Vec3(0, 0, 0)` | 否 |
+| displayNames | 属性别名 (不填默认为X, Y, Z) | `{"Yaw", "Pitch", "Roll"}` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f` | 否 |
+| minValue | 最小值 | `{-100, -200, -300}` | 否 |
+| maxValue | 最大值 | `{100, 200, 300}` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Vec3,
+    default = Mini.Vec3(0, 0, 0),
+    displayName = "位置",
+    displayNames = {"yaw", "pitch", "roll"},-
+    sort = 1,
+    format = "%.2f",
+    minValue = -10000,
+    maxValue = 10000,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.MobType
+
+- 需传入 `官方生物类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.MobType` | 是 |
+| default | 默认值 | `3400` | 否 |
+| displayName | 属性别名 | `生物类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.MobType,
+    default = 3400,
+    displayName = "生物类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Block
+
+- 传入 `方块ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Block` | 是 |
+| default | 默认值 | `11668` | 否 |
+| displayName | 属性别名 | `方块类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Block,
+    default = 100,
+    displayName = "方块类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Item
+
+- 传入 `物品ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Item` | 是 |
+| default | 默认值 | `11000` | 否 |
+| displayName | 属性别名 | `道具类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Item,
+    default = 100,
+    displayName = "道具类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Effect
+
+- 传入 `特效类型ID` ( `number` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Effect` | 是 |
+| default | 默认值 | `1051` | 否 |
+| displayName | 属性别名 | `特效类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Effect,
+    default = 1051,
+    displayName = "特性类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Picture
+
+- 传入 `图片ID` ( `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Picture` | 是 |
+| default | 默认值 | `0_10001` | 否 |
+| displayName | 属性别名 | `图像类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Picture,
+    default = "0_10001",
+    displayName = "图像类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Buff
+
+- 传入 `官方状态类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Buff` | 是 |
+| default | 默认值 | `6002` | 否 |
+| displayName | 属性别名 | `状态类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Buff,
+    default = 6002,
+    displayName = "状态类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Sound
+
+- 传入 `官方音效类型ID` 或 `Prefab预制ID` ( `number` / `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Sound` | 是 |
+| default | 默认值 | `6002` | 否 |
+| displayName | 属性别名 | `音效类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- 例示:
+
+```lua
+{
+    type = Mini.Sound,
+    default = 6002,
+    displayName = "音效类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+##### Mini.Model
+
+- 传入 `模型ID` ( `string` )
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
+| type | 类型 | `Mini.Model` | 是 |
+| default | 默认值 | `mob_1145` | 否 |
+| displayName | 属性别名 | `模型类型` | 否 |
+| sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+```lua
+{
+    type = Mini.Model,
+    default = "mob_1145",
+    displayName = "模型类型",
+    sort = 1,
+    tips = "属性作用提示",
+},
+```
+
+## 开放函数
+
+### 开放函数存储
+
+你定义的表名.openFnArgs = {}
+
+### 开放函数信息
+
+- 例示:
+
+```lua
+local Script = {}
+
+Script.openFnArgs = {
+    Add = {
+        returnType = Mini.Number, -- 返回值
+        displayName = "函数别名", -- 触发器上显示的别名
+        params = {Mini.Number, Mini.Number}, -- 参数列表类型
+    },
+
+    -- 如果只想让其他的脚本组件访问的话，可以这样配置
+    func = true
+}
+
+local function Script:Add(a, b)
+    return a + b
+end
+
+local function Script:func()
+    return 114514
+end
+
+return Script
+```
+
+### 开放的作用
+
+1. 其他组件可以访问
+2. 触发器可以访问

@@ -3,14 +3,14 @@ local json = {
     --- 解码Json字符串
     --- @return table @解码后的Table数据
     --- @param data string @Json字符串
-    decode = function(data) 
+    decode = function(data)
         return {}
     end,
 
     --- 编码Table数据
     --- @return string @编码后的Json字符串
     --- @param data table @Table数据
-    encode = function(data) 
+    encode = function(data)
         return ""
     end
 }
@@ -1309,7 +1309,6 @@ _G.AreaCloneType = AreaCloneType
 --- @field Carried number @被举起着
 local RolePickupType = {}
 _G.RolePickupType = RolePickupType
-
 --- @class Data
 --- 普通变量数据管理接口 - Data
 local Data = {
@@ -1350,7 +1349,6 @@ end
 function Data:IncreasesValue(varId, playerId, value)
     return nil
 end
-
 --- 更新整个表的数据信息
 --- @param varId string @变量ID
 --- @param playerId number|nil @玩家uin(全局变量传nil)
@@ -1487,7 +1485,6 @@ end
 function Data.Table:GetTableColKeys(varId)
     return {}
 end
-
 --- 设置组对应索引的值
 --- 
 --- **1.索引值不允许大于数组当前大小**
@@ -1713,8 +1710,6 @@ end
 function Data.Array:IncreasesValue(varId, playerId, value, index)
     return true
 end
-
-
 --- @class Component
 --- 组件管理接口 Component
 local Component = {}
@@ -1722,7 +1717,7 @@ _G.Component = Component
 
 --- 获取该组件挂载的对象实例
 --- @return nil @挂载对象
-function Component:GetGameObject()    
+function Component:GetGameObject() 
     return nil
 end
 
@@ -1910,179 +1905,180 @@ function Component:RemoveCloudSeverEvent(eventType)
 end
 
 --- @type Component self
-
 --- @class TriggerEvent @触发器事件枚举
---- @field GroupWeatherChanged any @当地形组的天气改变
---- @field GameStart any @游戏创建
---- @field GameHour any @游戏时间
---- @field MinitimerChange any @任意计时器改变
---- @field CraftEnd any @配方合成完毕
---- @field FurnaceBegin any @当熔炼开始
---- @field FurnaceEnd any @当熔炼结束
---- @field PlayerRevive any @玩家复活
---- @field PlayerMoveOneBlockSize any @玩家移动
---- @field PlayerSelectShortcut any @玩家选中快捷栏
---- @field PlayerInvateFriend any @玩家邀请好友
---- @field GameAnyPlayerEnterGame any @当玩家进入游戏
---- @field GameAnyPlayerLeaveGame any @当玩家离开游戏
---- @field GameAnyPlayerVictory any @当玩家游戏胜利
---- @field GameAnyPlayerDefeat any @当玩家游戏失败
---- @field PlayerClickBlock any @当玩家点击任意方块
---- @field PlayerClickPlayer any @当玩家点击任意玩家
---- @field PlayerClickMob any @当玩家点击任意生物
---- @field PlayerClickProjectile any @当玩家点击任意投掷物
---- @field PlayerClickDropItem any @当玩家点击任意掉落物
---- @field PlayerClickEntity any @当玩家点击任意实体
---- @field PlayerInputKeyClick any @当任意玩家点击按键
---- @field PlayerInputKeyDown any @当任意玩家按下按键
---- @field PlayerInputKeyUp any @当任意玩家抬起按键
---- @field PlayerInputKeyOnPress any @当任意玩家长按按键
---- @field PlayerNewInputContent any @玩家发送聊天信息
---- @field PlayerGunAction any @当玩家持枪状态改变时
---- @field PlayerMotionStateChange any @当玩家进入运动状态
---- @field PlayerMotionStateChangeEnd any @当玩家离开运动状态
---- @field PlayerAddItem any @当玩家获得道具
---- @field PlayerUseItem any @当玩家开始使用道具
---- @field PlayerChargeItemBegin any @当玩家开始蓄力道具
---- @field PlayerConsumeItem any @当玩家消耗道具
---- @field PlayerPickUpItem any @当玩家拾取道具
---- @field PlayerDiscardItem any @当玩家丢弃道具
---- @field PlayerChargeItemEnd any @当玩家结束蓄力道具
---- @field PlayerShortcutChange any @当玩家的快捷栏发生改变
---- @field PlayerShortcutAddItem any @当玩家的快捷栏放入道具
---- @field PlayerShortcutRemItem any @当玩家的快捷栏取出道具
---- @field PlayerBackPackChange any @当玩家的背包栏发生改变
---- @field PlayerBackPackAddItem any @当玩家的背包栏放入道具
---- @field PlayerBackPackRemItem any @当玩家的背包栏取出道具
---- @field PlayerEquipChange any @当玩家的装备栏发生改变
---- @field PlayerEquipAddItem any @当玩家的装备栏放入道具
---- @field PlayerEquipRemItem any @当玩家的装备栏取出道具
---- @field PlayerEquipOn any @当玩家穿上装备
---- @field PlayerEquipOff any @当玩家脱下装备
---- @field BlockAdd any @方块被创建
---- @field BlockRemove any @当方块被破坏
---- @field BlockDigBegin any @当方块被挖掘
---- @field BlockDigEnd any @当方块被挖掘完毕
---- @field BlockDigCancel any @当方块被挖掘中断
---- @field BlockTrigger any @当方块开关状态发生改变
---- @field BlockChangeColor any @当方块颜色发生改变
---- @field BlockChangeDir any @当方块方向发生改变
---- @field BlockContainerChange any @当储存容器内发生改变
---- @field BlockContainerPutIn any @当储存容器内放入道具
---- @field BlockContainerTakeOut any @当储存容器内取出道具
---- @field UILostFocus any @玩家在界面输入字符串
---- @field UISpineComplete any @当前界面的元件动画装载器播放完毕
---- @field UIShow any @当前界面被打开
---- @field UIHide any @当前界面被关闭
---- @field UIButtonClick any @当前界面的元件被点击
---- @field UIButtonTouchBegin any @当前界面的元件被按下
---- @field UIButtonTouchEnd any @当前界面的元件被抬起
---- @field UIButtonLongPress any @当前界面的元件被长按
---- @field UIGLoader3DTouchClick any @当前界面的元件被点击
---- @field UIGLoader3DTouchBegin any @当前界面的元件被按下
---- @field UIGLoader3DTouchEnd any @当前界面的元件被抬起
---- @field UIGLoader3DLongPress any @当前界面的元件被长按
---- @field UIScrollPaneTouchBegin any @滑动容器触摸开始
---- @field UIScrollPaneTouchEnd any @滑动容器触摸结束
---- @field UIScrollPaneScrollEnd any @滑动容器滚动结束
---- @field ParticlePosOnCreate any @当特效创建在任意位置
---- @field ParticleObjectOnCreate any @当特效创建在任意对象
---- @field ParticlePlayerOnCreate any @当特效创建在任意玩家
---- @field ParticleMobOnCreate any @当特效创建在任意生物
---- @field ParticleProjectileOnCreate any @当特效创建在任意投掷物
---- @field ParticleItemOnCreate any @当特效创建在任意掉落物
---- @field ParticleEntityOnCreate any @当特效创建在任意实体
---- @field DeveloperBuyItem any @任意玩家购买或提取开发者商店道具
---- @field PlayerCollideToPlayer any @当任意玩家和任意玩家碰撞开始
---- @field PlayerCollideToMob any @当任意玩家和任意生物碰撞开始
---- @field PlayerCollideToMissile any @当任意玩家和任意投掷物碰撞开始
---- @field PlayerCollideToDropItem any @当任意玩家和任意掉落物碰撞开始
---- @field PlayerCollideToEntity any @当任意玩家和任意实体碰撞开始
---- @field PlayerCollideToAreaObj any @当任意玩家和任意区域碰撞开始
---- @field MobCollideToPlayer any @当任意生物和任意玩家碰撞开始
---- @field MobCollideToMob any @当任意生物和任意生物碰撞开始
---- @field MobCollideToMissile any @当任意生物和任意投掷物碰撞开始
---- @field MobCollideToDropItem any @当任意生物和任意掉落物碰撞开始
---- @field MobCollideToEntity any @当任意生物和任意实体碰撞开始
---- @field MobCollideToAreaObj any @当任意生物和任意区域碰撞开始
---- @field MissileCollideToPlayer any @当任意投掷物和任意玩家碰撞开始
---- @field MissileCollideToMob any @当任意投掷物和任意生物碰撞开始
---- @field MissileCollideToMissile any @当任意投掷物和任意投掷物碰撞开始
---- @field MissileCollideToDropItem any @当任意投掷物和任意掉落物碰撞开始
---- @field MissileCollideToEntity any @当任意投掷物和任意实体碰撞开始
---- @field MissileCollideToAreaObj any @当任意投掷物和任意区域碰撞开始
---- @field DropItemCollideToPlayer any @当任意掉落物和任意玩家碰撞开始
---- @field DropItemCollideToMob any @当任意掉落物和任意生物碰撞开始
---- @field DropItemCollideToMissile any @当任意掉落物和任意投掷物碰撞开始
---- @field DropItemCollideToDropItem any @当任意掉落物和任意掉落物碰撞开始
---- @field DropItemCollideToEntity any @当任意掉落物和任意实体碰撞开始
---- @field DropItemCollideToAreaObj any @当任意掉落物和任意区域碰撞开始
---- @field EntityCollideToPlayer any @当任意实体和任意玩家碰撞开始
---- @field EntityCollideToMob any @当任意实体和任意生物碰撞开始
---- @field EntityCollideToMissile any @当任意实体和任意投掷物碰撞开始
---- @field EntityCollideToDropItem any @当任意实体和任意掉落物碰撞开始
---- @field EntityCollideToEntity any @当任意实体和任意实体碰撞开始
---- @field EntityCollideToAreaObj any @当任意实体和任意区域碰撞开始
---- @field AreaObjCollideToPlayer any @当任意区域和任意玩家碰撞开始
---- @field AreaObjCollideToMob any @当任意区域和任意生物碰撞开始
---- @field AreaObjCollideToMissile any @当任意区域和任意投掷物碰撞开始
---- @field AreaObjCollideToDropItem any @当任意区域和任意掉落物碰撞开始
---- @field AreaObjCollideToEntity any @当任意区域和任意实体碰撞开始
---- @field AreaObjCollideToAreaObj any @当任意区域和任意区域碰撞开始
---- @field PlayerAreaIn any @当任意玩家进入区域
---- @field PlayerAreaOut any @当任意玩家离开区域
---- @field MobAreaIn any @当任意生物进入区域
---- @field MobAreaOut any @当任意生物离开区域
---- @field MissileAreaIn any @当任意投掷物进入区域
---- @field MissileAreaOut any @当任意投掷物离开区域
---- @field DropItemAreaIn any @当任意掉落物进入区域
---- @field DropItemAreaOut any @当任意掉落物离开区域
---- @field EntityAreaIn any @当任意实体进入区域
---- @field EntityAreaOut any @当任意实体离开区域
---- @field AreaObjAreaIn any @当任意区域进入区域
---- @field AreaObjAreaOut any @当任意区域离开区域
---- @field MobCreate any @当任意生物被创建
---- @field EntityCreate any @当任意实体被创建
---- @field AreaObjCreate any @当任意区域被创建
---- @field PlayerBeHurt any @当任意玩家受到伤害
---- @field PlayerDie any @当任意玩家被击败
---- @field MobBeHurt any @当任意生物受到伤害
---- @field MobDie any @当任意生物被击败
---- @field PlayerAttack any @当任意玩家开始攻击
---- @field PlayerAttackHit any @当任意玩家攻击命中
---- @field PlayerDefeatActor any @当任意玩家击败目标
---- @field PlayerDamageActor any @当任意玩家造成伤害
---- @field MobAttack any @当任意生物开始攻击
---- @field MobAttackHit any @当任意生物攻击命中
---- @field MobBeat any @当任意生物击败目标
---- @field MobDamage any @当任意生物造成伤害
---- @field PlayerAddBuff any @当任意玩家获得状态
---- @field PlayerRemoveBuff any @当任意玩家失去状态
---- @field MobAddBuff any @当任意生物获得状态
---- @field MobRemoveBuff any @当任意生物失去状态
---- @field PlayerChangeAttr any @当任意玩家的属性改变
---- @field MobChangeAttr any @当任意生物的属性改变
---- @field ActorPickupActor any @当角色举起角色
---- @field PlayerAttrStateChange any @当任意玩家权限发生改变
---- @field MobAttrStateChange any @当任意生物权限发生改变
---- @field PlayerMountActor any @当任意玩家骑乘坐骑/载具
---- @field MobMountActor any @当任意生物骑乘坐骑/载具
---- @field PlayerDismountActor any @当任意玩家取消骑乘
---- @field MobDismountActor any @当任意生物取消骑乘
---- @field MissileCreate any @投掷物创建
---- @field ProjectileHitBlock any @当投掷物击中任意方块
---- @field ProjectileHitPlayer any @当投掷物击中任意玩家
---- @field ProjectileHitMob any @当投掷物击中任意生物
---- @field ProjectileHitProj any @当投掷物击中任意投掷物
---- @field ProjectileHitItem any @当投掷物击中任意掉落物
---- @field ProjectileHitEntity any @当投掷物击中任意实体
---- @field ItemCreate any @当掉落物创建
---- @field DropItemPickup any @当掉落物被拾取
---- @field ItemDisappear any @当掉落物消失
+--- @field GroupWeatherChanged any @当地形组的天气改变 {weathergroupid:事件中的天气组}
+--- @field GameStart any @游戏创建 {}
+--- @field GameHour any @游戏时间 {hour:小时, second:分钟, ticks:游戏刻}
+--- @field MinitimerChange any @任意计时器改变 {}
+--- @field CraftEnd any @配方合成完毕 {craftid:事件中的配方ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field FurnaceBegin any @当熔炼开始 {furanceid:事件中的熔炼ID, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field FurnaceEnd any @当熔炼结束 {furanceid:事件中的熔炼ID, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field PlayerRevive any @玩家复活 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerMoveOneBlockSize any @玩家移动 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerSelectShortcut any @玩家选中快捷栏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerInvateFriend any @玩家邀请好友 {eventobjid:触发事件的对象, x,y,z:事件中的位置, toobjid:事件中的目标对象, eventworldid:事件中的星球}
+--- @field GameAnyPlayerEnterGame any @当玩家进入游戏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field GameAnyPlayerLeaveGame any @当玩家离开游戏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中的星球}
+--- @field GameAnyPlayerVictory any @当玩家游戏胜利 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field GameAnyPlayerDefeat any @当玩家游戏失败 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerClickBlock any @当玩家点击任意方块 {blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field PlayerClickPlayer any @当玩家点击任意玩家 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickMob any @当玩家点击任意生物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickProjectile any @当玩家点击任意投掷物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickDropItem any @当玩家点击任意掉落物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickEntity any @当玩家点击任意实体 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerInputKeyClick any @当任意玩家点击按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyDown any @当任意玩家按下按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyUp any @当任意玩家抬起按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyOnPress any @当任意玩家长按按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerNewInputContent any @玩家发送聊天信息 {content:事件中的字符串, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerGunAction any @当玩家持枪状态改变时 {eventobjid:触发事件的对象, gunAction:枪械动作, gunState:枪械状态, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerMotionStateChange any @当玩家进入运动状态 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playermotion:玩家行为动作, eventworldid:事件中星球}
+--- @field PlayerMotionStateChangeEnd any @当玩家离开运动状态 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playermotion:玩家行为动作, eventworldid:事件中星球}
+--- @field PlayerAddItem any @当玩家获得道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerUseItem any @当玩家开始使用道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerChargeItemBegin any @当玩家开始蓄力道具 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerConsumeItem any @当玩家消耗道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerPickUpItem any @当玩家拾取道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerDiscardItem any @当玩家丢弃道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerChargeItemEnd any @当玩家结束蓄力道具 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerShortcutChange any @当玩家的快捷栏发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerShortcutAddItem any @当玩家的快捷栏放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerShortcutRemItem any @当玩家的快捷栏取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerBackPackChange any @当玩家的背包栏发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerBackPackAddItem any @当玩家的背包栏放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerBackPackRemItem any @当玩家的背包栏取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipChange any @当玩家的装备栏发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerEquipAddItem any @当玩家的装备栏放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipRemItem any @当玩家的装备栏取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipOn any @当玩家穿上装备 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerEquipOff any @当玩家脱下装备 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field BlockAdd any @方块被创建 {blockid:事件中的方块类型, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockRemove any @当方块被破坏 {blockid:事件中的方块类型, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockDigBegin any @当方块被挖掘 {blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockDigEnd any @当方块被挖掘完毕 {actorid:触发事件的生物类型, blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockDigCancel any @当方块被挖掘中断 {actorid:触发事件的生物类型, blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockTrigger any @当方块开关状态发生改变 {blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockChangeColor any @当方块颜色发生改变 {actorid:触发事件的生物类型, blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockChangeDir any @当方块方向发生改变 {actorid:触发事件的生物类型, blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockContainerChange any @当储存容器内发生改变 {blockid:事件中的方块类型, eventworldid:事件中的星球, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockContainerPutIn any @当储存容器内放入道具 {blockid:事件中的方块类型, eventworldid:事件中的星球, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field BlockContainerTakeOut any @当储存容器内取出道具 {blockid:事件中的方块类型, eventworldid:事件中的星球, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field UILostFocus any @玩家在界面输入字符串 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UISpineComplete any @当前界面的元件动画装载器播放完毕 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIShow any @当前界面被打开 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIHide any @当前界面被关闭 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIButtonClick any @当前界面的元件被点击 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIButtonTouchBegin any @当前界面的元件被按下 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIButtonTouchEnd any @当前界面的元件被抬起 {CustomUI:事件中的界面, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIButtonLongPress any @当前界面的元件被长按 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIGLoader3DTouchClick any @当前界面的元件被点击 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIGLoader3DTouchBegin any @当前界面的元件被按下 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIGLoader3DTouchEnd any @当前界面的元件被抬起 {CustomUI:事件中的界面, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIGLoader3DLongPress any @当前界面的元件被长按 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIScrollPaneTouchBegin any @滑动容器触摸开始 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIScrollPaneTouchEnd any @滑动容器触摸结束 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field UIScrollPaneScrollEnd any @滑动容器滚动结束 {CustomUI:事件中的界面, content:事件中的字符串, customdata:自定义字符串数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, uielement:事件中的元件, eventworldid:事件中星球}
+--- @field ParticlePosOnCreate any @当特效创建在任意位置 {effectid:事件中的特效, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field ParticleObjectOnCreate any @当特效创建在任意对象 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ParticlePlayerOnCreate any @当特效创建在任意玩家 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ParticleMobOnCreate any @当特效创建在任意生物 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ParticleProjectileOnCreate any @当特效创建在任意投掷物 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ParticleItemOnCreate any @当特效创建在任意掉落物 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ParticleEntityOnCreate any @当特效创建在任意实体 {effectid:事件中的特效, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field DeveloperBuyItem any @任意玩家购买或提取开发者商店道具 {itemid:事件中的道具类型, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field PlayerCollideToPlayer any @当任意玩家和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerCollideToMob any @当任意玩家和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerCollideToMissile any @当任意玩家和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerCollideToDropItem any @当任意玩家和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerCollideToEntity any @当任意玩家和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerCollideToAreaObj any @当任意玩家和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToPlayer any @当任意生物和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToMob any @当任意生物和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToMissile any @当任意生物和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToDropItem any @当任意生物和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToEntity any @当任意生物和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobCollideToAreaObj any @当任意生物和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToPlayer any @当任意投掷物和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToMob any @当任意投掷物和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToMissile any @当任意投掷物和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToDropItem any @当任意投掷物和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToEntity any @当任意投掷物和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCollideToAreaObj any @当任意投掷物和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToPlayer any @当任意掉落物和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToMob any @当任意掉落物和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToMissile any @当任意掉落物和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToDropItem any @当任意掉落物和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToEntity any @当任意掉落物和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field DropItemCollideToAreaObj any @当任意掉落物和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToPlayer any @当任意实体和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToMob any @当任意实体和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToMissile any @当任意实体和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToDropItem any @当任意实体和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToEntity any @当任意实体和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field EntityCollideToAreaObj any @当任意实体和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToPlayer any @当任意区域和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToMob any @当任意区域和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToMissile any @当任意区域和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToDropItem any @当任意区域和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToEntity any @当任意区域和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field AreaObjCollideToAreaObj any @当任意区域和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerAreaIn any @当任意玩家进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerAreaOut any @当任意玩家离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobAreaIn any @当任意生物进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobAreaOut any @当任意生物离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MissileAreaIn any @当任意投掷物进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MissileAreaOut any @当任意投掷物离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field DropItemAreaIn any @当任意掉落物进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field DropItemAreaOut any @当任意掉落物离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field EntityAreaIn any @当任意实体进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field EntityAreaOut any @当任意实体离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field AreaObjAreaIn any @当任意区域进入区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field AreaObjAreaOut any @当任意区域离开区域 {areaid:事件中的区域ID, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobCreate any @当任意生物被创建 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field EntityCreate any @当任意实体被创建 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field AreaObjCreate any @当任意区域被创建 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerBeHurt any @当任意玩家受到伤害 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, hurttype:伤害类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerDie any @当任意玩家被击败 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobBeHurt any @当任意生物受到伤害 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, hurttype:伤害类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobDie any @当任意生物被击败 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerAttack any @当任意玩家开始攻击 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerAttackHit any @当任意玩家攻击命中 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerDefeatActor any @当任意玩家击败目标 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerDamageActor any @当任意玩家造成伤害 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobAttack any @当任意生物开始攻击 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobAttackHit any @当任意生物攻击命中 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobBeat any @当任意生物击败目标 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobDamage any @当任意生物造成伤害 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerAddBuff any @当任意玩家获得状态 {buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerRemoveBuff any @当任意玩家失去状态 {buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobAddBuff any @当任意生物获得状态 {actorid:触发事件的生物类型, buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobRemoveBuff any @当任意生物失去状态 {actorid:触发事件的生物类型, buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerChangeAttr any @当任意玩家的属性改变 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playerattr:玩家属性, playerattrval:玩家属性值, eventworldid:事件中星球}
+--- @field MobChangeAttr any @当任意生物的属性改变 {actorattr:生物属性, actorattrval:生物属性值, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ActorPickupActor any @当角色举起角色 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, pickupType:举起或放下类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerAttrStateChange any @当任意玩家权限发生改变 {attstateType:权限类型, attstateValue:权限值, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field MobAttrStateChange any @当任意生物权限发生改变 {attstateType:权限类型, attstateValue:权限值, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerMountActor any @当任意玩家骑乘坐骑/载具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobMountActor any @当任意生物骑乘坐骑/载具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerDismountActor any @当任意玩家取消骑乘 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MobDismountActor any @当任意生物取消骑乘 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field MissileCreate any @投掷物创建 {eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, toobjid:事件中的目标对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitBlock any @当投掷物击中任意方块 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitPlayer any @当投掷物击中任意玩家 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitMob any @当投掷物击中任意生物 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitProj any @当投掷物击中任意投掷物 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitItem any @当投掷物击中任意掉落物 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ProjectileHitEntity any @当投掷物击中任意实体 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ItemCreate any @当掉落物创建 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field DropItemPickup any @当掉落物被拾取 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field ItemDisappear any @当掉落物消失 {eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerOpenInnerView any @当玩家打开内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field PlayerCloseInnerView any @当玩家关闭内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
 local TriggerEvent = {}
 _G.TriggerEvent = TriggerEvent
 
---- @class CurEventParam @事件参数类
+--- @class CurEventParam @事件参数类 (事件中参数如果是 `nil`，则可以用 `CurEventParam` 来替代获取)
 --- @field EventTargetPos any @事件中的位置
 --- @field EventBuff any @事件中的状态效果
 --- @field EventTargetEffect any @事件中的特效
@@ -2104,85 +2100,85 @@ _G.TriggerEvent = TriggerEvent
 --- @field EventTargetItemID any @事件中的道具类型
 --- @field TriggerByMissile any @触发事件的投射物
 --- @field EventTargetDropItem any @事件中的掉落物
+--- @field eventworldid any @事件中的星球
 --- @field Itemnum any @事件中的道具数量
 local CurEventParam = {}
 _G.CurEventParam = CurEventParam
 
 --- @class ObjectEvent @组件事件枚举
---- @field OnPropertyChange any @当对象的属性发生改变
---- @field PlayerEnterGame any @当此玩家进入游戏
---- @field PlayerLeaveGame any @当此玩家离开游戏
---- @field PlayerVictory any @当此玩家游戏胜利
---- @field PlayerDefeat any @当此玩家游戏失败
---- @field PlayerClickBlock any @当此玩家点击任意方块
---- @field PlayerClickPlayer any @当此玩家点击任意玩家
---- @field PlayerClickMob any @当此玩家点击任意生物
---- @field PlayerClickProjectile any @当此玩家点击任意投掷物
---- @field PlayerClickDropItem any @当此玩家点击任意掉落物
---- @field PlayerClickEntity any @当此玩家点击任意实体
---- @field PlayerInputKeyClick any @当此玩家点击按键
---- @field PlayerInputKeyDown any @当此玩家按下按键
---- @field PlayerInputKeyUp any @当此玩家抬起按键
---- @field PlayerInputKeyOnPress any @当此玩家长按按键
---- @field PlayerNewInputContent any @此玩家发送聊天信息
---- @field ObjectMotionStateChange any @当此玩家运动状态发生改变
---- @field PlayerAddItem any @当此玩家获得道具
---- @field PlayerUseItem any @当此玩家开始使用道具
---- @field PlayerChargeItemBegin any @当此玩家开始蓄力道具
---- @field PlayerConsumeItem any @当此玩家消耗道具
---- @field PlayerPickUpItem any @当此玩家拾取道具
---- @field PlayerChargeItemEnd any @当此玩家结束蓄力道具
---- @field PlayerShortcutChange any @当此玩家快捷栏的发生改变
---- @field PlayerShortcutAddItem any @当此玩家快捷栏的放入道具
---- @field PlayerShortcutRemItem any @当此玩家快捷栏的取出道具
---- @field PlayerBackPackChange any @当此玩家背包栏的发生改变
---- @field PlayerBackPackAddItem any @当此玩家背包栏的放入道具
---- @field PlayerBackPackRemItem any @当此玩家背包栏的取出道具
---- @field PlayerEquipChange any @当此玩家装备栏的发生改变
---- @field PlayerEquipAddItem any @当此玩家装备栏的放入道具
---- @field PlayerEquipRemItem any @当此玩家装备栏的取出道具
---- @field PlayerEquipOn any @当此玩家穿上装备
---- @field PlayerEquipOff any @当此玩家脱下装备
---- @field PlayerRevive any @此玩家复活
---- @field PlayerMoveOneBlockSize any @此玩家移动
---- @field PlayerInvateFriend any @此玩家邀请好友
---- @field PlayerSelectShortcut any @此玩家选中快捷栏
---- @field BlockAdd any @此类方块被创建
---- @field BlockClicked any @当此类方块被被点击
---- @field BlockRemove any @当此类方块被被破坏
---- @field BlockDigBegin any @当此类方块被被挖掘
---- @field BlockDigEnd any @当此类方块被被挖掘完毕
---- @field BlockDigCancel any @当此类方块被被挖掘中断
---- @field OnInteract any @当此类方块开关状态发生改变
---- @field BlockChangeColor any @当此类方块颜色发生改变
---- @field BlockChangeDir any @当此类方块方向发生改变
---- @field BlockContainerChange any @当储存容器内发生改变
---- @field BlockContainerPutIn any @当储存容器内放入道具
---- @field BlockContainerTakeOut any @当储存容器内取出道具
---- @field ObjectPlayAnim any @当此对象播放动画时
---- @field ObjectCollideByPlayer any @当此角色和任意玩家碰撞开始
---- @field ObjectCollideByMob any @当此角色和任意生物碰撞开始
---- @field ObjectCollideByMissile any @当此角色和任意投掷物碰撞开始
---- @field ObjectCollideByDropItem any @当此角色和任意掉落物碰撞开始
---- @field ObjectCollideByEntity any @当此角色和任意实体碰撞开始
---- @field ObjectCollideByAreaObj any @当此角色和任意区域碰撞开始
---- @field ObjectBeClick any @此角色被玩家点击
---- @field ObjectBeHurt any @当此角色受到伤害
---- @field ObjectDie any @当此角色被击败
---- @field ObjectAttack any @当此角色开始攻击
---- @field ObjectAttackHit any @当此角色攻击命中
---- @field ObjectDefeat any @当此角色击败目标
---- @field ObjectDamage any @当此角色造成伤害
---- @field ObjectAddBuff any @当此角色获得状态
---- @field ObjectRemoveBuff any @当此角色失去状态
---- @field ObjectAttrStateChange any @当此角色权限改变
---- @field ObjectChangeAttr any @当此角色属性改变
---- @field ObjectMountActor any @此角色骑乘
---- @field ObjectDismountActor any @此角色取消骑乘
+--- @field OnPropertyChange any @当对象的属性发生改变 {}
+--- @field PlayerEnterGame any @当此玩家进入游戏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerLeaveGame any @当此玩家离开游戏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中的星球}
+--- @field PlayerVictory any @当此玩家游戏胜利 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerDefeat any @当此玩家游戏失败 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerClickBlock any @当此玩家点击任意方块 {blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球, x:事件中位置X, y:事件中位置Y, z:事件中位置Z}
+--- @field PlayerClickPlayer any @当此玩家点击任意玩家 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickMob any @当此玩家点击任意生物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickProjectile any @当此玩家点击任意投掷物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickDropItem any @当此玩家点击任意掉落物 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerClickEntity any @当此玩家点击任意实体 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerInputKeyClick any @当此玩家点击按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyDown any @当此玩家按下按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyUp any @当此玩家抬起按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerInputKeyOnPress any @当此玩家长按按键 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, vkey:事件中的按键, eventworldid:事件中星球}
+--- @field PlayerNewInputContent any @此玩家发送聊天信息 {content:事件中的字符串, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectMotionStateChangeEnd any @当此玩家离开运动状态 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playermotion:玩家行为动作, eventworldid:事件中星球}
+--- @field ObjectMotionStateChange any @当此玩家运动状态发生改变 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playermotion:玩家行为动作, eventworldid:事件中星球}
+--- @field PlayerAddItem any @当此玩家获得道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerUseItem any @当此玩家开始使用道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerChargeItemBegin any @当此玩家开始蓄力道具 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerConsumeItem any @当此玩家消耗道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerPickUpItem any @当此玩家拾取道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field PlayerChargeItemEnd any @当此玩家结束蓄力道具 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerShortcutChange any @当此玩家快捷栏的发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerShortcutAddItem any @当此玩家快捷栏的放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerShortcutRemItem any @当此玩家快捷栏的取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerBackPackChange any @当此玩家背包栏的发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerBackPackAddItem any @当此玩家背包栏的放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerBackPackRemItem any @当此玩家背包栏的取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipChange any @当此玩家装备栏的发生改变 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerEquipAddItem any @当此玩家装备栏的放入道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipRemItem any @当此玩家装备栏的取出道具 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerEquipOn any @当此玩家穿上装备 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerEquipOff any @当此玩家脱下装备 {ShortCutIdx:事件中的快捷栏, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field PlayerRevive any @此玩家复活 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerMoveOneBlockSize any @此玩家移动 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field PlayerInvateFriend any @此玩家邀请好友 {eventobjid:触发事件的对象, x,y,z:事件中的位置, toobjid:事件中的目标对象, eventworldid:事件中的星球}
+--- @field PlayerSelectShortcut any @此玩家选中快捷栏 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field BlockAdd any @此类方块被创建 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, eventworldid:事件中的星球}
+--- @field BlockClicked any @当此类方块被被点击 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, actorid:触发事件的生物类型, eventworldid:事件中的星球}
+--- @field BlockRemove any @当此类方块被被破坏 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, actorid:触发事件的生物类型, eventworldid:事件中的星球}
+--- @field BlockDigBegin any @当此类方块被被挖掘 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, actorid:触发事件的生物类型, eventworldid:事件中的星球}
+--- @field BlockDigEnd any @当此类方块被被挖掘完毕 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, actorid:触发事件的生物类型, eventworldid:事件中的星球}
+--- @field BlockDigCancel any @当此类方块被被挖掘中断 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventobjid:触发事件的对象, actorid:触发事件的生物类型, eventworldid:事件中的星球}
+--- @field OnInteract any @当此类方块开关状态发生改变 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventworldid:事件中的星球}
+--- @field BlockChangeColor any @当此类方块颜色发生改变 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventworldid:事件中的星球}
+--- @field BlockChangeDir any @当此类方块方向发生改变 {x,y,z:事件中的位置, blockid:事件中的方块类型, eventworldid:事件中的星球}
+--- @field BlockContainerChange any @当储存容器内发生改变 {x,y,z:事件中的位置, blockid:事件中的方块类型, itemid:事件中的道具类型, eventworldid:事件中的星球}
+--- @field BlockContainerPutIn any @当储存容器内放入道具 {x,y,z:事件中的位置, blockid:事件中的方块类型, itemid:事件中的道具类型, eventworldid:事件中的星球}
+--- @field BlockContainerTakeOut any @当储存容器内取出道具 {x,y,z:事件中的位置, blockid:事件中的方块类型, itemid:事件中的道具类型, eventworldid:事件中的星球}
+--- @field ObjectPlayAnim any @当此对象播放动画时 {eventobjid:触发事件的对象, actorid:触发事件的生物类型, x,y,z:事件中的位置, anim:事件中的动作, eventworldid:事件中的星球}
+--- @field ObjectCollideByPlayer any @当此角色和任意玩家碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectCollideByMob any @当此角色和任意生物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectCollideByMissile any @当此角色和任意投掷物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectCollideByDropItem any @当此角色和任意掉落物碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectCollideByEntity any @当此角色和任意实体碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectCollideByAreaObj any @当此角色和任意区域碰撞开始 {EventObjType:事件对象类型, ToolObjType:工具对象类型, actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectBeClick any @此角色被玩家点击 {actorid:触发事件的生物类型, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectBeHurt any @当此角色受到伤害 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, hurttype:伤害类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectDie any @当此角色被击败 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectAttack any @当此角色开始攻击 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectAttackHit any @当此角色攻击命中 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectDefeat any @当此角色击败目标 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectDamage any @当此角色造成伤害 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, hurtlv:事件中的伤害值, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectAddBuff any @当此角色获得状态 {buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectRemoveBuff any @当此角色失去状态 {buff:状态数据, buffid:事件中的状态效果, bufflvl:状态等级, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectAttrStateChange any @当此角色权限改变 {attstateType:权限类型, attstateValue:权限值, eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
+--- @field ObjectChangeAttr any @当此角色属性改变 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, playerattr:玩家属性, playerattrval:玩家属性值, eventworldid:事件中星球}
+--- @field ObjectMountActor any @此角色骑乘 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
+--- @field ObjectDismountActor any @此角色取消骑乘 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, targetactorid:事件中的目标生物类型, toobjid:事件中的目标对象, eventworldid:事件中星球}
 local ObjectEvent = {}
 _G.ObjectEvent = ObjectEvent
-
-
 --- @class Timer
 --- 计时器模块管理接口 Timer
 local Timer = {}
@@ -2277,8 +2273,6 @@ end
 function Timer:HideTimerWnd(playerids, timerid)
     return true
 end
-
-
 --- @class Mod
 --- 资源模块管理接口 Mod
 local Mod = {}
@@ -2290,8 +2284,6 @@ _G.Mod = Mod
 function Mod:GetCfgIdByAssetId(assetId)
     return 0
 end
-
-
 --- @class WorldContainer
 --- 世界容器模块管理接口 WorldContainer
 local WorldContainer = {}
@@ -2462,8 +2454,6 @@ end
 function WorldContainer:GetGridAttr(x, y, z, offset, attrType)
     return 0
 end
-
-
 --- @class World
 --- 世界模块管理接口 World
 local World = {}
@@ -2498,6 +2488,16 @@ end
 --- @return boolean @操作是否成功
 function World:PlayParticle(pos, particleIdArg, ptimeArg, scale)
     return true
+end
+
+--- 获取指定位置的光照强度
+--- @param x number @位置坐标x
+--- @param y number @位置坐标y
+--- @param z number @位置坐标z
+--- @param worldId? number @星球ID(可选)
+--- @return number @光照强度(0~16)，失败为-1
+function World:GetLightByPos(x, y, z, worldId)
+    return 0
 end
 
 --- 生成生物(包括怪物、NPC、动物等)
@@ -2632,6 +2632,12 @@ end
 --- @param z number @位置坐标z
 --- @return number @可创建的Y轴位置(不可创建返回0)
 function World:CanMobSpawnOnPosXZ(x, y, z)
+    return 0
+end
+
+--- 获取主机所在星球ID
+--- @return number @星球ID
+function World:GetHostWorldId()
     return 0
 end
 
@@ -2795,6 +2801,14 @@ function World:SetSkyBoxAttr(timeType, attrType, value)
     return true
 end
 
+--- 设置天空盒属性参数(不带时间维度，直接作用于当前配置)
+--- @param attrType number @属性类型(SkyboxAttr)
+--- @param value number @参数值(0~100)
+--- @return boolean @是否设置成功
+function World:SetSkyBoxAttrWithNoTime(attrType, value)
+    return true
+end
+
 --- 设置天空盒滤镜参数
 --- @param uin number @玩家ID
 --- @param filterType number @滤镜类型
@@ -2833,6 +2847,26 @@ end
 --- @return boolean @操作是否成功
 function World:SetSkyBoxFilterAnim(uin, filterType, value, easingType, time)
     return true
+end
+
+--- 获取本地设备时间的指定字段
+--- @param enum number @枚举值(EventDate)
+--- @return number @时间值
+function World:GetLocalDate(enum)
+    return 0
+end
+
+--- 获取完整本地设备时间字符串
+--- @return string @时间字符串
+function World:GetLocalDateString()
+    return ''
+end
+
+--- 获取服务器时间的指定字段(云服模式下会回退到本地时间)
+--- @param enum number @枚举值(EventDate)
+--- @return number @时间值(取不到返回0)
+function World:GetServerDate(enum)
+    return 0
 end
 
 --- 获取对象到某个方向上的射线检测目标
@@ -3006,6 +3040,17 @@ function World:GetGameMode()
     return 0
 end
 
+--- 设置指定位置的方块光照强度(<1.50+>)
+--- @param x number @位置坐标x
+--- @param y number @位置坐标y
+--- @param z number @位置坐标z
+--- @param value number @光照强度(0~15)
+--- @param worldId? number @星球ID(可选)
+--- @return boolean @是否设置成功
+function World:SetLightByPos(x, y, z, value, worldId)
+    return true
+end
+
 --- 获取XZ位置上是否加载了区块
 --- @param x number @位置坐标x
 --- @param z number @位置坐标z
@@ -3029,7 +3074,6 @@ end
 function World:GetDateFromTime(number, enum)
     return 0
 end
-
 --- 回调设置kv数据
 --- @param varId string @排行榜/排行榜变量ID
 --- @param playerId number @玩家uin(全局变量传nil)
@@ -3202,8 +3246,6 @@ end
 function Data.Map:GetRangeIndexsAndCallback(varId, playerId, min, max, ascending, pagesize, callback)
     return true
 end
-
-
 --- @class Block
 --- 方块模块管理接口 Block
 local Block = {}
@@ -3213,8 +3255,9 @@ _G.Block = Block
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否为固体方块
-function Block:IsSolidBlock(x, y, z)
+function Block:IsSolidBlock(x, y, z, worldId)
     return true
 end
 
@@ -3222,8 +3265,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否为液体方块
-function Block:IsLiquidBlock(x, y, z)
+function Block:IsLiquidBlock(x, y, z, worldId)
     return true
 end
 
@@ -3231,8 +3275,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否为空气方块
-function Block:IsAirBlock(x, y, z)
+function Block:IsAirBlock(x, y, z, worldId)
     return true
 end
 
@@ -3240,62 +3285,60 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return number @方块类型ID
-function Block:GetBlockID(x, y, z)
+function Block:GetBlockID(x, y, z, worldId)
     return 0
-end
-
---- 设置位置方块数据
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
---- @param blockid number @方块ID
---- @param data number @方块朝向等数据
---- @return boolean @操作是否成功
-function Block:SetBlockAll(x, y, z, blockid, data)
-    return true
 end
 
 --- 摧毁方块
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
---- @param dropItem boolean @是否掉落物品(缺省参数)
+--- @param dropItem? boolean @是否掉落物品(缺省参数，默认false)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
+--- @param btrigger? boolean @是否触发方块事件(缺省参数，默认true)
 --- @return boolean @操作是否成功
-function Block:DestroyBlock(x, y, z, dropItem)
+function Block:DestroyBlock(x, y, z, dropItem, worldId, btrigger)
     return true
 end
 
 --- 放置方块
---- @param blockid number @方块ID
+--- @param blockId number|string @方块ID
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
 --- @param dir number @方块方向
---- @param color number @十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+--- @param color? number @HEX颜色值(0XFFFFFF，颜色方块类型才生效，默认-1)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
+--- @param btrigger? boolean @是否触发方块事件(缺省参数，默认true)
 --- @return boolean @操作是否成功
-function Block:PlaceBlock(blockid, x, y, z, dir, color)
+function Block:PlaceBlock(blockId, x, y, z, dir, color, worldId, btrigger)
     return true
 end
 
---- 替换方块
---- @param blockid number @新方块ID
+--- 替换指定位置的方块 (支持颜色方块)
+--- @param blockId number|string @新方块ID
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
---- @param color number @十六进制颜色值(0XFFFFFF 颜色方块类型才生效)
+--- @param face? number @朝向 (默认为0)
+--- @param color? number @HEX颜色值(0XFFFFFF，颜色方块类型才生效，默认-1)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
+--- @param btrigger? boolean @是否触发方块事件(缺省参数，默认true)
 --- @return boolean @操作是否成功
-function Block:ReplaceBlock(blockid, x, y, z, color)
+function Block:ReplaceBlock(blockId, x, y, z, face, color, worldId, btrigger)
     return true
 end
 
---- 设置blockalldata 更新当前位置方块
+--- 设置指定位置方块的 data 数据 (更新当前位置方块)
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
 --- @param data number @方块数据
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:SetBlockData(x, y, z, data)
+function Block:SetBlockData(x, y, z, data, worldId)
     return true
 end
 
@@ -3303,8 +3346,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return number @方块数据值
-function Block:GetBlockData(x, y, z)
+function Block:GetBlockData(x, y, z, worldId)
     return 0
 end
 
@@ -3312,8 +3356,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
---- @return number @方块朝向
-function Block:GetBlockDir(x, y, z)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
+--- @return number @方块朝向 (FaceDir枚举)
+function Block:GetBlockDir(x, y, z, worldId)
     return 0
 end
 
@@ -3321,30 +3366,29 @@ end
 --- @param pos table @位置坐标表{x=x, y=y, z=z}
 --- @param animid number|string @动作id
 --- @param speed number @播放速度
---- @param animmode number @动画模式
+--- @param animMode number @动画模式 (AnimMode枚举)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:PlayAnim(pos, animid, speed, animmode)
+function Block:PlayAnim(pos, animid, speed, animMode, worldId)
     return true
 end
 
---- 设置方块设置属性状态
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
---- @param attrtype number @方块属性类型
+--- 设置方块设置属性状态 (全局设置)
+--- @param blockId number|string @方块ID
+--- @param attrType number @方块属性类型 (BlockLimits)
 --- @param switch boolean @是否开关
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:SetBlockSettingAttState(x, y, z, attrtype, switch)
+function Block:SetBlockSettingAttState(blockId, attrType, switch, worldId)
     return true
 end
 
---- 获取方块设置属性状态
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
---- @param attrtype number @方块属性类型
+--- 获取方块设置属性状态 (全局设置)
+--- @param blockId number|string @方块ID
+--- @param attrType number @方块属性类型
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否开启
-function Block:GetBlockSettingAttState(x, y, z, attrtype)
+function Block:GetBlockSettingAttState(blockId, attrType, worldId)
     return true
 end
 
@@ -3352,8 +3396,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否开启
-function Block:GetBlockSwitchStatus(x, y, z)
+function Block:GetBlockSwitchStatus(x, y, z, worldId)
     return true
 end
 
@@ -3361,8 +3406,9 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @是否开启
-function Block:GetBlockPowerStatus(x, y, z)
+function Block:GetBlockPowerStatus(x, y, z, worldId)
     return true
 end
 
@@ -3373,24 +3419,20 @@ function Block:RandomBlockID()
 end
 
 --- 获取方块名称
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
+--- @param blockId number|string @方块ID
 --- @return string @方块名称
-function Block:GetBlockDefName(x, y, z)
+function Block:GetBlockDefName(blockId)
     return ""
 end
 
 --- 获取方块描述
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
+--- @param blockId number|string @方块ID
 --- @return string @方块描述
-function Block:GetBlockDefDesc(x, y, z)
+function Block:GetBlockDefDesc(blockId)
     return ""
 end
 
---- 放置蓝图
+--- 放置蓝图 (未支持多星球)
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
@@ -3407,9 +3449,10 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
---- @param process number @裂纹进度
+--- @param process number @裂纹进度 (`-1` ~ `10`)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:PlayCrackEffect(x, y, z, process)
+function Block:PlayCrackEffect(x, y, z, process, worldId)
     return true
 end
 
@@ -3417,24 +3460,25 @@ end
 --- @param x number @方块位置的X坐标
 --- @param y number @方块位置的Y坐标
 --- @param z number @方块位置的Z坐标
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:PlayDestroyEffect(x, y, z)
+function Block:PlayDestroyEffect(x, y, z, worldId)
     return true
 end
 
 --- 获取方块掉落物信息
---- @param blockid number @方块ID
---- @param itype number @类型(1手持敲方块,2手持道具正确,3手持道具不正确)
---- @return table @返回掉落道具信息{itemid, itemnum, odds} 道具ID,数量,概率
-function Block:GetBlockDropItemType(blockid, itype)
+--- @param blockId number|string @方块ID
+--- @param iType number @类型 (1手持敲方块, 2手持道具正确, 3手持道具不正确)
+--- @return table @返回掉落道具信息 {itemid:道具ID, itemnum:数量, odds:概率}
+function Block:GetBlockDropItemType(blockId, iType)
     return {}
 end
 
 --- 获取方块的采集经验
---- @param blockid number @方块ID
---- @param itype number @采集类型
+--- @param blockId number|string @方块ID
+--- @param iType number @采集类型
 --- @return number @经验值
-function Block:GetBlockDropExp(blockid, itype)
+function Block:GetBlockDropExp(blockId, iType)
     return 0
 end
 
@@ -3443,18 +3487,9 @@ end
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
 --- @param color number @颜色值
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:SetBlockColor(x, y, z, color)
-    return true
-end
-
---- 设置方块开关状态
---- @param x number @位置坐标x
---- @param y number @位置坐标y
---- @param z number @位置坐标z
---- @param state boolean @开关状态
---- @return boolean @操作是否成功
-function Block:SetBlockSwichState(x, y, z, state)
+function Block:SetBlockColor(x, y, z, color, worldId)
     return true
 end
 
@@ -3462,30 +3497,40 @@ end
 --- @param x number @位置坐标x
 --- @param y number @位置坐标y
 --- @param z number @位置坐标z
---- @param dir number @方块方向
+--- @param dir number @方块方向 (FaceDir枚举)
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
 --- @return boolean @操作是否成功
-function Block:SetBlockDir(x, y, z, dir)
+function Block:SetBlockDir(x, y, z, dir, worldId)
     return true
 end
 
 --- 获取方块类型外观
---- @param blockid number|string @方块类型ID或方块预制ID
+--- @param blockId number|string @方块类型ID或方块预制ID
 --- @return string @方块类型外观
-function Block:GetFacade(blockid)
+function Block:GetFacade(blockId)
     return ""
 end
 
---- 设置方块纹理颜色
---- @param blockid number @方块ID
+--- 设置方块纹理颜色 (仅支持草块、土块、树叶、花草等方块，其它方块暂不支持；设置后不会存档；玩法转编辑后需要重进地图才可还原)
+--- @param blockId number|string @方块ID
 --- @param color number @颜色值(0:还原默认颜色)
 --- @param alpha number @混合比例(0-100)
---- @param slotindex number @材质槽索引(默认1)
+--- @param slotindex? number @材质槽索引 (默认1)
 --- @return boolean @操作是否成功
-function Block:SetBlockTextureColor(blockid, color, alpha, slotindex)
+function Block:SetBlockTextureColor(blockId, color, alpha, slotindex)
     return true
 end
 
-
+--- 设置指定位置功能方块的开关状态
+--- @param x number @位置坐标x
+--- @param y number @位置坐标y
+--- @param z number @位置坐标z
+--- @param isActive boolean @开关状态
+--- @param worldId? number|nil @星球ID(缺省参数，默认当前主机所在星球)
+--- @return boolean @操作是否成功
+function Block:SetBlockSwitchStatus(x, y, z, isActive, worldId)
+    return true
+end
 --- @class GameObject
 --- 对象模块管理接口 - GameObject
 local GameObject = {}
@@ -3560,8 +3605,6 @@ end
 function GetObjectPrefab(objId)
     return "" or 0, 0
 end
-
-
 --- @class Actor
 --- 角色模块管理接口 Actor
 local Actor = {}
@@ -4132,7 +4175,56 @@ function Actor:IsPlayer(objId)
     return true
 end
 
+--- 检测指定对象是否具有指定标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param matchmode number @匹配方式(MatchMode)
+--- @param bexactmatch boolean @每条标签是否精确匹配
+--- @return boolean @是否具有标签
+function Actor:HasTags(objid, tags, matchmode, bexactmatch)
+    return false
+end
 
+--- 获取指定对象的所有标签列表
+--- @param objid number @对象ID
+--- @return table|nil @标签数组(失败返回nil)
+function Actor:GetTags(objid)
+    return {}
+end
+
+--- 为指定对象添加标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param icount number @引用计数(默认1)
+--- @return boolean @是否添加成功
+function Actor:AddTags(objid, tags, icount)
+    return true
+end
+
+--- 从指定对象删除标签
+--- @param objid number @对象ID
+--- @param tags string|table @标签或标签数组
+--- @param icount number @引用计数(默认0，传0全部删除)
+--- @return boolean @是否删除成功
+function Actor:RemoveTags(objid, tags, icount)
+    return true
+end
+
+--- 清空指定对象的所有标签
+--- @param objid number @对象ID
+--- @return boolean @是否清空成功
+function Actor:ClearTags(objid)
+    return true
+end
+
+--- 使对象A播放对象B的动作(仅玩家、生物和实体生效)
+--- @param objidA number @对象ID A
+--- @param objidB number @对象ID B
+--- @param breplay boolean @是否重新播放(默认false)
+--- @return boolean @是否播放成功
+function Actor:PlayAnimByObj(objidA, objidB, breplay)
+    return true
+end
 --- @class Player
 --- 玩家模块管理接口 Player
 local Player = {}
@@ -4727,6 +4819,119 @@ function Player:RotateMainModel(playerId, yaw, pitch)
     return true
 end
 
+--- 获取本地玩家迷你币数量 (阻塞等待函数)
+--- @param objId number @玩家对象ID
+--- @param iType number @币种类型 (MiniCurrency)
+--- @return number @货币数量
+function Player:GetMiniCurrency(objId, iType)
+    return 0
+end
+--- @class Monster
+--- 生物模块管理接口 Monster
+local Monster = {}
+_G.Monster = Monster
+
+--- 获取生物类型ID
+--- @param objid number @对象ID
+--- @return number @生物类型ID
+function Monster:GetActorID(objid)
+    return 0
+end
+
+--- 获取生物类型名称
+--- @param objId number @对象ID
+--- @return string @生物类型名称
+function Monster:GetActorName(objId)
+    return ""
+end
+
+--- 替换生物
+--- @param objId number @原生物对象ID
+--- @param newactorId number @新生物类型ID
+--- @return number @新生物对象ID
+function Monster:ReplaceActor(objId, newactorId)
+    return 0
+end
+
+--- 获取生物击杀掉落经验
+--- @param actorId number @生物类型ID
+--- @return number @击杀掉落经验值
+function Monster:GetMonsterDefLevelExp(actorId)
+    return 0
+end
+
+--- 设置生物击杀掉落经验
+--- @param actorId number @生物类型ID
+--- @param exp number @经验值
+--- @return boolean @操作是否成功
+function Monster:SetMonsterDefLevelExp(actorId, exp)
+    return true
+end
+
+--- 切换Ai行为树
+--- @param objid number @生物对象ID
+--- @param treeid number|string @行为树ID
+--- @return boolean @操作是否成功
+function Monster:ChangeAI(objid, treeid)
+    return true
+end
+
+--- 怪物对目标是否可见
+--- @param objId number @怪物对象ID
+--- @param targetUin number @目标玩家uin
+--- @return boolean @是否可见
+function Monster:CanSee(objId, targetUin)
+    return true
+end
+
+--- 获取生物的掉落物信息
+--- @param actorId number @生物类型ID
+--- @return table @掉落物信息表，包含道具ID、数量、概率
+function Monster:GetDropItemInfo(actorId)
+    return {}
+end
+
+--- 设置生物A被玩家驯服
+--- @param objId number @生物对象ID
+--- @param playerUin number @玩家uin
+--- @return boolean @操作是否成功
+function Monster:SetTameTarget(objId, playerUin)
+    return true
+end
+
+--- 随机获取一个生物类型ID
+--- @return number @随机生物类型ID
+function Monster:RandomActorID()
+    return 0
+end
+
+--- 获取驯养主ID
+--- @param objId number @生物对象ID
+--- @return number @驯养主ID
+function Monster:GetTamedOwnerID(objId)
+    return 0
+end
+
+--- 获取生物类型外观
+--- @param monsterId number|string @生物定义ID或生物预制ID
+--- @return any @生物外观模型信息
+function Monster:GetFacade(monsterId)
+    return nil
+end
+
+--- 获取生物定义中的标签组
+--- @param actorId number|string @生物类型ID
+--- @return table|nil @标签组信息
+function Monster:GetTags(actorId)
+    return {}
+end
+
+--- 获取生物名称
+--- @param actorId number|string @生物类型ID
+--- @return string|nil @生物名称
+function Monster:GetMonsterDefName(actorId)
+    return ""
+end
 --- @class Area
 --- 区域模块管理接口 Area
 local Area = {}
@@ -4981,8 +5186,6 @@ end
 function Area:GetRelativeActors(posbeg, posend, uin, relativing, actortype)
     return 0, {}
 end
-
-
 --- @class Buff
 --- 状态模块管理接口 Buff
 local Buff = {}
@@ -5083,8 +5286,6 @@ end
 function Buff:ReplaceBuff(objid, buffsrc, buffsrclv, buffdst, buffdstlv, customticks)
     return true
 end
-
-
 --- @class Item
 --- 道具模块管理接口 Item
 local Item = {}
@@ -5349,8 +5550,6 @@ end
 function Item:GetTags(itemId)
     return {}
 end
-
-
 --- @class Backpack
 --- 背包模块管理接口 Backpack
 local Backpack = {}
@@ -5704,8 +5903,6 @@ end
 function Backpack:SetGridAttr(playerid, gridid, attr, value)
     return true
 end
-
-
 --- @class Chat
 --- 消息模块管理接口 - Chat
 local Chat = {}
@@ -5720,8 +5917,6 @@ _G.Chat = Chat
 function Chat:SendSystemMsg(content, playerId)
     return true
 end
-
-
 ---@class CustomUI
 ---界面模块管理接口 - CustomUI
 local CustomUI = {}
@@ -6066,18 +6261,6 @@ function CustomUI:SetLoaderModelPosition(playerId, uiId, elementId, x, y, z)
     return true
 end
 
----设置装载器的模型动画
----@return boolean @成功返回True, 失败返回False
----@param playerId number @玩家ID
----@param uiId string @界面ID
----@param elementId string @元件ID
----@param animId number @动画ID
----@param playMode number @播放模式枚举(AnimMode)
----@param spend number @播放速度(0-1)
-function CustomUI:SetLoaderModelAnim(playerId, uiId, elementId, animId, playMode, spend)
-    return true
-end
-
 ---滑动列表跳转到某位置
 ---@return boolean @成功返回True, 失败返回False
 ---@param playerId number @玩家ID
@@ -6331,7 +6514,30 @@ function CustomUI:SetBeaconRadius(playerId, uiId, elementId, radius)
     return true
 end
 
+--- 设置信标矩形限制范围
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param rectMinX number @矩形范围最小X坐标
+--- @param rectMinY number @矩形范围最小Y坐标
+--- @param rectMaxX number @矩形范围最大X坐标
+--- @param rectMaxY number @矩形范围最大Y坐标
+--- @return boolean @成功返回True, 失败返回False
+function CustomUI:SetBeaconMargin(playerId, uiId, elementId, rectMinX, rectMinY, rectMaxX, rectMaxY)
+    return true
+end
 
+--- 设置装载器元件模型播放的动画
+--- @param playerId number @玩家ID
+--- @param uiId string @界面ID
+--- @param elementId string @元件ID
+--- @param animId number @动画ID
+--- @param playMode number @播放模式枚举(`AnimMode`)
+--- @param speed number @动画播放速度(`0` ~ `1`)
+--- @return boolean @成功返回True, 失败返回False
+function CustomUI:SetLoaderModelAct(playerId, uiId, elementId, animId, playMode, speed)
+    return true
+end
 --- @class Graphics
 --- 图形界面模块管理接口 Graphics
 local Graphics = {}
@@ -6390,6 +6596,17 @@ function Graphics:MakeGraphicsLineToPos(x, y, z, size, color, apha)
     return {}
 end
 
+--- 生成指向位置的寻路引导线数据
+--- @param x number @方块坐标x
+--- @param y number @方块坐标y
+--- @param z number @方块坐标z
+--- @param itype number @线ID
+--- @param tCanSeePlayers? table @可见玩家列表(可选)
+--- @return table @寻路线信息内容
+function Graphics:MakeGraphicsNavPathToPos(x, y, z, itype, tCanSeePlayers)
+    return {}
+end
+
 --- 生成指向位置的面数据
 --- @param x number @方块坐标x
 --- @param y number @方块坐标y
@@ -6403,32 +6620,32 @@ function Graphics:MakeGraphicsSurfaceToPos(x, y, z, size, color, apha)
 end
 
 --- 生成指向对象的箭头数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @箭头信息内容
-function Graphics:MakeGraphicsArrowToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsArrowToActor(objId, size, color, apha)
     return {}
 end
 
 --- 生成指向对象的线数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @线信息内容
-function Graphics:MakeGraphicsLineToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsLineToActor(objId, size, color, apha)
     return {}
 end
 
 --- 生成指向对象的面数据
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param size number @缩放值
 --- @param color string @颜色值(十六进制)
 --- @param apha number @不透明度
 --- @return table @面信息内容
-function Graphics:MakeGraphicsSurfaceToActor(objid, size, color, apha)
+function Graphics:MakeGraphicsSurfaceToActor(objId, size, color, apha)
     return {}
 end
 
@@ -6455,12 +6672,12 @@ function Graphics:CreateGraphicsTxtByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建文字板
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return number @图文实例ID
-function Graphics:CreateGraphicsTxtByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsTxtByActor(objId, info, offset, distance)
     return 0
 end
 
@@ -6477,12 +6694,12 @@ function Graphics:CreateflotageTextByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建漂浮文字
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return number @图文实例ID
-function Graphics:CreateflotageTextByActor(objid, info, offset, distance)
+function Graphics:CreateflotageTextByActor(objId, info, offset, distance)
     return 0
 end
 
@@ -6499,12 +6716,12 @@ function Graphics:CreateGraphicsProgressByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物身上创建进度条
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsProgressByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsProgressByActor(objId, info, offset, distance)
     return true
 end
 
@@ -6520,11 +6737,11 @@ function Graphics:RemoveGraphicsByPos(x, y, z, graphid, graphType)
 end
 
 --- 删除生物的图文信息
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param graphid number @图文ID
 --- @param graphType number @图文类型
 --- @return boolean @操作是否成功
-function Graphics:RemoveGraphicsByObjID(objid, graphid, graphType)
+function Graphics:RemoveGraphicsByObjID(objId, graphid, graphType)
     return true
 end
 
@@ -6538,23 +6755,33 @@ function Graphics:UpdateGraphicsTextById(graphid, title, fontsize, apha)
     return true
 end
 
+--- 按实例ID更新进度条图文的当前值/最大值
+--- @param graphId number @图文实例ID
+--- @param val1 number @当前值
+--- @param val2 number @最大值
+--- @param isync? boolean @是否同步到客机(可选)
+--- @return boolean @是否更新成功
+function Graphics:UpdateGraphicsProgressById(graphId, val1, val2, isync)
+    return true
+end
+
 --- 创建生物指向位置的箭头
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsArrowByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsArrowByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建生物指向生物的箭头
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsArrowByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsArrowByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -6575,22 +6802,32 @@ function Graphics:CreateGraphicsArrowByPosToActor(pos, info)
 end
 
 --- 创建生物与位置的线
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsLineByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsLineByActorToPos(objId, info, offset, distance)
+    return true
+end
+
+--- 创建生物到位置的寻路引导线
+--- @param objId number @对象ID
+--- @param info table @图文信息(含pos、id、tCanSeePlayers等)
+--- @param offset table @方向偏移距离{x=x, y=y, z=z}
+--- @param distance number @偏移距离
+--- @return boolean @是否创建成功
+function Graphics:CreateGraphicsNavPathByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建指向生物的线
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsLineByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsLineByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -6611,22 +6848,22 @@ function Graphics:CreateGraphicsLineByPosToActor(pos, info)
 end
 
 --- 创建生物与位置的面
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsSurfaceByActorToPos(objid, info, offset, distance)
+function Graphics:CreateGraphicsSurfaceByActorToPos(objId, info, offset, distance)
     return true
 end
 
 --- 创建生物与生物的引导面
---- @param srcObjid number @源对象ID
+--- @param srcobjId number @源对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @操作是否成功
-function Graphics:CreateGraphicsSurfaceByActorToActor(srcObjid, info, offset, distance)
+function Graphics:CreateGraphicsSurfaceByActorToActor(srcobjId, info, offset, distance)
     return true
 end
 
@@ -6647,10 +6884,10 @@ function Graphics:CreateGraphicsSurfaceByPosToActor(pos, info)
 end
 
 --- 将src相关的所有图文信息转移到des身上
---- @param srcObjid number @源对象ID
---- @param desObjid number @目标对象ID
+--- @param srcobjId number @源对象ID
+--- @param desobjId number @目标对象ID
 --- @return boolean @是否成功
-function Graphics:ReplaceAllGraphics(srcObjid, desObjid)
+function Graphics:ReplaceAllGraphics(srcobjId, desobjId)
     return true
 end
 
@@ -6667,21 +6904,21 @@ function Graphics:CreateGraphicsImageByPos(x, y, z, info, x2, y2)
 end
 
 --- 在生物上创建图像
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param info table @图文信息
 --- @param offset table @方向偏移距离{x=x, y=y, z=z}
 --- @param distance number @偏移距离
 --- @return boolean @是否成功
-function Graphics:CreateGraphicsImageByActor(objid, info, offset, distance)
+function Graphics:CreateGraphicsImageByActor(objId, info, offset, distance)
     return true
 end
 
 --- 获取玩家昵称或称号的偏移高度
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param nameType number @名称类型
 --- @param callback function @回调函数
 --- @return number @高度值(未展示返回0)
-function Graphics:GetInnerGraphicsOffset(objid, nameType, callback)
+function Graphics:GetInnerGraphicsOffset(objId, nameType, callback)
     return 0
 end
 
@@ -6702,97 +6939,4 @@ end
 --- @return boolean @操作是否成功
 function Graphics:RemoveGraphicsByGraphicsID(objId)
     return true
-end
-
---- @class Monster
---- 生物模块管理接口 Monster
-local Monster = {}
-_G.Monster = Monster
-
---- 获取生物类型ID
---- @param objid number @对象ID
---- @return number @生物类型ID
-function Monster:GetActorID(objid)
-    return 0
-end
-
---- 获取生物类型名称
---- @param objId number @对象ID
---- @return string @生物类型名称
-function Monster:GetActorName(objId)
-    return ""
-end
-
---- 替换生物
---- @param objId number @原生物对象ID
---- @param newActorId number @新生物类型ID
---- @return number @新生物对象ID
-function Monster:ReplaceActor(objId, newActorId)
-    return 0
-end
-
---- 获取生物击杀掉落经验
---- @param actorId number @生物类型ID
---- @return number @击杀掉落经验值
-function Monster:GetMonsterDefLevelExp(actorId)
-    return 0
-end
-
---- 设置生物击杀掉落经验
---- @param actorId number @生物类型ID
---- @param exp number @经验值
---- @return boolean @操作是否成功
-function Monster:SetMonsterDefLevelExp(actorId, exp)
-    return true
-end
-
---- 切换Ai行为树
---- @param objid number @生物对象ID
---- @param treeid number|string @行为树ID
---- @return boolean @操作是否成功
-function Monster:ChangeAI(objid, treeid)
-    return true
-end
-
---- 怪物对目标是否可见
---- @param objId number @怪物对象ID
---- @param targetUin number @目标玩家uin
---- @return boolean @是否可见
-function Monster:CanSee(objId, targetUin)
-    return true
-end
-
---- 获取生物的掉落物信息
---- @param actorId number @生物类型ID
---- @return table @掉落物信息表，包含道具ID、数量、概率
-function Monster:GetDropItemInfo(actorId)
-    return {}
-end
-
---- 设置生物A被玩家驯服
---- @param objId number @生物对象ID
---- @param playerUin number @玩家uin
---- @return boolean @操作是否成功
-function Monster:SetTameTarget(objId, playerUin)
-    return true
-end
-
---- 随机获取一个生物类型ID
---- @return number @随机生物类型ID
-function Monster:RandomActorID()
-    return 0
-end
-
---- 获取驯养主ID
---- @param objId number @生物对象ID
---- @return number @驯养主ID
-function Monster:GetTamedOwnerID(objId)
-    return 0
-end
-
---- 获取生物类型外观
---- @param monsterid number|string @生物定义ID或生物预制ID
---- @return any @生物外观模型信息
-function Monster:GetFacade(monsterid)
-    return nil
 end
