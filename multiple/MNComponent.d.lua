@@ -134,8 +134,8 @@ end
 --- ```
 --- @param callback function @回调函数
 --- @param interval number @间隔时间(秒)
---- @param delay number @延迟开始第一次执行时间(默认0)
---- @param count number @执行次数(默认无限次)
+--- @param delay? number @延迟开始第一次执行时间(默认0)
+--- @param count? number @执行次数(默认无限次)
 --- @return nil @定时器任务对象
 function Component:DoPeriodicTask(callback, interval, delay, count)
     return nil

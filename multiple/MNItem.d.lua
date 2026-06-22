@@ -4,9 +4,9 @@ local Item = {}
 _G.Item = Item
 
 --- 获取道具名称
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return string @道具名称
-function Item:GetItemName(itemid)
+function Item:GetItemName(itemId)
     return ""
 end
 
@@ -23,70 +23,70 @@ function Item:RandomProjectileID()
 end
 
 --- 获取道具属性
---- @param itemid number|string @道具ID
---- @param attrtype number @属性类型
+--- @param itemId number|string @道具ID
+--- @param attrType number @属性类型
 --- @return number @属性值
-function Item:GetAttr(itemid, attrtype)
+function Item:GetAttr(itemId, attrType)
     return 0
 end
 
 --- 获取道具描述
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return string @道具描述
-function Item:GetItemDesc(itemid)
+function Item:GetItemDesc(itemId)
     return ""
 end
 
 --- 获取自定义枪械的属性(仅自定义枪械有效)
---- @param itemid number|string @道具ID
---- @param attrname string @属性名称
+--- @param itemId number|string @道具ID
+--- @param attrName string @属性名称
 --- @return any @属性值
-function Item:GetCustomGunAttr(itemid, attrname)
+function Item:GetCustomGunAttr(itemId, attrName)
     return nil
 end
 
 --- 获取道具配方的数量
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return number @配方数量
-function Item:GetCraftIDNum(itemid)
+function Item:GetCraftIDNum(itemId)
     return 0
 end
 
 --- 获取道具的配方材料和数量
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param index number @配方索引
 --- @return table @配方材料表{{材料ID, 数量}, ...}
-function Item:GetCraftMaterialAndNum(itemid, index)
+function Item:GetCraftMaterialAndNum(itemId, index)
     return {}
 end
 
 --- 获取道具类型外观
---- @param itemid number|string @道具类型ID或道具预制ID
+--- @param itemId number|string @道具类型ID或道具预制ID
 --- @return string @道具类型外观
-function Item:GetFacade(itemid)
+function Item:GetFacade(itemId)
     return ""
 end
 
 --- 在位置上创建道具实例的掉落物
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param pos table @掉落物位置{x=0, y=0, z=0}
 --- @return number @掉落物对象ID
-function Item:CreateItemInstInWorld(itemid, pos)
+function Item:CreateItemInstInWorld(itemId, pos)
     return 0
 end
 
 --- 在位置上创建枪械道具实例的掉落物
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param pos table @掉落物位置
 --- @return number @掉落物对象ID
-function Item:CreateGunInWorld(itemid, pos)
+function Item:CreateGunInWorld(itemId, pos)
     return 0
 end
 
 --- 获取装备道具所对应的装备栏
---- @param itemid number|string @装备道具ID
+--- @param itemId number|string @装备道具ID
 --- @return number @装备栏位置(BackpackBeginIndex.Equip + EquipSlotType)
-function Item:GetEquipItemGridID(itemid)
+function Item:GetEquipItemGridID(itemId)
     return 0
 end
 
@@ -102,7 +102,7 @@ end
 --- 获取枪械道具实例的属性
 --- @param instId number @道具实例ID
 --- @param key string @属性键
---- @return any @属性值(number|string|bool|nil)
+--- @return any @属性值
 function Item:GetGunAttribute(instId, key)
     return nil
 end
@@ -110,7 +110,7 @@ end
 --- 获取枪预制的属性
 --- @param instId number @道具实例ID
 --- @param key string @属性键
---- @return any @属性值(number|string|bool|nil)
+--- @return any @属性值
 function Item:GetGunPrefabAttribute(instId, key)
     return nil
 end
@@ -165,7 +165,7 @@ function Item:SetStringCustomData(instId, key, value)
     return true
 end
 
---- 设置道具实例的自定义数据bool
+--- 设置道具实例的自定义数据boolean
 --- @param instId number @道具实例ID
 --- @param key string @数据键
 --- @param value boolean @布尔值

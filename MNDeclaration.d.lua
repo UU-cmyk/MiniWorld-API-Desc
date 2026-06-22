@@ -79,7 +79,6 @@ os = os
 function os.timeMs()
     return 0
 end
-
 --- @class Mini @组件属性
 --- @field Number number @数值
 --- @field String number @字符串
@@ -1349,7 +1348,6 @@ end
 function Data:IncreasesValue(varId, playerId, value)
     return nil
 end
-
 --- 更新整个表的数据信息
 --- @param varId string @变量ID
 --- @param playerId? number|nil @玩家uin(全局变量传nil)
@@ -1486,7 +1484,6 @@ end
 function Data.Table:GetTableColKeys(varId)
     return {}
 end
-
 --- 设置组对应索引的值
 --- 
 --- **1.索引值不允许大于数组当前大小**
@@ -1848,8 +1845,8 @@ end
 --- ```
 --- @param callback function @回调函数
 --- @param interval number @间隔时间(秒)
---- @param delay number @延迟开始第一次执行时间(默认0)
---- @param count number @执行次数(默认无限次)
+--- @param delay? number @延迟开始第一次执行时间(默认0)
+--- @param count? number @执行次数(默认无限次)
 --- @return nil @定时器任务对象
 function Component:DoPeriodicTask(callback, interval, delay, count)
     return nil
@@ -3078,7 +3075,7 @@ function World:GetDateFromTime(number, enum)
 end
 --- 回调设置kv数据
 --- @param varId string @排行榜/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值key会转换成字符串）
 --- @param value string|number|boolean @具体值
 --- @param callback function @回调函数
@@ -3089,7 +3086,7 @@ end
 
 --- 阻塞设置kv数据
 --- @param varId string @排行榜/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值key会转换成字符串）
 --- @param value string|number|boolean @具体值
 --- @param call_back function @内部回调(缺省参数)
@@ -3100,9 +3097,9 @@ end
 
 --- 回调删除指定key的数据
 --- @param varId string @排行榜/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值会转换成字符串）
---- @param callback function @回调函数
+--- @param callback? function|nil @回调函数
 --- @return boolean @是否调用成功(非全局云变量建议使用阻塞接口)
 function Data.Map:RemoveValueAndCallBack(varId, playerId, key, callback)
     return true
@@ -3110,17 +3107,17 @@ end
 
 --- 阻塞删除指定key的数据
 --- @param varId string @排行榜/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（小数会向下取整，科学计数法会返回失败）
---- @param call_back function @内部回调(缺省参数)
+--- @param callback? function|nil @内部回调(缺省参数)
 --- @return number,string @错误码,键值
-function Data.Map:RemoveValueAndBlock(varId, playerId, key, call_back)
+function Data.Map:RemoveValueAndBlock(varId, playerId, key, callback)
     return 0, ""
 end
 
 --- 更新指定key的数据
 --- @param varId string @kv表变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值会转换成字符串）
 --- @param value string|number|boolean @具体值
 --- @return boolean @是否成功(全局云KV变量可用)
@@ -3130,7 +3127,7 @@ end
 
 --- 回调获取kv数据
 --- @param varId string @kv/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值会转换成字符串）
 --- @param callback function @回调函数
 --- @return boolean @是否调用成功(非全局云变量建议使用阻塞接口)
@@ -3140,7 +3137,7 @@ end
 
 --- 阻塞获取kv数据
 --- @param varId string @kv/排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（数值会转换成字符串）
 --- @return number,string,string|number|boolean @错误码,键值,具体值
 function Data.Map:GetValueAndBlock(varId, playerId, key)
@@ -3149,7 +3146,7 @@ end
 
 --- 获取排行榜指定排名索引的值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param index number @排名索引
 --- @param ascending boolean @是否升序
 --- @param callback function @回调函数
@@ -3160,7 +3157,7 @@ end
 
 --- 获取排行榜指定排名索引的值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param index number @排名索引
 --- @param ascending boolean @是否升序
 --- @return number,string,any,number,boolean @错误码,键值,具体值,排名索引,是否升序
@@ -3170,7 +3167,7 @@ end
 
 --- 获取排行榜指定前num个值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param num number @数量
 --- @param ascending boolean @是否升序
 --- @param callback function @回调函数
@@ -3181,7 +3178,7 @@ end
 
 --- 获取排行榜值为min~max区间的所有值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param min number @最小值
 --- @param max number @最大值
 --- @param ascending boolean @是否升序
@@ -3194,19 +3191,19 @@ end
 
 --- 阻塞设置排行榜的值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（小数会向下取整，科学计数法会返回失败）
 --- @param value number @数值
 --- @param extendvalue string|number|boolean @附带信息（附带信息只会更新不会删除）
---- @param call_back function @内部回调(缺省参数)
+--- @param callback? function|nil @内部回调(缺省参数)
 --- @return number,string,number @错误码,键值,数值
-function Data.Map:SetRankValueAndBlock(varId, playerId, key, value, extendvalue, call_back)
+function Data.Map:SetRankValueAndBlock(varId, playerId, key, value, extendvalue, callback)
     return 0, "", 0
 end
 
 --- 清空kv表/排行榜
 --- @param varId string @表ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @return boolean @是否成功
 function Data.Map:ClearData(varId, playerId)
     return true
@@ -3214,31 +3211,31 @@ end
 
 --- 阻塞增加排行榜的值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（小数会向下取整，科学计数法会返回失败）
 --- @param value number @数值
 --- @param extendvalue string|number|boolean @附带信息（附带信息只会更新不会删除）
---- @param call_back function @内部回调(缺省参数)
+--- @param callback? function|nil @内部回调(缺省参数)
 --- @return number,string,number @错误码,键值,数值
-function Data.Map:IncreasesRankValueAndBlock(varId, playerId, key, value, extendvalue, call_back)
+function Data.Map:IncreasesRankValueAndBlock(varId, playerId, key, value, extendvalue, callback)
     return 0, "", 0
 end
 
 --- 回调增加排行榜的值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param key string @键值（小数会向下取整，科学计数法会返回失败）
 --- @param value number @数值
 --- @param extendvalue string|number|boolean @附带信息（附带信息只会更新不会删除）
---- @param call_back function @内部回调(缺省参数)
+--- @param callback? function|nil @内部回调(缺省参数)
 --- @return number,string,number @错误码,键值,数值
-function Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, extendvalue, call_back)
+function Data.Map:IncreasesRankValueAndCallback(varId, playerId, key, value, extendvalue, callback)
     return 0, "", 0
 end
 
 --- 获取排行榜排名为min~max区间的所有值
 --- @param varId string @排行榜变量ID
---- @param playerId number @玩家uin(全局变量传nil)
+--- @param playerId? number|nil @玩家uin(全局变量传nil)
 --- @param min number @最小排名
 --- @param max number @最大排名
 --- @param ascending boolean @是否升序
@@ -5194,98 +5191,98 @@ local Buff = {}
 _G.Buff = Buff
 
 --- 给对象附加效果
---- @param objid number @对象ID
---- @param buffid number|string @效果ID
---- @param customticks number @效果持续时间 **(-1表示默认配置，0表示无限)**
---- @return boolean @成功(true)
-function Buff:AddBuff(objid, buffid, customticks)
+--- @param objId number @对象ID
+--- @param buffId number|string @效果ID
+--- @param customticks? number @效果持续时间 **(-1表示默认配置，0表示无限)**
+--- @return boolean @成功返回true，失败返回false
+function Buff:AddBuff(objId, buffId, customticks)
     return true
 end
 
 --- 给对象移除指定效果
---- @param objid number @对象ID
---- @param buffid number|string @效果ID
---- @return boolean @成功(true)
-function Buff:RemoveBuff(objid, buffid)
+--- @param objId number @对象ID
+--- @param buffId number|string @效果ID
+--- @return boolean @成功返回true，失败返回false
+function Buff:RemoveBuff(objId, buffId)
     return true
 end
 
 --- 给对象清除所有效果
---- @param objid number @对象ID
---- @return boolean @成功(true)
-function Buff:ClearAllBuff(objid)
+--- @param objId number @对象ID
+--- @return boolean @成功返回true，失败返回false
+function Buff:ClearAllBuff(objId)
     return true
 end
 
 --- 为对象清除所有负面效果
---- @param objid number @对象ID
---- @return boolean @成功(true)
-function Buff:ClearAllBadBuff(objid)
+--- @param objId number @对象ID
+--- @return boolean @成功返回true，失败返回false
+function Buff:ClearAllBadBuff(objId)
     return true
 end
 
 --- 为对象清除所有有益效果
---- @param objid number @对象ID
---- @return boolean @成功(true)
-function Buff:ClearAllGoodBuff(objid)
+--- @param objId number @对象ID
+--- @return boolean @成功返回true，失败返回false
+function Buff:ClearAllGoodBuff(objId)
     return true
 end
 
 --- 判断对象身上是否有指定效果
---- @param objid number @对象ID
---- @param buffid number|string @效果ID
+--- @param objId number @对象ID
+--- @param buffId number|string @效果ID
 --- @param bufflv number @效果等级
---- @return boolean @成功(true)
-function Buff:HasBuff(objid, buffid, bufflv)
+--- @return boolean @成功返回true，失败返回false
+function Buff:HasBuff(objId, buffId, bufflv)
     return true
 end
 
 --- 获取对象身上效果列表
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @return number, table @效果数量, 效果ID数组
-function Buff:GetBuffList(objid)
+function Buff:GetBuffList(objId)
     return 0, {}
 end
 
 --- 获取对象身上指定效果数量
---- @param objid number @对象ID
---- @param buffid number|string @效果ID
+--- @param objId number @对象ID
+--- @param buffId number|string @效果ID
 --- @return number @数量
-function Buff:GetBuffNumByBuffid(objid, buffid)
+function Buff:GetBuffNumByBuffid(objId, buffId)
     return 0
 end
 
 --- 获取对象身上指定效果剩余时间
---- @param objid number @对象ID
---- @param buffid number|string @效果ID
+--- @param objId number @对象ID
+--- @param buffId number|string @效果ID
 --- @return number @剩余时间 **(秒，0表示永久)**
-function Buff:GetBuffLeftTime(objid, buffid)
+function Buff:GetBuffLeftTime(objId, buffId)
     return 0
 end
 
 --- 获取状态效果名称
---- @param buffid number|string @效果ID
+--- @param buffId number|string @效果ID
 --- @return string @效果名称
-function Buff:GetBuffDefName(buffid)
+function Buff:GetBuffDefName(buffId)
     return ""
 end
 
 --- 获取状态效果描述
---- @param buffid number|string @效果ID
+--- @param buffId number|string @效果ID
 --- @return string @状态效果描述
-function Buff:GetBuffDefDesc(buffid)
+function Buff:GetBuffDefDesc(buffId)
     return ""
 end
 
 --- 替换已有状态
---- @param objid number @对象ID
+--- @param objId number @对象ID
 --- @param buffsrc number|string @源状态ID
 --- @param buffsrclv number @源状态等级
 --- @param buffdst number|string @目标状态
 --- @param buffdstlv number @目标状态等级
 --- @param customticks number @持续时间
---- @return boolean @替换成功 **(true)** 或失败 **(false)**
-function Buff:ReplaceBuff(objid, buffsrc, buffsrclv, buffdst, buffdstlv, customticks)
+--- @return boolean @成功返回true，失败返回false
+function Buff:ReplaceBuff(objId, buffsrc, buffsrclv, buffdst, buffdstlv, customticks)
     return true
 end
 --- @class Item
@@ -5294,9 +5291,9 @@ local Item = {}
 _G.Item = Item
 
 --- 获取道具名称
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return string @道具名称
-function Item:GetItemName(itemid)
+function Item:GetItemName(itemId)
     return ""
 end
 
@@ -5313,70 +5310,70 @@ function Item:RandomProjectileID()
 end
 
 --- 获取道具属性
---- @param itemid number|string @道具ID
---- @param attrtype number @属性类型
+--- @param itemId number|string @道具ID
+--- @param attrType number @属性类型
 --- @return number @属性值
-function Item:GetAttr(itemid, attrtype)
+function Item:GetAttr(itemId, attrType)
     return 0
 end
 
 --- 获取道具描述
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return string @道具描述
-function Item:GetItemDesc(itemid)
+function Item:GetItemDesc(itemId)
     return ""
 end
 
 --- 获取自定义枪械的属性(仅自定义枪械有效)
---- @param itemid number|string @道具ID
---- @param attrname string @属性名称
+--- @param itemId number|string @道具ID
+--- @param attrName string @属性名称
 --- @return any @属性值
-function Item:GetCustomGunAttr(itemid, attrname)
+function Item:GetCustomGunAttr(itemId, attrName)
     return nil
 end
 
 --- 获取道具配方的数量
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @return number @配方数量
-function Item:GetCraftIDNum(itemid)
+function Item:GetCraftIDNum(itemId)
     return 0
 end
 
 --- 获取道具的配方材料和数量
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param index number @配方索引
 --- @return table @配方材料表{{材料ID, 数量}, ...}
-function Item:GetCraftMaterialAndNum(itemid, index)
+function Item:GetCraftMaterialAndNum(itemId, index)
     return {}
 end
 
 --- 获取道具类型外观
---- @param itemid number|string @道具类型ID或道具预制ID
+--- @param itemId number|string @道具类型ID或道具预制ID
 --- @return string @道具类型外观
-function Item:GetFacade(itemid)
+function Item:GetFacade(itemId)
     return ""
 end
 
 --- 在位置上创建道具实例的掉落物
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param pos table @掉落物位置{x=0, y=0, z=0}
 --- @return number @掉落物对象ID
-function Item:CreateItemInstInWorld(itemid, pos)
+function Item:CreateItemInstInWorld(itemId, pos)
     return 0
 end
 
 --- 在位置上创建枪械道具实例的掉落物
---- @param itemid number|string @道具ID
+--- @param itemId number|string @道具ID
 --- @param pos table @掉落物位置
 --- @return number @掉落物对象ID
-function Item:CreateGunInWorld(itemid, pos)
+function Item:CreateGunInWorld(itemId, pos)
     return 0
 end
 
 --- 获取装备道具所对应的装备栏
---- @param itemid number|string @装备道具ID
+--- @param itemId number|string @装备道具ID
 --- @return number @装备栏位置(BackpackBeginIndex.Equip + EquipSlotType)
-function Item:GetEquipItemGridID(itemid)
+function Item:GetEquipItemGridID(itemId)
     return 0
 end
 
@@ -5392,7 +5389,7 @@ end
 --- 获取枪械道具实例的属性
 --- @param instId number @道具实例ID
 --- @param key string @属性键
---- @return any @属性值(number|string|bool|nil)
+--- @return any @属性值
 function Item:GetGunAttribute(instId, key)
     return nil
 end
@@ -5400,7 +5397,7 @@ end
 --- 获取枪预制的属性
 --- @param instId number @道具实例ID
 --- @param key string @属性键
---- @return any @属性值(number|string|bool|nil)
+--- @return any @属性值
 function Item:GetGunPrefabAttribute(instId, key)
     return nil
 end
@@ -5455,7 +5452,7 @@ function Item:SetStringCustomData(instId, key, value)
     return true
 end
 
---- 设置道具实例的自定义数据bool
+--- 设置道具实例的自定义数据boolean
 --- @param instId number @道具实例ID
 --- @param key string @数据键
 --- @param value boolean @布尔值
