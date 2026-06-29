@@ -218,6 +218,10 @@ self:ThreadWork(function()
 end)
 ```
 
+## 模块与包
+
+- UGC 不支持原生的 `require` `module` 语法，无法与C交互
+
 ## UI
 
 - `UI`: `UGCS` 中创建的界面，玩家退出地图时由系统自动回收
@@ -815,5 +819,4 @@ return Script
 
 ### 开放的作用
 
-1. 其他组件可以访问
-2. 触发器可以访问
+其他组件与触发器可以访问

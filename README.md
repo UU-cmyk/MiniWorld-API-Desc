@@ -9,6 +9,7 @@
 ![GitHub forks](https://img.shields.io/github/forks/LK-cmyk/MiniWorld-API-Desc?style=flat)
 ![License](https://img.shields.io/github/license/LK-cmyk/MiniWorld-API-Desc)
 ![Language](https://img.shields.io/github/languages/top/LK-cmyk/MiniWorld-API-Docs)
+![Repo Size](https://img.shields.io/github/repo-size/LK-cmyk/MiniWorld-API-Docs)
 ![Python](https://img.shields.io/badge/python-3.10%2B-yellow)
 
 ## 项目简介
@@ -81,7 +82,7 @@ sequenceDiagram
 
 ## AI 使用提示
 
-- 可将 `MNDeclaration.d.lua` / `AiDesc/MNAiDesc` 与 `AiDesc/UGC.md` 中的内容一起输入 AI，以获得更准确的代码建议
+- 可将 `MNDeclaration.d.lua` / `AiDesc/MNAiDesc.txt` 与 `AiDesc/UGC.md` 中的内容一起输入 AI，以获得更准确的代码建议
 
 ## 工具使用提示
 
