@@ -5,19 +5,16 @@
 - `触发器` 指 `UGC 3.0` 的图形化编程
 - `云服` 指 官方给UGC内容分配的服务器
 - MiniUGC 的 Lua 是基于 Lua5.1 的
+- 具体接口请查看 `MNDeclaration.d.lua`
 
 ## 脚本开头结尾
 
-- 脚本开头 **必须** 写:
+- 脚本开头/结尾 **必须** 写:
 
 ```lua
-local 任意合法标识符 = {}
-```
-
-- 脚本结尾 **必须** 写:
-
-```lua
-return 你开头定义的表
+local Script = {}
+-- 你的代码
+return Script
 ```
 
 ## 脚本入口
@@ -31,17 +28,11 @@ end
 
 - PS: 你的组件表不可设置元表，其他的表可以设置
 
-## goto
+## 其他特性
 
-- 在 MiniUGC 系统中，Lua 是拥有 `goto` 的
-
-## pcall
-
-- 在 MiniUGC 系统中，可使用 `pcall()`
-
-## debug库
-
-- 在 MiniUGC 系统中，`debug` 库已经被精简
+- UGC 拥有 `goto` 语句
+- 可使用 `pcall()`
+- `debug` 库已被精简
 
 ## UGC API调用
 
@@ -142,7 +133,7 @@ self:RemoveEvent(事件枚举常量 或 自定义消息(广播))
 
 ### 事件回调函数
 
-- 事件的回调函数，传参必须只写一个 `event` ( `event` 可以改为任意合法标识符)，`event` 中将会有事件的信息且 `event` 是一个表，**通常不会出现信息有 `nil` 的情况，无需检查 `event` 中的值**，每个事件具体有什么事件信息请参考 `MNDeclaration.d.lua`
+- 回调函数仅需接收一个 `event` 参数（表类型，包含事件信息，可修改为任意合法标识符），通常无 `nil` 无需检查，具体信息请参考 `MNDeclaration.d.lua`
 - 例如:
 
     ```lua
@@ -362,35 +353,27 @@ end)
 
 ## UI
 
-- `UI` 指 `UGCS` 中创建的 `UI`
-- `UI元件` 指 `UI` 中的 `按钮` / `图片` 等元素
-- `UI元件` 类型: `图片` / `按钮` / `滑动容器` / `输入框` / `进度条` / `3D模型加载框` / `文本`
-- `UI元件` 有 `父元件` 与 `子元件` 的概念，当你删除 `父元件` 对应的 `子元件` 也会被删除
-- `UI元件` 有属性的概念
-  - `UI元件` 大多有 `位置X` / `位置Y` / `高` / `宽` / `角度` / `颜色` 等
-  - `图片` & `按钮` 有自己的 `图片` 属性
-  - `滑动容器` 有自己的 `滚动方向` & `滚动条图片` 等属性
-  - `3D模型加载框` 有自己的 `模型` 等属性
-  - `文本` 有自己的 `文本` & `字体描边` & `字体阴影` & `文字水平对齐 (左/中/右)` & `文字垂直对齐 (上/中/下)` 等属性
-- `字体描边` & `字体阴影` & `文字水平对齐 (左/中/右)` & `文字垂直对齐 (上/中/下)` 属性无法通过 `CustomUI API` 修改，官方暂时未开放接口
+- `UI`: `UGCS` 中创建的界面，玩家退出地图时由系统自动回收
+- `UI元件`: `UI` 中的元素（如 `按钮` / `图片` 等），类型包括 `图片` / `按钮` / `滑动容器` / `输入框` / `进度条` / `3D模型加载框` / `文本`
+- `UI元件` 存在 `父/子` 层级，删除 `父元件` 时 `子元件` 也会被删除
+- `字体描边` / `字体阴影` / `文字水平对齐` / `文字垂直对齐` 暂不支持 `CustomUI API` 修改
 
-### UI的ID
+| UI元件 | 属性 |
+| :-: | :-: |
+| 通用 | `位置X` / `位置Y` / `高` / `宽` / `角度` / `颜色` 等 |
+| `图片` & `按钮` | `图片` |
+| `滑动容器` | `滚动方向` / `滚动条图片` 等 |
+| `3D模型加载框` | `模型` 等 |
+| `文本` | `文本` / `字体描边` / `字体阴影` / `文字水平对齐 (左/中/右)` / `文字垂直对齐 (上/中/下)` 等 |
 
-UI的ID为 `一串数字`
+### UI与元件的ID
 
-- 例如: "7618879811305562243-64940"
-
-### 元件的ID
-
-元件的ID为 `UI的ID + _序号`
-
-- 例如: "7618879811305562243-64940_2"
-
-- 当你删除ID为 "7618879811305562243-64940_2" 的元件，再重新创建将不会是这个ID，而是 "7618879811305562243-64940_3"
+- UI的ID为一串数字（如 `"7618879811305562243-64940"`），元件的ID为 `UI的ID + _序号`（如 `"7618879811305562243-64940_2"`）
+- 删除元件后重新创建，其ID序号会递增（如上述元件重建后变为 `"7618879811305562243-64940_3"`）
 
 ### 元件克隆
 
-元件克隆需要使用 `CustomUI` API 中的函数: `CloneElement`
+元件克隆需要使用 `CustomUI API` 中的函数: `CloneElement`
 
 > 详情查看 `MNDeclaration.d.lua` 文件
 
@@ -410,7 +393,7 @@ UI的ID为 `一串数字`
 
 ### 元件创建
 
-元件克隆需要使用 `CustomUI` API 中的函数: `CreateElement`
+元件克隆需要使用 `CustomUI API` 中的函数: `CreateElement`
 
 > 详情查看 `MNDeclaration.d.lua` 文件
 
@@ -418,13 +401,13 @@ UI的ID为 `一串数字`
 
 - 例如: "7618879811305562243-64940_new1"
 
-修改父元件需要使用 `CustomUI` API 中的函数: `ChangeParent`
+修改父元件需要使用 `CustomUI API` 中的函数: `ChangeParent`
 
 > 详情查看 `MNDeclaration.d.lua` 文件
 
 ### 元件属性的设置
 
-> 元件属性需要使用 `CustomUI` API，详情查看 `MNDeclaration.d.lua` 文件
+> 元件属性需要使用 `CustomUI API`，详情查看 `MNDeclaration.d.lua` 文件
 
 ## 日志输出
 
@@ -447,7 +430,6 @@ UI的ID为 `一串数字`
     | 组件变量 | 组件自带的可配置参数 |
 
 - 读取触发器变量需要使用 `Data` / `Array` / `Table` / `Map` API
-- 具体接口请查看 `MNDeclaration.d.lua`
 - 获取触发器变量的ID: 在触发器界面获取
 
 ### 排行榜 & K/V 数据
@@ -502,8 +484,8 @@ graph LR
 2. 地图取消上传，数据将会继续保留30天，如果30天内未重新上传，数据将会彻底清除，无法恢复
 3. 地图开发者主动调取删除接口，或者地图删除，则数据将会彻底清除，无法恢复
 
-- PS: 在联机或单机情况下，该功能只能实现当前地图，当前房间数据的临时存储，房间关闭后数据就会丢失
-- PPS: 验证数据存储的正确性，必须在 **云服环境下（确保在云服房间内）** 才可正确的获取到所存储的数据，在单机或者联机下将无法获取到云服下的全部数据
+> - PS: 在联机或单机情况下，该功能只能实现当前地图，当前房间数据的临时存储，房间关闭后数据就会丢失
+> - PPS: 验证数据存储的正确性，必须在 **云服环境下（确保在云服房间内）** 才可正确的获取到所存储的数据，在单机或者联机下将无法获取到云服下的全部数据
 
 #### 如何开启 `K/V存储` 和 `排行榜`
 
@@ -739,15 +721,14 @@ graph LR
 
 ### 组件属性 (组件变量)
 
-#### 组件属性存储
+#### 组件属性存储与访问
 
-```lua
-你定义的表名.propertys = {}
-```
+- 定义: `你定义的表名.propertys = {}`
+- 访问: 通过 `self.属性名` 访问，直接访问 `XXX.propertys.属性名` 是 **错误** 的
+- 跨组件访问: 先获取目标组件，再通过 `获取到的目标组件.属性名` 访问（获取组件请参考[组件的互操作](#组件的互操作)）
 
 - 例示:
 
-```lua
 local Script = {}
 
 Script.propertys = {
@@ -761,34 +742,26 @@ Script.propertys = {
 }
 
 return Script
-```
-
-#### 组件属性 (组件变量) 的访问
-
-- 假如你在 `propertys` 中定义了组件属性 `a`，则需要通过 `self.a` 来进行访问，直接访问 `XXX.propertys.a` 是 **错误** 的
-- 如果要跨组件访问组件属性，则需要先在本组件中获得目标组件，通过获取到的目标组件来访问，`获取到的目标组件.a`（获取组件请参考[组件的互操作](#组件的互操作)）
 
 #### 组件属性信息
 
-| 属性名 | 类型 |
-| :-: | :-: |
-| Mini.Number | 数值 |
-| Mini.String | 字符串 |
-| Mini.Bool | 布尔值 |
-| Mini.Color | 颜色 |
-| Mini.Vec3 | 位置 |
-| Mini.MobType | 生物类型 |
-| Mini.Block | 方块类型 |
-| Mini.Item | 道具类型 |
-| Mini.Effect | 特效类型 |
-| Mini.Picture | 图片 |
-| Mini.Buff | 状态 |
-| Mini.Sound | 音效 |
-| Mini.Model | 外观 |
+| 属性名 | 类型 | 传入值 | 特有标识符 |
+| :-: | :-: | :-: | :-: |
+| Mini.Number | 数值 | `number` | `minValue`, `maxValue`, `format`, `style`, `stride` |
+| Mini.String | 字符串 | `string` | `multiLine`, `maxLength` |
+| Mini.Bool | 布尔值 | `boolean` | 无 |
+| Mini.Color | 颜色 | `HEX` / `字符串` | 无 |
+| Mini.Vec3 | 位置 | `三维坐标XYZ` 表 | `displayNames`, `format`, `minValue`, `maxValue` |
+| Mini.MobType | 生物类型 | `官方生物类型ID` / `Prefab预制ID` | 无 |
+| Mini.Block | 方块类型 | `方块ID` | 无 |
+| Mini.Item | 道具类型 | `物品ID` | 无 |
+| Mini.Effect | 特效类型 | `特效类型ID` | 无 |
+| Mini.Picture | 图片 | `图片ID` | 无 |
+| Mini.Buff | 状态 | `官方状态类型ID` / `Prefab预制ID` | 无 |
+| Mini.Sound | 音效 | `官方音效类型ID` / `Prefab预制ID` | 无 |
+| Mini.Model | 外观 | `模型ID` | 无 |
 
-##### Mini.Number
-
-- 需传入 `number`
+- 通用标识符:
 
 | 标识符 | 说明 | 例示值 | 必需 |
 | :-: | :-: | :-: | :-: |
@@ -796,31 +769,19 @@ return Script
 | default | 默认值 | `100` | 否 |
 | displayName | 属性别名 | `数字` | 否 |
 | sort | 属性排序 | `1` | 否 |
+| tips | 属性提示 | `喵喵喵` | 否 |
+
+- Mini.Number 特有标识符:
+
+| 标识符 | 说明 | 例示值 | 必需 |
+| :-: | :-: | :-: | :-: |
 | minValue | 最小值 | `-1000` | 否 |
 | maxValue | 最大值 | `1000` | 否 |
 | format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f米` | 否 |
-| style | 属性控件样式滑动条 | `ComponentUIStyle.NumberSlider` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
+| style | 属性控件样式 | `ComponentUIStyle.NumberSlider` | 否 |
 | stride | 步长 (在属性面板增减的步长) | `1` | 否 |
 
-- 例示:
-
-```lua
-{
-    type = Mini.Number,
-    default = 100,
-    displayName = "数字",
-    sort = 1,
-    minValue = -1000,
-    maxValue = 1000,
-    format = "%.0f米",
-    style = ComponentUIStyle.NumberSlider,
-    tips = "属性作用提示",
-    stride = 1,
-}
-```
-
-- 涉及枚举:
+- 涉及枚举 (style):
 
 | 样式枚举 | 说明 |
 | :-: | :-: |
@@ -828,302 +789,129 @@ return Script
 | ComponentUIStyle.NumberButton | 按钮 |
 | ComponentUIStyle.NumberOnlyInput | 输入框 |
 
-##### Mini.String
-
-- 需传入 `string`
+- Mini.String 特有标识符:
 
 | 标识符 | 说明 | 例示值 | 必需 |
 | :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.String` | 是 |
-| default | 默认值 | `喵喵喵` | 否 |
-| displayName | 属性别名 | `字符串` | 否 |
-| sort | 属性排序 | `1` | 否 |
 | multiLine | 可否多行 | `true` | 否 |
 | maxLength | 最大x个字符 | `10` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
 
-- 例示:
-
-```lua
-{
-    type = Mini.String,
-    default = "您好！",
-    displayName = "字符串",
-    sort = 1,
-    multiLine = false,
-    maxLength = 10,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Bool
-
-- 需传入 `boolean`
+- Mini.Vec3 特有标识符:
 
 | 标识符 | 说明 | 例示值 | 必需 |
 | :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Bool` | 是 |
-| default | 默认值 | `true` | 否 |
-| displayName | 属性别名 | `布尔值` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Bool,
-    default = true,
-    displayName = "布尔值",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Color
-
-- 需传入 `HEX` 或 `字符串` 颜色值
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Color` | 是 |
-| default | 默认值 | `0xFFFFFF` / `#FFFFFF` | 否 |
-| displayName | 属性别名 | `颜色` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Color,
-    default = 0xFFFFFF,
-    displayName = "颜色",
-    sort = 1,
-    tips = "属性作用提示",
-}
-```
-
-##### Mini.Vec3
-
-- 需传入 `三维坐标XYZ` 表
-- 例: `{1, 1, 1}`
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Vec3` | 是 |
-| default | 默认值 | `Mini.Vec3(0, 0, 0)` | 否 |
 | displayNames | 属性别名 (不填默认为X, Y, Z) | `{"Yaw", "Pitch", "Roll"}` | 否 |
-| sort | 属性排序 | `1` | 否 |
 | format | 单位 (%.0f:整数, %.1f一位小数) | `%.0f` | 否 |
 | minValue | 最小值 | `{-100, -200, -300}` | 否 |
 | maxValue | 最大值 | `{100, 200, 300}` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
 
 - 例示:
 
 ```lua
-{
-    type = Mini.Vec3,
-    default = Mini.Vec3(0, 0, 0),
-    displayName = "位置",
-    displayNames = {"yaw", "pitch", "roll"},-
-    sort = 1,
-    format = "%.2f",
-    minValue = -10000,
-    maxValue = 10000,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.MobType
-
-- 需传入 `官方生物类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.MobType` | 是 |
-| default | 默认值 | `3400` | 否 |
-| displayName | 属性别名 | `生物类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.MobType,
-    default = 3400,
-    displayName = "生物类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Block
-
-- 传入 `方块ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Block` | 是 |
-| default | 默认值 | `11668` | 否 |
-| displayName | 属性别名 | `方块类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Block,
-    default = 100,
-    displayName = "方块类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Item
-
-- 传入 `物品ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Item` | 是 |
-| default | 默认值 | `11000` | 否 |
-| displayName | 属性别名 | `道具类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Item,
-    default = 100,
-    displayName = "道具类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Effect
-
-- 传入 `特效类型ID` ( `number` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Effect` | 是 |
-| default | 默认值 | `1051` | 否 |
-| displayName | 属性别名 | `特效类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Effect,
-    default = 1051,
-    displayName = "特性类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Picture
-
-- 传入 `图片ID` ( `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Picture` | 是 |
-| default | 默认值 | `0_10001` | 否 |
-| displayName | 属性别名 | `图像类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Picture,
-    default = "0_10001",
-    displayName = "图像类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Buff
-
-- 传入 `官方状态类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Buff` | 是 |
-| default | 默认值 | `6002` | 否 |
-| displayName | 属性别名 | `状态类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Buff,
-    default = 6002,
-    displayName = "状态类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Sound
-
-- 传入 `官方音效类型ID` 或 `Prefab预制ID` ( `number` / `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Sound` | 是 |
-| default | 默认值 | `6002` | 否 |
-| displayName | 属性别名 | `音效类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-- 例示:
-
-```lua
-{
-    type = Mini.Sound,
-    default = 6002,
-    displayName = "音效类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
-```
-
-##### Mini.Model
-
-- 传入 `模型ID` ( `string` )
-
-| 标识符 | 说明 | 例示值 | 必需 |
-| :-: | :-: | :-: | :-: |
-| type | 类型 | `Mini.Model` | 是 |
-| default | 默认值 | `mob_1145` | 否 |
-| displayName | 属性别名 | `模型类型` | 否 |
-| sort | 属性排序 | `1` | 否 |
-| tips | 属性提示 | `喵喵喵` | 否 |
-
-```lua
-{
-    type = Mini.Model,
-    default = "mob_1145",
-    displayName = "模型类型",
-    sort = 1,
-    tips = "属性作用提示",
-},
+Script.propertys = {
+    numberAttr = {
+        type = Mini.Number,
+        default = 100,
+        displayName = "数字",
+        sort = 1,
+        minValue = -1000,
+        maxValue = 1000,
+        format = "%.0f米",
+        style = ComponentUIStyle.NumberSlider,
+        tips = "属性作用提示",
+        stride = 1,
+    },
+    stringAttr = {
+        type = Mini.String,
+        default = "您好！",
+        displayName = "字符串",
+        sort = 2,
+        multiLine = false,
+        maxLength = 10,
+        tips = "属性作用提示",
+    },
+    boolAttr = {
+        type = Mini.Bool,
+        default = true,
+        displayName = "布尔值",
+        sort = 3,
+        tips = "属性作用提示",
+    },
+    colorAttr = {
+        type = Mini.Color,
+        default = 0xFFFFFF,
+        displayName = "颜色",
+        sort = 4,
+        tips = "属性作用提示",
+    },
+    vec3Attr = {
+        type = Mini.Vec3,
+        default = Mini.Vec3(0, 0, 0),
+        displayName = "位置",
+        displayNames = {"yaw", "pitch", "roll"},
+        sort = 5,
+        format = "%.2f",
+        minValue = -10000,
+        maxValue = 10000,
+        tips = "属性作用提示",
+    },
+    mobTypeAttr = {
+        type = Mini.MobType,
+        default = 3400,
+        displayName = "生物类型",
+        sort = 6,
+        tips = "属性作用提示",
+    },
+    blockAttr = {
+        type = Mini.Block,
+        default = 100,
+        displayName = "方块类型",
+        sort = 7,
+        tips = "属性作用提示",
+    },
+    itemAttr = {
+        type = Mini.Item,
+        default = 100,
+        displayName = "道具类型",
+        sort = 8,
+        tips = "属性作用提示",
+    },
+    effectAttr = {
+        type = Mini.Effect,
+        default = 1051,
+        displayName = "特效类型",
+        sort = 9,
+        tips = "属性作用提示",
+    },
+    pictureAttr = {
+        type = Mini.Picture,
+        default = "0_10001",
+        displayName = "图像类型",
+        sort = 10,
+        tips = "属性作用提示",
+    },
+    buffAttr = {
+        type = Mini.Buff,
+        default = 6002,
+        displayName = "状态类型",
+        sort = 11,
+        tips = "属性作用提示",
+    },
+    soundAttr = {
+        type = Mini.Sound,
+        default = 6002,
+        displayName = "音效类型",
+        sort = 12,
+        tips = "属性作用提示",
+    },
+    modelAttr = {
+        type = Mini.Model,
+        default = "mob_1145",
+        displayName = "模型类型",
+        sort = 13,
+        tips = "属性作用提示",
+    },
+}
 ```
 
 ## 开放函数
