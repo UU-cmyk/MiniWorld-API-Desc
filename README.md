@@ -101,6 +101,26 @@ sequenceDiagram
 | `python tools/FuncCompare.py` | 将本地 `multiple` 中的声明函数与在线函数文档对比，并输出差异 |
 | `python tools/DescToAiDesc.py` | 将 `MNDeclaration.d.lua` 剔除对AI无用注释后，输出到 `AiDesc/` |
 
+## 构建插件
+
+1. 安装依赖：
+
+    ```bash
+    npm install
+    ```
+
+2. 编译 TypeScript：
+
+    ```bash
+    npm run compile
+    ```
+
+3. 打包扩展，可使用 `vsce`：
+
+    ```bash
+    npx vsce package
+    ```
+
 ## 注意事项
 
 - 本仓库声明文件与模板仅支持UGC **3.0**
