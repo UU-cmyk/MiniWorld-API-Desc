@@ -25,12 +25,24 @@ MiniWorld-API-Desc/
 ├── pyproject.toml  # Python 依赖管理文件
 ├── README.md  # 项目说明文档
 ├── MNDeclaration.d.lua  # 全集成声明文件，适合直接导入项目
+├── .vscodeeignore  # VS Code 忽略文件
+├── eslint.config.mjs  # ESLint 配置文件
+├── pcakage.json  # NPM 配置文件
+├── package-lock.json  # NPM 依赖管理文件
+├── pack.ps1  # 打包脚本
+├── tsconfig.json  # TypeScript 配置文件
+├── img/  # 图片存放目录
+│   └── ......  # 图片
 ├── AiDesc/  # AI 描述内容，便于喂给智能助手使用
 │   └── UGC.md  # UGC 描述文件
 ├── multiple/  # 按模块拆分的声明文件，适合只使用部分模块时加载
 │   └── ......  # 各模块声明文件
 ├── template/  # VS Code Lua 代码片段模板存放目录
 │   └── lua.code-snippets  # 代码片段文件
+├── complete/  # VS Code 补全插件
+│   ├── .vscode-test.mjs  # VS Code 测试配置
+│   ├── types/  # 补全文件
+│   └── src/  # 补全插件源码
 └── tools/  # 辅助脚本和比较工具
     ├── EnumLibCompare.py  # 枚举比较工具
     ├── EventCompare.py  # 事件比较工具
