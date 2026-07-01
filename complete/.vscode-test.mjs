@@ -1,5 +1,12 @@
 import { defineConfig } from '@vscode/test-cli';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, '..');
 
 export default defineConfig({
-	files: 'out/test/**/*.test.js',
+	cwd: repoRoot,
+	files: './complete/out/test/**/*.test.js',
+	launchArgs: ['--disable-extensions'],
 });
