@@ -56,6 +56,13 @@ end
 
 - 在 UGC 中只有 `time()` & `timeMs()` & `data()` 这三个函数
 
+## 玩家退出资源管理
+
+- 玩家退出游戏时，`UGCS` 会自动释放大部分与该玩家直接相关的资源:
+  1. 打开的 UI & 元件
+  2. 事件监听/定时器
+- 当全部玩家退出时，过一段时间此云服将会直接关闭，释放所有资源
+
 ## 玩家的ID (Uin)
 
 - `玩家的ID` 为他的迷你号，为一串数字
@@ -92,15 +99,15 @@ end
     local Script = {}
 
     function Script:OnStart()
-        -- 注册事件
-        self:AddTriggerEvent(TriggerEvent.PlayerClickBlock, self.OnPlayerClickBlock)
+      -- 注册事件
+      self:AddTriggerEvent(TriggerEvent.PlayerClickBlock, self.OnPlayerClickBlock)
     end
 
     -- 玩家点击方块回调
     function Script:OnPlayerClickBlock(event)
-        local block = event.blockid
-        local playerUin = event.eventobjid
-        print("玩家[".. playerUin .."]点击了方块，类型ID: ".. block)
+      local block = event.blockid
+      local playerUin = event.eventobjid
+      print("玩家[".. playerUin .."]点击了方块，类型ID: ".. block)
     end
 
     return Script
@@ -123,7 +130,7 @@ end
 
 ## 坐标系
 
-- UGC 中，坐标系为：`X Y Z`
+- 坐标系为：`X Y Z`
   - X: E为增加，W为减少
   - Y: 上为增加，下为减少
   - Z: N为增加，S为减少
@@ -198,13 +205,13 @@ end
 1. 方法1:
 
     ```lua
-    self:ThreadWait(等待时间)
+    self:ThreadWait(time)
     ```
 
 2. 方法2:
 
     ```lua
-    threadpool:wait(等待时间)
+    threadpool:wait(time)
     ```
 
 - PS: 默认一帧，0s也为一帧，所有等待功能在任意合法环境下都生效
@@ -220,11 +227,10 @@ end)
 
 ## 模块与包
 
-- UGC 不支持原生的 `require` `module` 语法，无法与C交互
+- 不支持原生的 `require` `module` 语法，无法与C交互
 
 ## UI
 
-- `UI`: `UGCS` 中创建的界面，玩家退出地图时由系统自动回收
 - `UI元件`: `UI` 中的元素（如 `按钮` / `图片` 等），类型包括 `图片` / `按钮` / `滑动容器` / `输入框` / `进度条` / `3D模型加载框` / `文本`
 - `UI元件` 存在 `父/子` 层级，删除 `父元件` 时 `子元件` 也会被删除
 - `字体描边` / `字体阴影` / `文字水平对齐` / `文字垂直对齐` 暂不支持 `CustomUI API` 修改
@@ -796,22 +802,22 @@ Script.propertys = {
 local Script = {}
 
 Script.openFnArgs = {
-    Add = {
-        returnType = Mini.Number, -- 返回值
-        displayName = "函数别名", -- 触发器上显示的别名
-        params = {Mini.Number, Mini.Number}, -- 参数列表类型
-    },
+  Add = {
+    returnType = Mini.Number, -- 返回值
+    displayName = "函数别名", -- 触发器上显示的别名
+    params = {Mini.Number, Mini.Number}, -- 参数列表类型
+  },
 
-    -- 如果只想让其他的脚本组件访问的话，可以这样配置
-    func = true
+  -- 如果只想让其他的脚本组件访问的话，可以这样配置
+  func = true
 }
 
 local function Script:Add(a, b)
-    return a + b
+  return a + b
 end
 
 local function Script:func()
-    return 114514
+  return 114514
 end
 
 return Script
