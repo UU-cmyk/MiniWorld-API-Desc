@@ -1,0 +1,59 @@
+{
+  "name": "miniworld-api-complete",
+  "publisher": "LK-cmyk",
+  "displayName": "MiniWorld API Complete",
+  "description": "MiniWorld API Complete",
+  "version": "0.0.1",
+  "icon": "img/Logo-128px.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LK-cmyk/MiniWorld-API-Desc.git"
+  },
+  "engines": {
+    "vscode": "^1.125.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:lua"
+  ],
+  "main": "./complete/out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "complete.addDeclarations",
+        "title": "MiniWorld: 添加 Lua 声明路径"
+      },
+      {
+        "command": "complete.removeDeclarations",
+        "title": "MiniWorld: 移除 Lua 声明路径"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint complete/src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.125.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "24.x",
+    "typescript-eslint": "^8.61.1",
+    "eslint": "^10.5.0",
+    "typescript": "^6.0.3",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.0.0"
+  },
+  "overrides": {
+    "diff": "^8.0.4",
+    "serialize-javascript": "^7.0.6"
+  },
+  "extensionDependencies": [
+    "sumneko.lua"
+  ]
+}

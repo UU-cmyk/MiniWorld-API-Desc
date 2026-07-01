@@ -1,0 +1,39 @@
+# 源码
+complete/src/
+complete/test/
+complete/out/test/
+
+# 构建配置
+**/tsconfig.json
+**/eslint.config.mjs
+**/*.map
+**/*.ts
+pack.ps1
+
+# 版本控制
+.git/
+.gitignore
+
+# VS Code 配置
+.vscode/
+.vscode-test/
+**/.vscode-test.*
+
+# 依赖（全部为 devDependencies，无需打包）
+node_modules/
+
+# 文档
+*.md
+complete/*.md
+
+# 其他
+.yarnrc
+*.vsix
+.venv/
+__pycache__/
+tools/
+pyproject.toml
+AiDesc/
+multiple/
+template/
+MNDeclaration.d.lua
