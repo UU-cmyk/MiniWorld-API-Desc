@@ -459,3 +459,9 @@ function Player:RotateMainModel(playerId, yaw, pitch) return true end
 --- @param iType number @币种类型 (MiniCurrency)
 --- @return number @货币数量
 function Player:GetMiniCurrency(objId, iType) return 0 end
+
+--- 判断玩家当前手持武器的铭刻法术强化方向是否激活
+--- @param playerId number @玩家ID
+--- @param enhanceIndex number @强化方向索引(1~8)
+--- @return boolean @是否激活
+function Player:IsHandWeaponSpellEnhancementActive(playerId, enhanceIndex) return true end

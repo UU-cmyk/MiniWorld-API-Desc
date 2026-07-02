@@ -431,14 +431,6 @@ function CustomUI:GetScreenSize(playerId) return 0, 0 end
 ---@param elementId string @元件ID
 function CustomUI:DeleteElement(playerId, uiId, elementId) return true end
 
---- 设置信标映射类型
---- @return boolean @成功返回True, 失败返回False
---- @param playerId number @玩家ID
---- @param uiId string @界面ID
---- @param elementId string @元件ID
---- @param mapType number @信标映射类型枚举(BeaconMapType)
-function CustomUI:SetBeaconMapType(playerId, uiId, elementId, mapType) return true end
-
 --- 设置信标位置
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID

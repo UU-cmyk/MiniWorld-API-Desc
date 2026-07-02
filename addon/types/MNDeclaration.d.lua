@@ -803,6 +803,14 @@ _G.WeatherType = WeatherType
 --- @field Number7 number @按键7
 --- @field Number8 number @按键8
 --- @field Number9 number @按键9
+--- @field Alt number @按键Alt
+--- @field Ctrl number @按键Ctrl
+--- @field Down number @按键向下
+--- @field Up number @按键向上
+--- @field Left number @按键向左
+--- @field Right number @按键向右
+--- @field LeftButton number @鼠标左键
+--- @field RightButton number @鼠标右键
 local KeyCode = {}
 _G.KeyCode = KeyCode
 
@@ -2032,10 +2040,14 @@ function Component:RemoveCloudSeverEvent(eventType) return nil end
 --- @field ProjectileHitItem any @当投掷物击中任意掉落物 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field ProjectileHitEntity any @当投掷物击中任意实体 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field ItemCreate any @当掉落物创建 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
---- @field DropItemPickup any @当掉落物被拾取 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field DropItemPickup any @当掉落物被拾取 {eventobjid:触发事件的对象, x,y,z:事件中的位置, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
 --- @field ItemDisappear any @当掉落物消失 {eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field PlayerOpenInnerView any @当玩家打开内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
 --- @field PlayerCloseInnerView any @当玩家关闭内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field MobModelChange any @当生物的主模型改变 {eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field PlayerModelChange any @当玩家的主模型改变 {eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field TimelineStart any @当剧情动画开始 {eventobjid:触发事件的对象}
+--- @field TimelineStop any @当剧情动画结束 {eventobjid:触发事件的对象}
 local TriggerEvent = {}
 _G.TriggerEvent = TriggerEvent
 
@@ -2849,6 +2861,12 @@ function World:AddGravity(value) return true end
 --- @param enum number @时间单位枚举 (EventDate)
 --- @return number @转换后的时间
 function World:GetDateFromTime(number, enum) return 0 end
+
+--- 获取生物生成密度 (退出游戏后失效)
+--- @param biomeType number @地形类型 (BiomeType), biomeType < 0 返回全部, biomeType > 0 返回指定地形
+--- @param worldId? number|nil @世界ID
+--- @return table|nil @生物生成密度表, biometype < 0: {[biomeId]={{id, weight}}}, biometype > 0: {{id, weight}}
+function World:GetWorldCreateMobRule(biomeType, worldId) return {} end
 --- 回调设置kv数据
 --- @param varId string @排行榜/排行榜变量ID
 --- @param playerId? number|nil @玩家uin(全局变量传nil)
@@ -4243,6 +4261,12 @@ function Player:RotateMainModel(playerId, yaw, pitch) return true end
 --- @param iType number @币种类型 (MiniCurrency)
 --- @return number @货币数量
 function Player:GetMiniCurrency(objId, iType) return 0 end
+
+--- 判断玩家当前手持武器的铭刻法术强化方向是否激活
+--- @param playerId number @玩家ID
+--- @param enhanceIndex number @强化方向索引(1~8)
+--- @return boolean @是否激活
+function Player:IsHandWeaponSpellEnhancementActive(playerId, enhanceIndex) return true end
 --- @class Monster
 --- 生物模块管理接口 Monster
 local Monster = {}
@@ -5510,14 +5534,6 @@ function CustomUI:GetScreenSize(playerId) return 0, 0 end
 ---@param uiId string @界面ID
 ---@param elementId string @元件ID
 function CustomUI:DeleteElement(playerId, uiId, elementId) return true end
-
---- 设置信标映射类型
---- @return boolean @成功返回True, 失败返回False
---- @param playerId number @玩家ID
---- @param uiId string @界面ID
---- @param elementId string @元件ID
---- @param mapType number @信标映射类型枚举(BeaconMapType)
-function CustomUI:SetBeaconMapType(playerId, uiId, elementId, mapType) return true end
 
 --- 设置信标位置
 --- @return boolean @成功返回True, 失败返回False

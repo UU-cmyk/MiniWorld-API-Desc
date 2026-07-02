@@ -164,10 +164,14 @@
 --- @field ProjectileHitItem any @当投掷物击中任意掉落物 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field ProjectileHitEntity any @当投掷物击中任意实体 {actorid:触发事件的生物类型, defaultvalue:自定义数值数据, eventobjid:触发事件的对象, helperobjid:辅助对象ID, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field ItemCreate any @当掉落物创建 {defaultvalue:自定义数值数据, eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
---- @field DropItemPickup any @当掉落物被拾取 {eventobjid:触发事件的对象, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
+--- @field DropItemPickup any @当掉落物被拾取 {eventobjid:触发事件的对象, x,y,z:事件中的位置, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, eventworldid:事件中星球}
 --- @field ItemDisappear any @当掉落物消失 {eventobjid:触发事件的对象, itemid:事件中的道具类型, itemix:事件中的格子ID, itemnum:事件中的道具数量, x:事件中位置X, y:事件中位置Y, z:事件中位置Z, eventworldid:事件中星球}
 --- @field PlayerOpenInnerView any @当玩家打开内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
 --- @field PlayerCloseInnerView any @当玩家关闭内置界面 {CustomUI:事件中的界面, eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field MobModelChange any @当生物的主模型改变 {eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field PlayerModelChange any @当玩家的主模型改变 {eventobjid:触发事件的对象, x,y,z:事件中的位置, eventworldid:事件中的星球}
+--- @field TimelineStart any @当剧情动画开始 {eventobjid:触发事件的对象}
+--- @field TimelineStop any @当剧情动画结束 {eventobjid:触发事件的对象}
 local TriggerEvent = {}
 _G.TriggerEvent = TriggerEvent
 

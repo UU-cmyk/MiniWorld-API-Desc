@@ -474,3 +474,9 @@ function World:AddGravity(value) return true end
 --- @param enum number @时间单位枚举 (EventDate)
 --- @return number @转换后的时间
 function World:GetDateFromTime(number, enum) return 0 end
+
+--- 获取生物生成密度 (退出游戏后失效)
+--- @param biomeType number @地形类型 (BiomeType), biomeType < 0 返回全部, biomeType > 0 返回指定地形
+--- @param worldId? number|nil @世界ID
+--- @return table|nil @生物生成密度表, biometype < 0: {[biomeId]={{id, weight}}}, biometype > 0: {{id, weight}}
+function World:GetWorldCreateMobRule(biomeType, worldId) return {} end

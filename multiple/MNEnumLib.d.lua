@@ -722,6 +722,14 @@ _G.WeatherType = WeatherType
 --- @field Number7 number @按键7
 --- @field Number8 number @按键8
 --- @field Number9 number @按键9
+--- @field Alt number @按键Alt
+--- @field Ctrl number @按键Ctrl
+--- @field Down number @按键向下
+--- @field Up number @按键向上
+--- @field Left number @按键向左
+--- @field Right number @按键向右
+--- @field LeftButton number @鼠标左键
+--- @field RightButton number @鼠标右键
 local KeyCode = {}
 _G.KeyCode = KeyCode
 
