@@ -5,7 +5,7 @@
 - `触发器` 指 `UGC 3.0` 的图形化编程
 - `云服` 指 官方给UGC内容分配的服务器
 - MiniUGC 的 Lua 是基于 Lua5.1 的
-- 具体接口请查看 `MNDeclaration.d.lua`
+- 具体接口请查看 `MNDeclaration.d.lua` 或 `MNAiDesc.txt`
 
 ## 脚本开头结尾
 
@@ -13,7 +13,7 @@
 
 ```lua
 local Script = {}
--- 你的代码
+  -- 你的代码
 return Script
 ```
 
@@ -84,11 +84,11 @@ end
 
 - 事件枚举参考: `MNDeclaration.d.lua` 中的:
 
-    | 名称 |
-    | :-: |
-    | TriggerEvent |
-    | CurEventParam |
-    | ObjectEvent |
+  | 名称 |
+  | :-: |
+  | TriggerEvent |
+  | CurEventParam |
+  | ObjectEvent |
 
 ### 事件回调函数
 
@@ -105,8 +105,7 @@ end
 
     -- 玩家点击方块回调
     function Script:OnPlayerClickBlock(event)
-      local block = event.blockid
-      local playerUin = event.eventobjid
+      local block, playerUin = event.blockid, event.eventobjid
       print("玩家[".. playerUin .."]点击了方块，类型ID: ".. block)
     end
 
@@ -134,6 +133,72 @@ end
   - X: E为增加，W为减少
   - Y: 上为增加，下为减少
   - Z: N为增加，S为减少
+
+## 天空盒 / 环境设置
+
+- 环境 (天空盒) 用于控制世界的视觉氛围，包括天空颜色/光照/云雾/水面/太阳/月亮等效果
+- 与滤镜不同: 环境改的是 `世界本身的景物`，滤镜改的是 `画面呈现效果`; 两者可以同时使用
+- 通过模板一键套用环境预设，也可以逐项调节某个时间段的参数
+
+### 模版
+
+| 编号 | 名称 | 风格氛围 |
+| :-: | :-: | :-: |
+| 0 | 空模板 | 不启用环境 |
+| 1 | 经典 | 通用写实白天 |
+| 2 | 卡通风格 | 卡通可爱明快 |
+| 3 | 自然过渡 | 自然写实柔和 |
+| 4 | 梦幻粉 | 梦幻粉色唯美 |
+| 5 | 冰雪蓝 | 冰雪寒冷冷调 |
+| 6 | 烈焰红 | 炽热红色危险 |
+| 7 | 废土黄 | 废土荒凉末世 |
+| 8 | 科幻灰 | 科幻赛博冷调 |
+| 9 | 毒雾绿 | 毒雾诡异绿色 |
+| 10 | 水墨 | 水墨国风黑白 |
+| 11 | 青山绿水 | 水墨国风青绿 |
+| 12 | 森林 | 森林绿意自然 |
+| 13 | 沙漠 | 沙漠干旱暖黄 |
+| 14 | 冰原 | 冰原寒冷冷白 |
+| 15 | 沼泽 | 沼泽阴湿暗绿 |
+| 16 | 火山 | 火山炽热红黑 |
+| 17 | 雨林 | 雨林湿润浓绿 |
+| 18 | 丛林 | 丛林茂密绿 |
+| 19 | 针叶林 | 针叶林冷绿高纬 |
+| 20 | 高山 | 高山高远冷蓝 |
+| 21 | 海洋 | 海洋蔚蓝开阔 |
+| 22 | 空岛 | 空岛天空悬浮 |
+| 23 | 盆地 | 盆地低地柔和 |
+| 24 | 草原 | 草原开阔绿黄 |
+| 25 | 热带草原 | 热带温暖黄绿 |
+| 26 | 发光空岛 | 发光奇幻绚丽 |
+
+### 时间
+
+| 时间段 | 大致时刻 | 感受 |
+| :-: | :-: | :-: |
+| 午夜 | 0 点 | 深夜、最暗 |
+| 黎明前 | 4 点 | 将亮未亮 |
+| 日出 | 6 点 | 天边泛光 |
+| 清晨 | 8 点 | 明亮清新 |
+| 正午 | 12 点 | 最亮 |
+| 下午 | 16 点 | 偏暖 |
+| 黄昏 | 18 点 | 日落、橙红 |
+| 夜晚 | 20 点 | 入夜、繁星 |
+
+### 示例
+
+```lua
+local Script = {}
+
+function Script:OnStart()
+  World:SetSkyBoxTemplate(1) -- 切换到“经典”环境模板
+  World:SetSkyBoxColor(SkyboxTime.TimeAll, SkyboxColor.Top, 0x87CEEB) -- 设置全天的天空顶部颜色为浅蓝色
+  World:SetSkyBoxAttr(SkyboxTime.TimeAll, SkyboxAttr.CloudDensity, 50) -- 设置全天的云密度
+  World:SetSkyBoxSwitch(SkyboxTime.TimeAll, SkyboxSwitch.Fogenable, 1) -- 打开雾效果
+end
+
+return Script
+```
 
 ## 组件的互操作
 
@@ -603,19 +668,19 @@ graph LR
 
 - 例示:
 
-local Script = {}
-
-Script.propertys = {
+  ```lua
+  local Script = {}
+  Script.propertys = {
     a = {
-        type = Mini.Bool,
-        default = true,
-        displayName = "布尔值",
-        sort = 1,
-        tips = "tip",
+      type = Mini.Bool,
+      default = true,
+      displayName = "布尔值",
+      sort = 1,
+      tips = "tip",
     },
-}
-
-return Script
+  }
+  return Script
+  ```
 
 #### 组件属性信息
 
