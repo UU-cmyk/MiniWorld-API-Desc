@@ -124,7 +124,7 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "vsce 安装失败" }
     }
 
-    $OutputVsix = Join-Path $ProjectRoot "miniworld-api-complete.vsix"
+    $OutputVsix = Join-Path $ProjectRoot "miniworld-api-desc-addon.vsix"
     vsce package --out $OutputVsix
     if ($LASTEXITCODE -ne 0) { throw "打包失败" }
     Write-Success "打包完成！输出: $OutputVsix"
