@@ -60,6 +60,22 @@ MiniWorld-API-Desc/
 
 ## 安装与使用
 
+### 方案1: 使用声明插件
+
+```mermaid
+flowchart TD
+    A[打开 GitHub 仓库 Release 页面] --> B[下载 .vsix 插件文件]
+    B --> C[在 VS Code 中打开扩展面板]
+    C --> D[点击右上角“...”选择 “Install from VSIX”]
+    D --> E[选择已下载的 .vsix 文件并安装]
+    E --> F[安装完成后，在 VS Code 中按下 Ctrl + Shift + P]
+    F --> G[输入框中键入 “MiniWorld: 添加 Lua 声明路径”]
+    G --> H[回车确认]
+    H --> I[完成操作]
+```
+
+### 方案2: 使用声明文件
+
 ```mermaid
 sequenceDiagram
     participant U as 用户
@@ -88,58 +104,6 @@ sequenceDiagram
     U->>V: 放入 .vscode/ 目录
     V-->>U: 代码片段已可用
 ```
-
-## 快速开始
-
-### 1. 克隆仓库
-
-```bash
-git clone https://github.com/LK-cmyk/MiniWorld-API-Desc.git
-cd MiniWorld-API-Desc
-```
-
-### 2. 安装 Python 依赖
-
-```bash
-pip install -e .
-```
-
-### 3. 配置 Lua 声明路径
-
-在 VS Code 的工作区设置中加入以下任意一种配置：
-
-- 使用单文件声明：
-
-```json
-{
-  "Lua.workspace.library": ["./MNDeclaration.d.lua"]
-}
-```
-
-- 使用模块化声明：
-
-```json
-{
-  "Lua.workspace.library": ["./multiple"]
-}
-```
-
-保存后重载窗口，Lua 语言服务即可开始提供补全和类型提示。
-
-### 4. 使用代码片段
-
-将 [template/lua.code-snippets](template/lua.code-snippets) 复制到项目的 .vscode 目录下即可使用。
-
-## VS Code 扩展使用
-
-仓库同时提供一个简化的 VS Code 扩展，能够自动为当前工作区添加声明路径。
-
-### 扩展命令
-
-- MiniWorld: 添加 Lua 声明路径
-- MiniWorld: 移除 Lua 声明路径
-
-安装后，打开 Lua 项目并激活扩展即可使用。
 
 ### 构建插件
 
