@@ -1,24 +1,30 @@
 # MiniWorld-API-Desc
 
-- 游戏版本: `v1.56+`
-- `Lua` 版本: `v5.1+`
-- `UGC` 开发套件: `v3.0`
-- 项目工具需使用 `Python3.10`
-
 ![GitHub stars](https://img.shields.io/github/stars/LK-cmyk/MiniWorld-API-Desc?style=flat)
 ![GitHub forks](https://img.shields.io/github/forks/LK-cmyk/MiniWorld-API-Desc?style=flat)
 ![License](https://img.shields.io/github/license/LK-cmyk/MiniWorld-API-Desc)
-![Language](https://img.shields.io/github/languages/top/LK-cmyk/MiniWorld-API-Docs)
-![Repo Size](https://img.shields.io/github/repo-size/LK-cmyk/MiniWorld-API-Docs)
 ![Python](https://img.shields.io/badge/python-3.10%2B-yellow)
 
-## 项目简介
+MiniWorld-API-Desc 是一个面向《迷你世界》UGC 3.0 Lua 开发的 API 声明库与辅助工具集。它提供模块化声明文件、代码片段模板、VS Code 扩展以及一组脚本工具，帮助你在 VS Code 中获得更好的 Lua 语法提示、补全和类型提示。
 
-本仓库提供《迷你世界》Lua 脚本开发的 API 声明文件和代码片段模板。通过将声明文件加入 `lua.workspace.library`，可以在 VS Code 中消除语法错误提示，提升代码补全体验
+## 适用范围
 
-## 目录说明
+- 游戏版本：v1.56+
+- Lua 版本：v5.1+
+- UGC 开发套件：v3.0
+- 依赖环境：Python 3.10+，Node.js（用于构建插件）
 
-```shell
+## 项目特点
+
+- 提供完整的 Lua API 声明文件，支持直接用于 VS Code 的 Lua 语言服务
+- 提供单文件和多文件两种接入方式
+- 预置常用代码片段，提升开发效率
+- 配套 VS Code 扩展，可自动添加声明路径
+- 附带对比与合并脚本，便于跟进官方 API 更新
+
+## 目录结构
+
+```text
 MiniWorld-API-Desc/
 ├── .gitignore  # Git 忽略文件
 ├── LICENSE  # 开源协议
@@ -34,7 +40,8 @@ MiniWorld-API-Desc/
 ├── img/  # 图片存放目录
 │   └── ......  # 图片
 ├── AiDesc/  # AI 描述内容，便于喂给智能助手使用
-│   └── UGC.md  # UGC 描述文件
+│   ├── MNAiDesc.txt  # API 描述文件
+│   └── AiDesc.md  # UGC 描述文件
 ├── multiple/  # 按模块拆分的声明文件，适合只使用部分模块时加载
 │   └── ......  # 各模块声明文件
 ├── template/  # VS Code Lua 代码片段模板存放目录
@@ -44,6 +51,7 @@ MiniWorld-API-Desc/
 │   ├── types/  # 补全文件
 │   └── src/  # 补全插件源码
 └── tools/  # 辅助脚本和比较工具
+    ├── DescToAiDesc.py  # 生成 API 描述文件工具
     ├── EnumLibCompare.py  # 枚举比较工具
     ├── EventCompare.py  # 事件比较工具
     ├── FuncCompare.py  # 函数比较工具
@@ -81,77 +89,97 @@ sequenceDiagram
     V-->>U: 代码片段已可用
 ```
 
-## 下载方式
+## 快速开始
 
-1. 下载 ZIP：仓库页面点击绿色 "<> Code" 按钮，然后选择 "Download ZIP"
-2. 克隆仓库：
+### 1. 克隆仓库
 
-    ```bash
-    git clone https://github.com/LK-cmyk/MiniWorld-API-Docs.git
-    ```
+```bash
+git clone https://github.com/LK-cmyk/MiniWorld-API-Desc.git
+cd MiniWorld-API-Desc
+```
 
-3. 下载单个文件：直接打开文件后点击下载按钮
+### 2. 安装 Python 依赖
 
-## AI 使用提示
+```bash
+pip install -e .
+```
 
-- 可将 `MNDeclaration.d.lua` / `AiDesc/MNAiDesc.txt` 与 `AiDesc/UGC.md` 中的内容一起输入 AI，以获得更准确的代码建议
+### 3. 配置 Lua 声明路径
 
-## 工具使用提示
+在 VS Code 的工作区设置中加入以下任意一种配置：
 
-- 进入仓库根目录，并确保已安装 **Python 3.10+**
-- 对比工具依赖外部库，可通过 `pyproject.toml` 安装：
+- 使用单文件声明：
 
-    ```bash
-    pip install -e .
-    ```
+```json
+{
+  "Lua.workspace.library": ["./MNDeclaration.d.lua"]
+}
+```
+
+- 使用模块化声明：
+
+```json
+{
+  "Lua.workspace.library": ["./multiple"]
+}
+```
+
+保存后重载窗口，Lua 语言服务即可开始提供补全和类型提示。
+
+### 4. 使用代码片段
+
+将 [template/lua.code-snippets](template/lua.code-snippets) 复制到项目的 .vscode 目录下即可使用。
+
+## VS Code 扩展使用
+
+仓库同时提供一个简化的 VS Code 扩展，能够自动为当前工作区添加声明路径。
+
+### 扩展命令
+
+- MiniWorld: 添加 Lua 声明路径
+- MiniWorld: 移除 Lua 声明路径
+
+安装后，打开 Lua 项目并激活扩展即可使用。
+
+### 构建插件
+
+如果你想自行构建这个 VS Code 扩展插件，可以在仓库根目录执行：
+
+```powershell
+./pack.ps1
+```
+
+该脚本会依次完成以下步骤：
+
+- 安装或更新 npm 依赖
+- 编译 TypeScript 源码
+- 运行 ESLint 检查
+- 打包生成 VS Code 插件安装包 `.vsix`
+
+如果只想编译而不打包，可以使用：
+
+```powershell
+./pack.ps1 -CompileOnly
+```
+
+## 工具脚本
+
+在仓库根目录执行下列命令：
 
 | 命令 | 说明 |
-| :-- | :-: |
-| `python tools/Merge.py` | 将 `multiple/` 中的 `.d.lua` 文件按预定义顺序合并为根目录下的 `merged.lua` |
-| `python tools/EnumLibCompare.py` | 将本地 `multiple/MNEnumLib.d.lua` 与在线枚举文档对比，并输出差异 |
-| `python tools/EventCompare.py` | 将本地 `multiple/MNEvent.d.lua` 与在线事件文档对比，并输出差异 |
-| `python tools/FuncCompare.py` | 将本地 `multiple` 中的声明函数与在线函数文档对比，并输出差异 |
-| `python tools/DescToAiDesc.py` | 将 `MNDeclaration.d.lua` 剔除对AI无用注释后，输出到 `AiDesc/` |
+| :-- | :-- |
+| `python tools/Merge.py` | 将 [multiple](multiple) 下的声明文件按预定义顺序合并为根目录下的 `merged.lua` |
+| `python tools/FuncCompare.py` | 将本地声明函数与在线文档中的函数进行对比 |
+| `python tools/EnumLibCompare.py` | 对比本地枚举声明与在线枚举文档 |
+| `python tools/EventCompare.py` | 对比本地事件声明与在线事件文档 |
+| `python tools/DescToAiDesc.py` | 生成可用于 AI 的说明文本 |
 
-## 构建插件
+## AI 使用建议
 
-1. 安装依赖：
-
-    ```bash
-    npm install
-    ```
-
-2. 编译 TypeScript：
-
-    ```bash
-    npm run addon
-    ```
-
-3. 打包扩展，可使用 `vsce`：
-
-    ```bash
-    npx vsce package
-    ```
-
-## 插件使用方法
-
-1. 打开或安装 VS Code 中的 `MiniWorld API Description` 插件。
-2. 打开要编辑的 Lua 项目，确保已安装并启用 `sumneko.lua` / Lua 语言服务扩展。
-3. 按 `Ctrl+Shift+P` 打开命令面板。
-4. 输入并执行命令：
-   - `MiniWorld: 添加 Lua 声明路径`：将 `addon/types` 自动添加到 Lua 语言服务器的 `Lua.workspace.library` 配置中。
-   - `MiniWorld: 移除 Lua 声明路径`：从配置中移除该声明路径。
-5. 插件会在激活时自动添加声明路径，无需每次手动执行。
-6. 重新加载 VS Code 窗口或重新打开 Lua 文件后，Lua 语言服务器将开始使用声明文件进行补全和类型提示。
-
-> 插件依赖 `Lua` 语言服务
+可以将 [MNDeclaration.d.lua](MNDeclaration.d.lua)、[AiDesc/AiDesc.md](AiDesc/AiDesc.md) 或 [AiDesc/MNAiDesc.txt](AiDesc/MNAiDesc.txt) 的内容一起提供给 AI，以获得更准确的代码建议。
 
 ## 注意事项
 
-- 本仓库声明文件、模板、插件仅支持UGC **3.0**
+- 该仓库声明文件、模板与扩展仅面向 UGC 3.0
 - 部分接口可能与实际游戏版本存在差异，请以游戏实际行为为准
-- 发现问题欢迎提交 Issues 或 Fork 后发起 PR
-
-## Star 历史
-
-[![Star History Chart](https://api.star-history.com/svg?repos=LK-cmyk/MiniWorld-API-Desc&type=Date)](https://star-history.com/#LK-cmyk/MiniWorld-API-Desc&Date)
+- 如发现问题，欢迎提交 Issues 或 Fork 后发起 Pull Request
