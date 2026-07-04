@@ -30,7 +30,6 @@ param(
 $ProjectRoot = $PSScriptRoot
 $CompleteDir = Join-Path $ProjectRoot "addon"
 $OutDir = Join-Path $CompleteDir "out"
-$ToolsDir = Join-Path $ProjectRoot "tools"
 
 # ---------- 颜色辅助 ----------
 function Write-Step {

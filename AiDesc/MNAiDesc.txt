@@ -5888,3 +5888,49 @@ function Graphics:CreateBrushByPos(pos, dim, color, showUin, iType, worldId) ret
 --- objId number 图文实例ID
 --- boolean 操作是否成功
 function Graphics:RemoveGraphicsByGraphicsID(objId) return true end
+
+--- Timeline
+--- 剧情动画模块管理接口 Timeline
+local Timeline = {}
+_G.Timeline = Timeline
+
+--- 对所有玩家播放Timeline
+--- timelineId string Timeline 资源id
+--- boolean 成功(true)
+function Timeline:PlayForAll(timelineId) return true end
+
+--- 对指定玩家播放Timeline
+--- uin number 玩家UIN
+--- timelineId string Timeline 资源id
+--- reverse boolean 是否反向播放
+--- playToEnd boolean 是否播放到结尾
+--- boolean 成功(true)
+function Timeline:PlayForPlayer(uin, timelineId, reverse, playToEnd) return true end
+
+--- 暂停指定玩家的Timeline播放
+--- uin number 玩家UIN
+--- timelineId string Timeline 资源id
+--- boolean 成功(true)
+function Timeline:Pause(uin, timelineId) return true end
+
+--- 恢复指定玩家的Timeline播放
+--- uin number 玩家UIN
+--- timelineId string Timeline 资源id
+--- boolean 成功(true)
+function Timeline:Resume(uin, timelineId) return true end
+
+--- 跳过指定玩家当前正在播放的Timeline
+--- uin number 玩家UIN
+--- boolean 成功(true)
+function Timeline:SkipForPlayer(uin) return true end
+
+--- 获取玩家Timeline播放状态
+--- uin number 玩家UIN
+--- timelineId string Timeline 资源id
+--- number 播放状态(0空闲 1播放中 2暂停)
+function Timeline:GetPlayerState(uin, timelineId) return 0 end
+
+--- 检查所有玩家是否都已播放完成指定Timeline
+--- timelineId string Timeline 资源 id
+--- boolean 全部完成(true)
+function Timeline:IsAllFinished(timelineId) return true end

@@ -14,6 +14,7 @@ FUNC_URL: list[str] = [  # 函数链接
     "monster.html",
     "block.html",
     "item.html",
+    "timeline.html",
     "backpack.html",
     "customui.html",
     "graphics.html",
@@ -141,6 +142,8 @@ def module_name_from_url(url: str) -> str:
         str: 模块名称
     """
     base: str = os.path.splitext(os.path.basename(url))[0]
+    if base.lower() == "timeline":
+        return "TimeLine"
     return base.capitalize()
 
 

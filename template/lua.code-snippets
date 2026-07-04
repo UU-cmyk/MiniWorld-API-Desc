@@ -8,7 +8,7 @@
     ],
     "description": "创建一个空的Lua脚本"
   },
-  "打开功能配置": {
+  "开放函数配置": {
     "prefix": "Script.openFnArgs = {...}",
     "body": [
       "-- 开放函数配置",
