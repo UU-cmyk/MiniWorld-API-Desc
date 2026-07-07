@@ -16,14 +16,10 @@
 
 [CmdletBinding()]
 param(
-    # 跳过 npm install
-    [switch]$SkipInstall,
-    # 跳过 ESLint
-    [switch]$SkipLint,
-    # 仅编译，不打包
-    [switch]$CompileOnly,
-    # 仅清除输出目录
-    [switch]$Clean
+    [switch]$SkipInstall, # 跳过 npm install
+    [switch]$SkipLint, # 跳过 ESLint
+    [switch]$CompileOnly, # 仅编译，不打包
+    [switch]$Clean # 仅清除输出目录
 )
 
 # ---------- 路径定义 ----------
@@ -52,7 +48,7 @@ function Write-ErrorMsg {
     Write-Host "✘ $Text" -ForegroundColor Red
 }
 
-# ========== 0. 仅清除 ==========
+# 0. 仅清除
 if ($Clean) {
     Write-Step "清除编译输出..."
     if (Test-Path $OutDir) {
@@ -64,7 +60,7 @@ if ($Clean) {
     return
 }
 
-# ========== 1. 安装 npm 依赖 ==========
+# 1. 安装 npm 依赖
 if (-not $SkipInstall) {
     Write-Step "[1/4] 安装/更新 npm 依赖..."
     Push-Location $ProjectRoot
@@ -79,7 +75,7 @@ if (-not $SkipInstall) {
     Write-WarningMsg "跳过 npm install"
 }
 
-# ========== 2. 编译 TypeScript ==========
+# 2. 编译 TypeScript
 Write-Step "[2/4] 编译 TypeScript..."
 Push-Location $ProjectRoot
 try {
@@ -90,7 +86,7 @@ try {
     Pop-Location
 }
 
-# ========== 3. ESLint 检查 ==========
+# 3. ESLint 检查
 if (-not $SkipLint) {
     Write-Step "[3/4] 运行 ESLint..."
     Push-Location $ProjectRoot
@@ -105,7 +101,7 @@ if (-not $SkipLint) {
     Write-WarningMsg "跳过 ESLint"
 }
 
-# ========== 4. 打包 VS Code 扩展 ==========
+# 4. 打包 VS Code 扩展
 if ($CompileOnly) {
     Write-Step "编译模式：跳过打包"
     Write-Success "编译完成！输出目录: $OutDir"

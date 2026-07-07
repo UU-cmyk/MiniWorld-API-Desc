@@ -3,7 +3,7 @@
   "publisher": "LK-cmyk",
   "displayName": "MiniWorld API Description",
   "description": "MiniWorld API Description",
-  "version": "0.0.1",
+  "version": "0.5.3",
   "icon": "img/Logo-128px.png",
   "repository": {
     "type": "git",
@@ -22,12 +22,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "complete.addDeclarations",
-        "title": "MiniWorld: 添加 Lua 声明路径"
+        "command": "complete.addDeclarations20",
+        "title": "MiniWorld API Description: 添加 MiniWorld UGC 2.0 声明"
       },
       {
-        "command": "complete.removeDeclarations",
-        "title": "MiniWorld: 移除 Lua 声明路径"
+        "command": "complete.removeDeclarations20",
+        "title": "MiniWorld API Description: 移除 MiniWorld UGC 2.0 声明"
+      },
+      {
+        "command": "complete.addDeclarations30",
+        "title": "MiniWorld API Description: 添加 MiniWorld UGC 3.0 声明"
+      },
+      {
+        "command": "complete.removeDeclarations30",
+        "title": "MiniWorld API Description: 移除 MiniWorld UGC 3.0 声明"
       }
     ]
   },

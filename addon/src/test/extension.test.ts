@@ -1,15 +1,37 @@
 import * as assert from 'assert';
+import * as fs from 'fs';
+import * as os from 'os';
+import * as path from 'path';
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
+
+import { buildEventCompletionItems, parseEventDefinitions } from '../extension';
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+	test('parses event definitions from json', () => {
+		const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'miniworld-event-'));
+		const filePath = path.join(tempDir, 'MNEvent.d.json');
+		fs.writeFileSync(filePath, JSON.stringify({
+			'Game.Hour': {
+				desc: '世界小时时间变化',
+			},
+		}, null, 2));
+
+		const definitions = parseEventDefinitions(filePath);
+
+		assert.strictEqual(definitions.size, 1);
+		assert.strictEqual(definitions.get('Game.Hour')?.desc, '世界小时时间变化');
+	});
+
+	test('builds completion items for event definitions', () => {
+		const definitions = new Map<string, { desc?: string }>([['Player.Die', { desc: '玩家死亡' }]]);
+		const items = buildEventCompletionItems(definitions as Map<string, { desc?: string; event_info?: Record<string, string> }>);
+
+		assert.strictEqual(items.length, 1);
+		assert.strictEqual(items[0].label, 'Player.Die');
+		assert.strictEqual(items[0].detail, '玩家死亡');
+		assert.strictEqual(items[0].insertText, '[=[Player.Die]=]');
 	});
 });
