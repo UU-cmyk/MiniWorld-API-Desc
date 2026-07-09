@@ -878,3 +878,28 @@ return Script
 ### 开放的作用
 
 其他组件与触发器可以访问
+
+## 道具实例
+
+### 核心概念
+
+- 道具实例是存在于背包或储物箱格子上的具体道具数据，由道具模板（预制）创建。
+- 每个实例拥有独立属性，可在游戏中动态修改，常用于枪械改装/自定义装备等玩法。
+- 目前仅模型组件和枪械组件支持实例化。
+
+### 主要操作分类
+
+| 操作类别 | 关键函数 |
+| :-- | :-- |
+| 创建实例 | `CreateItemInstInBackpack` (背包内)、`CreateGunInBackpack` (枪械) 、`CreateItemInstInWorld` (掉落物)、`CreateGunInWorld` (枪械掉落) |
+| 获取实例ID | `GetDropItemInstanceId` (掉落物→ID) 、`GetItemIdByInstanceId` (ID→道具ID)、`GetResIdByInstanceId` (ID→预制ID) 、`GetAllBackPackInstanceIds` (背包所有实例) 、`GetInstIdByGridIndex` (按格子) 、`GetGunInstIdInBackpack` (枪械列表)、`GetAllStorageItemInstanceIds`(储物箱)、`GetStorageItemInstanceId` (储物箱指定格) |
+| 修改/获取枪械属性 | `ModifyGunAttribute`、`GetGunAttribute`、`GetGunPrefabAttribute`(预制属性) |
+| **管理模型子部件 | `AddSubModelPart`、`DeleteSubModelPart`、`ReplaceSubModelPart` |
+| 自定义数据 (任意类型) | 设置：`SetStringCustomData`、`SetBoolCustomData`、`SetNumberCustomData`、`SetObjCustomData`、`SetArrayCustomData` 获取：对应 `Get...CustomData` 系列 |
+| UI显示模型 | `SetLoaderModel` (在模型装载器元件上显示实例的模型) |
+
+### 注意
+
+- 自定义数据支持 `string`、`bool`、`number`、`Object`、`Array` 类型，分别有独立的存取接口
+- 部分函数（如枪械相关）需要组件支持，使用前确保道具实例携带对应组件
+- 实例ID可用于追踪具体道具，区别于静态的道具模板ID
