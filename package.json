@@ -36,8 +36,34 @@
       {
         "command": "complete.removeDeclarations30",
         "title": "MiniWorld API Description: 移除 MiniWorld UGC 3.0 声明"
+      },
+      {
+        "command": "miniworld.apiSearch.focus",
+        "title": "MiniWorld API Description: 打开 API 搜索"
+      },
+      {
+        "command": "miniworld.apiSearch.refresh",
+        "title": "MiniWorld API Description: 刷新 API 搜索索引"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "miniworld-api-search",
+          "title": "MiniWorld API 搜索",
+          "icon": "$(search)"
+        }
+      ]
+    },
+    "views": {
+      "miniworld-api-search": [
+        {
+          "type": "webview",
+          "id": "miniworld.apiSearchView",
+          "name": "API 搜索"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

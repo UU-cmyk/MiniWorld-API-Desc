@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
+import { ApiSearchProvider } from './apiSearch';
+
 const LUA_CONFIG_SECTION = 'Lua';
 const LIBRARY_KEY = 'workspace.library';
 const EVENT_DEFINITIONS_FILE = path.join('addon', 'types', '2.0', 'MNEvent.d.json');
@@ -366,6 +368,21 @@ export function activate(context: vscode.ExtensionContext) {
 
     const openDocDisposable = vscode.workspace.onDidOpenTextDocument(checkDeclarationsOnOpen);
 
+    // ---------- API 搜索 ----------
+    const apiSearchProvider = new ApiSearchProvider(context.extensionUri, context);
+    const apiSearchViewDisposable = vscode.window.registerWebviewViewProvider(
+        ApiSearchProvider.viewType,
+        apiSearchProvider,
+    );
+
+    const apiSearchCommandDisposable = vscode.commands.registerCommand('miniworld.apiSearch.focus', () => {
+        vscode.commands.executeCommand('workbench.view.extension.miniworld-api-search');
+    });
+
+    const apiSearchRefreshDisposable = vscode.commands.registerCommand('miniworld.apiSearch.refresh', () => {
+        apiSearchProvider.refresh();
+    });
+
     context.subscriptions.push(
         add20Disposable,
         remove20Disposable,
@@ -373,7 +390,10 @@ export function activate(context: vscode.ExtensionContext) {
         remove30Disposable,
         eventCompletionProvider,
         openDocDisposable,
-        wrapBracketsDisposable
+        wrapBracketsDisposable,
+        apiSearchViewDisposable,
+        apiSearchCommandDisposable,
+        apiSearchRefreshDisposable,
     );
 }
 

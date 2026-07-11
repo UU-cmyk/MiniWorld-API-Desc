@@ -34,6 +34,4 @@ __pycache__/
 tools/
 pyproject.toml
 AiDesc/
-multiple/
 template/
-MNDeclaration.d.lua
