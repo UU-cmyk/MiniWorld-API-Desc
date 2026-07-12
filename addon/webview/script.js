@@ -130,6 +130,28 @@
         searchView.classList.remove('hidden');
     });
 
+    // 将 Markdown 渲染为 HTML（带错误保护）
+    function renderMarkdown(text) {
+        if (!text) return '';
+        try {
+            return marked.parse(text);
+        } catch (e) {
+            console.warn('Markdown 渲染失败:', e);
+            return escapeHtml(text);
+        }
+    }
+
+    // 将行内 Markdown 渲染为 HTML（不带块级元素包裹）
+    function renderMarkdownInline(text) {
+        if (!text) return '';
+        try {
+            return marked.parseInline(text);
+        } catch (e) {
+            console.warn('Markdown 行内渲染失败:', e);
+            return escapeHtml(text);
+        }
+    }
+
     // 渲染详情
     function renderDetail(d) {
         const kindLabel = { function: '函数', enum: '枚举', event: '事件' }[d.kind] || d.kind;
@@ -155,10 +177,9 @@
             <span style="font-size:11px;opacity:0.6">${escapeHtml(d.module)}</span>
         </div>`;
 
-        // 第 3 行：描述（清除换行符）
+        // 第 3 行：描述（Markdown 渲染）
         if (d.description) {
-            const cleanDesc = d.description.replace(/[\r\n]+/g, '');
-            html += `<div class="detail-section"><div class="detail-desc">${escapeHtml(cleanDesc)}</div></div>`;
+            html += `<div class="detail-section"><div class="detail-desc markdown-body">${renderMarkdown(d.description)}</div></div>`;
         }
 
         // 参数
@@ -169,7 +190,7 @@
                     <div class="grid-header"><span class="h-name">名称</span><span class="h-type">类型</span><span class="h-desc">说明</span></div>
             `;
             for (const p of d.parameters) {
-                html += `<div class="grid-row"><span class="grid-cell cell-name">${escapeHtml(p.name)}</span><span class="grid-cell cell-type">${escapeHtml(p.type)}</span><span class="grid-cell cell-desc">${escapeHtml(p.desc)}</span></div>`;
+                html += `<div class="grid-row"><span class="grid-cell cell-name">${escapeHtml(p.name)}</span><span class="grid-cell cell-type">${escapeHtml(p.type)}</span><span class="grid-cell cell-desc markdown-body">${renderMarkdownInline(p.desc)}</span></div>`;
             }
             html += `</div></div>`;
         }
@@ -182,7 +203,7 @@
                     <div class="grid-header"><span class="h-type">类型</span><span class="h-desc">说明</span></div>
             `;
             for (const r of d.returns) {
-                html += `<div class="grid-row"><span class="grid-cell cell-type">${escapeHtml(r.type)}</span><span class="grid-cell cell-desc">${escapeHtml(r.desc)}</span></div>`;
+                html += `<div class="grid-row"><span class="grid-cell cell-type">${escapeHtml(r.type)}</span><span class="grid-cell cell-desc markdown-body">${renderMarkdownInline(r.desc)}</span></div>`;
             }
             html += `</div></div>`;
         }
@@ -197,7 +218,7 @@
             `;
             for (const f of d.fields) {
                 const fullName = d.name.includes('.') ? f.name : d.name + '.' + f.name;
-                html += `<div class="grid-row"><span class="grid-cell cell-name">${escapeHtml(fullName)}</span><span class="grid-cell cell-type">${escapeHtml(f.type)}</span><span class="grid-cell cell-desc">${escapeHtml(f.desc)}</span></div>`;
+                html += `<div class="grid-row"><span class="grid-cell cell-name">${escapeHtml(fullName)}</span><span class="grid-cell cell-type">${escapeHtml(f.type)}</span><span class="grid-cell cell-desc markdown-body">${renderMarkdownInline(f.desc)}</span></div>`;
             }
             html += `</div></div>`;
         }
@@ -324,6 +345,9 @@
                 if (item.fieldCount > 0) metaParts.push(`${item.fieldCount} 字段`);
             }
 
+            // 取描述第一行作为简略摘要
+            const briefDesc = item.description ? item.description.split('\n')[0] : '';
+
             const paramsPreview = item.parameters.length > 0
                 ? item.parameters.map(p => `<code>${p.name}: ${p.type}</code>`).join(', ')
                 : '';
@@ -339,7 +363,7 @@
                     <span class="result-version version-${item.version}-tag">${item.version}</span>
                     <span class="result-module">${item.module}</span>
                 </div>
-                ${item.description ? '<div class="result-desc">' + escapeHtml(item.description) + '</div>' : ''}
+                ${briefDesc ? '<div class="result-desc">' + escapeHtml(briefDesc) + '</div>' : ''}
                 ${paramsPreview ? '<div class="result-meta">参数: ' + paramsPreview + '</div>' : ''}
                 ${metaParts.length > 0 ? '<div class="result-meta">' + metaParts.join(' · ') + '</div>' : ''}
             `;

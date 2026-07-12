@@ -199,10 +199,11 @@ function parseLuaDeclarations(filePath: string, version: '2.0' | '3.0'): ApiItem
                     continue;
                 }
 
-                // 纯描述行
+                // 纯描述行（累积为完整 Markdown，从下往上遍历故向前插入）
                 const descMatch = commentLine.match(/^--- (.+)$/);
                 if (descMatch && !descMatch[1].startsWith('@') && !descMatch[1].startsWith('class ')) {
-                    description = descMatch[1].trim();
+                    const line = descMatch[1].trim();
+                    description = line + (description ? '\n' + description : '');
                 }
                 j--;
             }
@@ -920,6 +921,17 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
         const cssUri = webview.asWebviewUri(vscode.Uri.joinPath(webviewDir, 'style.css'));
         const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(webviewDir, 'script.js'));
 
+        // 读取 marked 库并内联到 HTML 中
+        const markedPath = path.join(this._extensionUri.fsPath, 'node_modules', 'marked', 'lib', 'marked.umd.js');
+        let markedScript = '';
+        if (fs.existsSync(markedPath)) {
+            markedScript = fs.readFileSync(markedPath, 'utf-8');
+        } else {
+            console.warn('marked 库未找到，将使用降级方案');
+            // 降级方案：提供一个空的 marked polyfill
+            markedScript = 'window.marked={parse:function(t){return t},parseInline:function(t){return t}};';
+        }
+
         const htmlPath = vscode.Uri.joinPath(webviewDir, 'search.html');
         let html = fs.readFileSync(htmlPath.fsPath, 'utf-8');
 
@@ -927,7 +939,9 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
             .replace(/\{\{nonce\}\}/g, nonce)
             .replace(/\{\{cspUri\}\}/g, webview.cspSource)
             .replace(/\{\{cssUri\}\}/g, cssUri.toString())
-            .replace(/\{\{scriptUri\}\}/g, scriptUri.toString());
+            .replace(/\{\{scriptUri\}\}/g, scriptUri.toString())
+            .replace('</head>',
+                `<script nonce="${nonce}">${markedScript}</script>\n</head>`);
 
         return html;
     }
