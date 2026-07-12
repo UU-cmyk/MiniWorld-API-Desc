@@ -15,6 +15,10 @@ const SKIP_HOURS = 4;
 let skipUntilCached = 0;
 let skipForeverCached = false;
 
+// 事件补全数据异步加载状态
+let eventDefinitionsReady = false;
+let eventDefinitions: Map<string, EventDefinition> = new Map();
+
 type EventDefinition = {
     desc?: string;
     event_info?: Record<string, string>;
@@ -32,13 +36,9 @@ function getTypesDir30(context: vscode.ExtensionContext): string {
     return context.asAbsolutePath(path.join('addon', 'types', '3.0'));
 }
 
-export function parseEventDefinitions(filePath: string): Map<string, EventDefinition> {
-    if (!fs.existsSync(filePath)) {
-        return new Map();
-    }
-
+export async function parseEventDefinitions(filePath: string): Promise<Map<string, EventDefinition>> {
     try {
-        const raw = fs.readFileSync(filePath, 'utf8');
+        const raw = await fs.promises.readFile(filePath, 'utf8');
         const parsed = JSON.parse(raw) as Record<string, EventDefinition>;
 
         return new Map(Object.entries(parsed).sort(([left], [right]) => left.localeCompare(right)));
@@ -226,7 +226,13 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('MiniWorld API Desc 完成插件已激活');
 
     const eventDefinitionsFile = getEventDefinitionsFile(context);
-    const eventDefinitions = parseEventDefinitions(eventDefinitionsFile);
+
+    // 异步加载事件定义，不阻塞激活
+    const loadPromise = parseEventDefinitions(eventDefinitionsFile).then(defs => {
+        eventDefinitions = defs;
+        eventDefinitionsReady = true;
+    });
+
     const eventCompletionProvider = vscode.languages.registerCompletionItemProvider(
         { language: 'lua' },
         {
@@ -234,6 +240,10 @@ export function activate(context: vscode.ExtensionContext) {
                 const prefix = getEventPrefix(document, position);
                 // 仅在 [=[ 上下文中提供事件补全
                 if (prefix === null) {
+                    return [];
+                }
+                // 数据未就绪则暂不补全
+                if (!eventDefinitionsReady) {
                     return [];
                 }
                 const items = buildEventCompletionItems(eventDefinitions);

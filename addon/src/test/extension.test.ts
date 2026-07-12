@@ -10,7 +10,7 @@ import { buildEventCompletionItems, parseEventDefinitions } from '../extension';
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
 
-	test('parses event definitions from json', () => {
+	test('parses event definitions from json', async () => {
 		const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'miniworld-event-'));
 		const filePath = path.join(tempDir, 'MNEvent.d.json');
 		fs.writeFileSync(filePath, JSON.stringify({
@@ -19,7 +19,7 @@ suite('Extension Test Suite', () => {
 			},
 		}, null, 2));
 
-		const definitions = parseEventDefinitions(filePath);
+		const definitions = await parseEventDefinitions(filePath);
 
 		assert.strictEqual(definitions.size, 1);
 		assert.strictEqual(definitions.get('Game.Hour')?.desc, '世界小时时间变化');
