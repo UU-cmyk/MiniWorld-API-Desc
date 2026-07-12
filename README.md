@@ -6,7 +6,7 @@
 ![VS Code](https://img.shields.io/badge/VS%20Code-^1.125.0-blue)
 ![Lua](https://img.shields.io/badge/Lua-5.1%2B-yellow)
 
-[![English](https://img.shields.io/badge/English-blue?logo=markdown)](./README.en.md) — [English Version](./README.en.md)
+[![English Version README](https://img.shields.io/badge/English-README-blue?logo=markdown)](./README.en.md)
 
 《迷你世界》UGC Lua 开发的 API 声明库、代码补全插件与辅助工具集。
 
@@ -58,6 +58,8 @@
 | `MiniWorld API Description: 移除 MiniWorld UGC 2.0 声明` | 从配置中移除 2.0 声明目录 |
 | `MiniWorld API Description: 添加 MiniWorld UGC 3.0 声明` | 将 3.0 声明目录添加到 `Lua.workspace.library` |
 | `MiniWorld API Description: 移除 MiniWorld UGC 3.0 声明` | 从配置中移除 3.0 声明目录 |
+| `MiniWorld API Description: 打开 API 搜索` | 打开 API 搜索面板，快速检索函数、枚举、事件 |
+| `MiniWorld API Description: 刷新 API 搜索索引` | 重新扫描声明文件，更新搜索索引 |
 
 执行添加/移除命令时，会弹出范围选择窗口：
 
@@ -68,6 +70,31 @@
 | **工作区文件夹 (WorkspaceFolder)** | 写入工作区文件夹设置 |
 
 插件会根据当前各范围的配置状态自动筛选可用选项：添加时仅显示**未包含**该声明的范围，移除时仅显示**已包含**该声明的范围。
+
+---
+
+## API 搜索
+
+v0.6.1 新增了 **API 搜索面板**，支持在 VS Code 侧边栏中快速检索所有 MiniWorld API，无需跳出编辑器翻阅文档。
+
+### 打开方式
+
+| 方式 | 操作 |
+| :-: | :-: |
+| **命令面板** | `Ctrl+Shift+P` → 输入 **MiniWorld API Description: 打开 API 搜索** |
+| **侧边栏按钮** | 点击左侧活动栏的 🔍 **MiniWorld API 搜索** 图标 |
+
+### 功能介绍
+
+- **模糊搜索** — 输入关键词即可按名称、参数、描述进行模糊匹配，支持首字母缩写（如输入 `GP` 匹配 `GetPosition`）
+- **筛选过滤** — 支持按版本（2.0 / 3.0）、模块、类型（函数 / 枚举 / 事件）进行筛选
+- **详情查看** — 点击搜索结果可查看完整的参数列表、返回值、枚举值和事件参数
+- **点击跳转** — 点击结果条目即可跳转到声明文件对应的源码位置
+- **刷新索引** — 执行 **MiniWorld API Description: 刷新 API 搜索索引** 命令可重新扫描声明文件
+
+### 快捷键
+
+在搜索输入框中按 `Ctrl+K` 可快速清空搜索内容。
 
 ---
 

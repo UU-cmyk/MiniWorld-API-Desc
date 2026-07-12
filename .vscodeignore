@@ -35,3 +35,4 @@ tools/
 pyproject.toml
 AiDesc/
 template/
+out/

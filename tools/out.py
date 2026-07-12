@@ -36,7 +36,7 @@ def ai_desc_30() -> None:
 
 def addon() -> None:
     """运行 PowerShell 脚本打包 VSIX 插件，并移动到输出目录"""
-    ps_script = BASE_DIR / "pack.ps1"
+    ps_script = BASE_DIR / ".." / "pack.ps1"
     if not ps_script.exists():
         raise FileNotFoundError(f"PowerShell 脚本未找到: {ps_script}")
 
@@ -58,7 +58,7 @@ def addon() -> None:
 
     # 移动生成的 VSIX 文件
     vsix_name = "miniworld-api-desc-addon.vsix"
-    vsix_path = BASE_DIR / vsix_name
+    vsix_path = BASE_DIR / ".." / vsix_name
     dest_dir = OUTPUT_PATH
     dest_dir.mkdir(parents=True, exist_ok=True)
 

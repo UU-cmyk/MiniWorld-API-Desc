@@ -6,7 +6,7 @@
 ![VS Code](https://img.shields.io/badge/VS%20Code-^1.125.0-blue)
 ![Lua](https://img.shields.io/badge/Lua-5.1%2B-yellow)
 
-[![中文](https://img.shields.io/badge/中文-blue?logo=markdown)](./README.md) — [中文版](./README.md)
+[![中文版自述文件](https://img.shields.io/badge/中文-README-blue?logo=markdown)](./README.md)
 
 API declaration library, code completion extension, and helper tools for UGC Lua development in *Mini World* (迷你世界).
 
@@ -58,6 +58,8 @@ Press `Ctrl+Shift+P` and type `MiniWorld` to find all available commands:
 | `MiniWorld API Description: Remove MiniWorld UGC 2.0 Declarations` | Remove the 2.0 declaration directory from the config |
 | `MiniWorld API Description: Add MiniWorld UGC 3.0 Declarations` | Add the 3.0 declaration directory to `Lua.workspace.library` |
 | `MiniWorld API Description: Remove MiniWorld UGC 3.0 Declarations` | Remove the 3.0 declaration directory from the config |
+| `MiniWorld API Description: Open API Search` | Open the API search panel for quick access to functions, enums, and events |
+| `MiniWorld API Description: Refresh API Search Index` | Rescan declaration files to update the search index |
 
 When running add/remove commands, a scope picker appears:
 
@@ -68,6 +70,33 @@ When running add/remove commands, a scope picker appears:
 | **Workspace Folder** | Write to workspace folder settings |
 
 The extension automatically filters available options based on current config state: add commands only show scopes **not already containing** the declarations; remove commands only show scopes **currently containing** them.
+
+---
+
+## API Search
+
+> New in v0.6.1
+
+The **API Search panel** lets you quickly search all MiniWorld APIs directly from the VS Code sidebar — no need to leave your editor to browse documentation.
+
+### How to Open
+
+| Method | Action |
+| :-: | :-: |
+| **Command Palette** | `Ctrl+Shift+P` → run **MiniWorld API Description: Open API Search** |
+| **Sidebar** | Click the 🔍 **MiniWorld API Search** icon in the activity bar |
+
+### Features
+
+- **Fuzzy Search** — Type keywords to fuzzy-match against API names, parameters, and descriptions. Supports acronym matching (e.g., `GP` matches `GetPosition`)
+- **Filters** — Filter by version (2.0 / 3.0), module, and type (function / enum / event)
+- **Detail View** — Click a result to see full parameter lists, return values, enum values, and event parameters
+- **Click to Navigate** — Click any result to jump directly to the corresponding declaration file
+- **Refresh Index** — Run **MiniWorld API Description: Refresh API Search Index** to rescan declaration files
+
+### Shortcuts
+
+Press `Ctrl+K` inside the search input to quickly clear the current query.
 
 ---
 
