@@ -34,6 +34,22 @@ def ai_desc_30() -> None:
     logging.info("ai-desc-3.0.zip 已生成 -> %s", zip_path)
 
 
+def ai_desc_20() -> None:
+    """将 AiDesc 2.0 的文件打包为 zip"""
+    OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
+
+    zip_path = OUTPUT_PATH / "ai-desc-2.0.zip"
+    file1 = AI_DESC_30_INPUT_PATH / "MNAiDesc.txt"
+
+    if not file1.exists():
+        raise FileNotFoundError(f"源文件不存在: {file1}")
+
+    with zipfile.ZipFile(zip_path, "w") as zf:
+        zf.write(file1, "MNAiDesc.txt")
+
+    logging.info("ai-desc-2.0.zip 已生成 -> %s", zip_path)
+
+
 def addon() -> None:
     """运行 PowerShell 脚本打包 VSIX 插件，并移动到输出目录"""
     ps_script = BASE_DIR / ".." / "pack.ps1"
@@ -71,6 +87,7 @@ def addon() -> None:
 
 def main() -> None:
     try:
+        ai_desc_20()
         ai_desc_30()
         addon()
         logging.info("所有操作完成。")
