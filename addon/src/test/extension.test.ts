@@ -5,7 +5,7 @@ import * as path from 'path';
 
 import * as vscode from 'vscode';
 
-import { buildEventCompletionItems, parseEventDefinitions } from '../extension';
+import { buildEventCompletionItems, parseEventDefinitions } from '../eventCompletion';
 
 suite('Extension Test Suite', () => {
 	vscode.window.showInformationMessage('Start all tests.');
