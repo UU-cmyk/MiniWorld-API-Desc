@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src {{cspUri}} 'unsafe-inline'; script-src 'nonce-{{nonce}}'; font-src {{cspUri}};">
+    <title>MiniWorld API 搜索</title>
+    <link rel="stylesheet" href="{{cssUri}}">
+</head>
+<body>
+    <!-- 搜索视图 -->
+    <div id="searchView">
+        <input type="text" class="search-box" id="searchInput"
+               placeholder="搜索 API 名称、参数、描述… (模糊匹配)" autofocus />
+
+        <div class="filters">
+            <div class="filter-row">
+                <button class="filter-btn active" data-filter="version" data-value="all">全部版本</button>
+                <button class="filter-btn" data-filter="version" data-value="2.0">2.0</button>
+                <button class="filter-btn" data-filter="version" data-value="3.0">3.0</button>
+
+                <select class="filter-select" id="moduleFilter">
+                    <option value="all">全部模块</option>
+                </select>
+            </div>
+
+            <div class="filter-row">
+                <button class="filter-btn active" data-filter="kind" data-value="all">全部</button>
+                <button class="filter-btn" data-filter="kind" data-value="function">函数</button>
+                <button class="filter-btn" data-filter="kind" data-value="enum">枚举</button>
+                <button class="filter-btn" data-filter="kind" data-value="event">事件</button>
+            </div>
+        </div>
+
+        <div class="stats" id="stats">
+            <span id="resultCount">加载中…</span>
+        </div>
+
+        <div class="results" id="results"></div>
+        <div class="pagination" id="pagination"></div>
+        <div class="loading" id="loading">正在加载 API 数据…</div>
+    </div>
+
+    <!-- 详情视图 -->
+    <div id="detailView" class="detail-view hidden">
+        <button class="detail-back" id="detailBack">← 返回搜索</button>
+        <div id="detailContent"></div>
+    </div>
+
+    <script nonce="{{nonce}}" src="{{scriptUri}}"></script>
+</body>
+</html>
