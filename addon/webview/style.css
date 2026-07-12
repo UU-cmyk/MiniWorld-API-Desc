@@ -110,12 +110,6 @@ select.filter-select:disabled {
 .result-item.version-2\\.0 { border-left-color: #4ec9b0; }
 .result-item.version-3\\.0 { border-left-color: #569cd6; }
 
-.result-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-}
 .result-name {
     font-family: var(--font-mono);
     font-weight: 600;
@@ -288,6 +282,50 @@ select.filter-select:disabled {
     opacity: 0.4;
     margin-top: 16px;
     word-break: break-all;
+}
+
+/* 复制按钮 */
+.copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--fg);
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: opacity 0.15s, transform 0.15s;
+    line-height: 1;
+    user-select: none;
+}
+.copy-btn:hover { opacity: 1; }
+.copy-btn.copied {
+    opacity: 1;
+    transform: scale(1.1);
+}
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.result-copy-btn {
+    font-size: 11px;
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.result-item:hover .result-copy-btn {
+    opacity: 0.5;
+}
+.result-item:hover .result-copy-btn:hover {
+    opacity: 1;
+}
+.detail-copy-btn {
+    font-size: 14px;
+    flex-shrink: 0;
 }
 
 /* 分页 */

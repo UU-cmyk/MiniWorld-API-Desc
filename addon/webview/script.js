@@ -136,8 +136,17 @@
         const kindClass = { function: 'kind-function', enum: 'kind-enum', event: 'kind-event' }[d.kind] || '';
         const verClass = d.version === '2.0' ? 'version-2\\.0-tag' : 'version-3\\.0-tag';
 
-        // 第 1 行：代码名
-        let html = `<div class="detail-name" style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--vscode-textLink-foreground,#3794ff);word-break:break-all;margin-bottom:6px">${escapeHtml(d.name)}</div>`;
+        // 函数名显示：有 className 则加类名前缀，无则仅函数名（如 GlobalFunc）
+        const detailDisplayName = d.kind === 'function'
+            ? (d.className ? `${d.className}:${d.name}()` : `${d.name}()`)
+            : d.name;
+        const detailCopyText = detailDisplayName;
+
+        // 第 1 行：代码名 + 复制按钮
+        let html = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div class="detail-name" style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--vscode-textLink-foreground,#3794ff);word-break:break-all">${escapeHtml(detailDisplayName)}</div>
+            <button class="copy-btn detail-copy-btn" data-copy="${escapeHtml(detailCopyText)}" title="复制名称">📋</button>
+        </div>`;
 
         // 第 2 行：标签
         html += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px">
@@ -197,6 +206,14 @@
         html += `<div class="detail-source">${escapeHtml(d.sourceFile)} : ${d.sourceLine}</div>`;
 
         detailContent.innerHTML = html;
+
+        // 详情页复制按钮事件
+        const detailCopyBtn = detailContent.querySelector('.detail-copy-btn');
+        if (detailCopyBtn) {
+            detailCopyBtn.addEventListener('click', () => {
+                copyToClipboard(detailCopyText, detailCopyBtn);
+            });
+        }
 
         // 检测容器宽度，自动切换横排/竖排
         function adjustDetailLayout() {
@@ -311,9 +328,11 @@
                 ? item.parameters.map(p => `<code>${p.name}: ${p.type}</code>`).join(', ')
                 : '';
 
+            const displayName = item.displayName || item.name;
             card.innerHTML = `
                 <div class="result-header">
-                    <span class="result-name">${item.name}</span>
+                    <span class="result-name">${displayName}</span>
+                    <button class="copy-btn result-copy-btn" data-copy="${displayName}" title="复制名称">📋</button>
                 </div>
                 <div class="result-tags">
                     <span class="result-kind kind-${item.kind}">${kindLabel}</span>
@@ -324,6 +343,13 @@
                 ${paramsPreview ? '<div class="result-meta">参数: ' + paramsPreview + '</div>' : ''}
                 ${metaParts.length > 0 ? '<div class="result-meta">' + metaParts.join(' · ') + '</div>' : ''}
             `;
+
+            // 复制按钮阻止冒泡，避免触发详情跳转
+            const copyBtn = card.querySelector('.result-copy-btn');
+            copyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                copyToClipboard(displayName, copyBtn);
+            });
 
             card.addEventListener('click', () => showDetail(item.name, item.sourceFile, item.sourceLine, item.kind));
             resultsEl.appendChild(card);
@@ -353,6 +379,31 @@
         state.allResults = data.results;
         state.currentPage = 1;
         renderCurrentPage();
+    }
+
+    // 复制到剪贴板
+    function copyToClipboard(text, btn) {
+        // 使用 Web Clipboard API 直接写入（VS Code webview 支持）
+        navigator.clipboard.writeText(text).then(() => {
+            // 按钮反馈：成功
+            const original = btn.textContent;
+            btn.textContent = '✅';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = original;
+                btn.classList.remove('copied');
+            }, 1200);
+        }).catch(() => {
+            // 降级：尝试通过 postMessage 让 extension 写入
+            vscode.postMessage({ type: 'copy', text });
+            const original = btn.textContent;
+            btn.textContent = '✅';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = original;
+                btn.classList.remove('copied');
+            }, 1200);
+        });
     }
 
     function escapeHtml(str) {

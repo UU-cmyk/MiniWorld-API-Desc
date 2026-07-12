@@ -38,6 +38,8 @@ export interface ApiItem {
     sourceFile: string;
     /** 函数所在行号 */
     sourceLine: number;
+    /** 声明时的类名前缀（如 Player:getPos 的 "Player"），undefined 表示非类方法 */
+    className?: string;
 }
 
 // 解析器
@@ -143,17 +145,18 @@ function parseLuaDeclarations(filePath: string, version: '2.0' | '3.0'): ApiItem
     }
 
     // 解析函数 / 方法
-    // 支持两种模式：
+    // 支持三种模式：
     //   1. function ClassName:methodName(params) return ... end
     //   2. local funcName = function(params) return ... end
     //   3. function funcName(params) return ... end
-    const funcRegex = /(?:function\s+(?:\w+:)?(\w+)\s*\(|(\w+)\s*=\s*function\s*\()/;
+    const funcRegex = /(?:function\s+(?:(\w+):)?(\w+)\s*\(|(\w+)\s*=\s*function\s*\()/;
     i = 0;
     while (i < lines.length) {
         const line = lines[i];
         const funcMatch = line.match(funcRegex);
         if (funcMatch) {
-            const funcName = funcMatch[1] || funcMatch[2];
+            const className = funcMatch[1]; // 类名（如 Player: 中的 Player），可能为 undefined
+            const funcName = funcMatch[2] || funcMatch[3];
             if (!funcName || funcName === 'function') {continue;}
 
             let description = '';
@@ -208,6 +211,7 @@ function parseLuaDeclarations(filePath: string, version: '2.0' | '3.0'): ApiItem
                 name: funcName,
                 kind: 'function',
                 module: moduleName,
+                className: className || undefined,
                 version,
                 description,
                 parameters: params,
@@ -402,23 +406,31 @@ function fuzzyMatchChar(text: string, query: string): boolean {
 }
 
 /**
- * 检查点号查询是否匹配（如 "BlockType.Sto" 匹配 BlockType 的 Stone 字段）
- * lowerItem/className/fieldName 均已小写
+ * 检查限定名查询（类名.方法名 / 模块:函数名）是否匹配
+ * - 函数：className 匹配模块名（lowerModule），methodName 匹配函数名（lowerName）
+ * - 枚举/事件：className 匹配条目名（lowerName），methodName 匹配字段名
+ * lowerItem/className/methodName 均已小写
  */
-function matchDotQueryLower(
+function matchQualifiedQueryLower(
     li: LowerItem,
     className: string,
-    fieldName: string,
+    methodName: string,
 ): boolean {
-    if (!fieldName) {return false;}
+    if (!methodName) {return false;}
+    if (li.item.kind === 'function') {
+        return fuzzyMatchLower(li.lowerModule, className) &&
+            fuzzyMatchLower(li.lowerName, methodName);
+    }
+    // 枚举/事件
     return fuzzyMatchLower(li.lowerName, className) &&
-        li.lowerFields.some(f => fuzzyMatchLower(f.name, fieldName));
+        li.lowerFields.some(f => fuzzyMatchLower(f.name, methodName));
 }
 
 /** 预小写化的搜索条目（避免重复 toLowerCase） */
 interface LowerItem {
     item: ApiItem;
     lowerName: string;
+    lowerModule: string;
     lowerDesc: string;
     lowerParams: Array<{ name: string; desc: string }>;
     lowerFields: Array<{ name: string; desc: string }>;
@@ -428,6 +440,7 @@ function toLowerItem(item: ApiItem): LowerItem {
     return {
         item,
         lowerName: item.name.toLowerCase(),
+        lowerModule: item.module.toLowerCase(),
         lowerDesc: item.description.toLowerCase(),
         lowerParams: item.parameters.map(p => ({
             name: p.name.toLowerCase(),
@@ -442,7 +455,7 @@ function toLowerItem(item: ApiItem): LowerItem {
 
 /** 基于预小写化数据计算分数 */
 function scoreLowerItem(li: LowerItem, q: string): number {
-    const { lowerName: name, lowerDesc: desc, lowerParams, lowerFields } = li;
+    const { lowerName: name, lowerModule: mod, lowerDesc: desc, lowerParams, lowerFields } = li;
     let score = 0;
 
     if (name === q) {score += 200;}
@@ -455,13 +468,22 @@ function scoreLowerItem(li: LowerItem, q: string): number {
     if (fuzzyMatchLower(desc, q)) {score += 5;}
     if (lowerFields.some(f => fuzzyMatchLower(f.name, q))) {score += 5;}
 
-    const dotIdx = q.indexOf('.');
-    if (dotIdx > 0) {
-        const className = q.substring(0, dotIdx);
-        const fieldName = q.substring(dotIdx + 1);
-        if (fieldName && fuzzyMatchLower(name, className) &&
-            lowerFields.some(f => fuzzyMatchLower(f.name, fieldName))) {
-            score += 150;
+    // 限定名匹配（类名.方法 / 模块:函数）
+    const sepIdx = q.search(/[.:]/);
+    if (sepIdx > 0) {
+        const className = q.substring(0, sepIdx);
+        const methodName = q.substring(sepIdx + 1);
+        if (methodName) {
+            if (li.item.kind === 'function') {
+                if (fuzzyMatchLower(mod, className) && fuzzyMatchLower(name, methodName)) {
+                    score += 150;
+                }
+            } else {
+                if (fuzzyMatchLower(name, className) &&
+                    lowerFields.some(f => fuzzyMatchLower(f.name, methodName))) {
+                    score += 150;
+                }
+            }
         }
     }
 
@@ -491,7 +513,8 @@ function searchItems(
 
     // 文本搜索
     if (query.trim()) {
-        const q = query.trim().toLowerCase();
+        // 剥离尾部括号 ()（），如 getPos() → getPos
+        const q = query.trim().toLowerCase().replace(/[（(]\s*[）)]?\s*$/, '');
 
         // 一次性预处理所有条目的小写版本
         const lowerItems = filtered.map(toLowerItem);
@@ -499,9 +522,10 @@ function searchItems(
         // 过滤
         const matched = lowerItems.filter(li => {
             const { lowerName: name, lowerDesc: desc, lowerParams, lowerFields } = li;
-            if (q.includes('.')) {
-                const dotIdx = q.indexOf('.');
-                if (matchDotQueryLower(li, q.substring(0, dotIdx), q.substring(dotIdx + 1))) {return true;}
+            // 限定名查询：类名.方法 或 模块:函数
+            const sepIdx = q.search(/[.:]/);
+            if (sepIdx >= 0) {
+                if (matchQualifiedQueryLower(li, q.substring(0, sepIdx), q.substring(sepIdx + 1))) {return true;}
             }
             if (fuzzyMatchLower(name, q)) {return true;}
             if (fuzzyMatchLower(desc, q)) {return true;}
@@ -635,6 +659,11 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
                 case 'showDetail':
                     this._handleShowDetail(msg);
                     break;
+                case 'copy':
+                    vscode.env.clipboard.writeText(msg.text).then(() => {
+                        vscode.window.showInformationMessage(`已复制: ${msg.text}`);
+                    });
+                    break;
             }
         });
     }
@@ -672,6 +701,7 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
             description: string; paramCount: number; returnCount: number; fieldCount: number;
             sourceFile: string; sourceLine: number;
             parameters: ApiParam[]; returns: ApiReturn[]; fields: ApiField[];
+            displayName?: string;
         }> = [];
 
         // 不显示的事件父类（仅隐藏无点号的类名，子事件如 TriggerEvent.GameStart 仍显示）
@@ -728,6 +758,9 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
             } else if (!hiddenEventParents.has(item.name)) {
                 expanded.push({
                     name: item.name,
+                    displayName: item.kind === 'function'
+                        ? (item.className ? `${item.className}:${item.name}()` : `${item.name}()`)
+                        : undefined,
                     kind: item.kind,
                     module: item.module,
                     version: item.version,
@@ -768,14 +801,37 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
     }
 
     private _handleShowDetail(msg: { name: string; sourceFile: string; sourceLine: number; kind: string }): void {
-        // 优先精确匹配（name + sourceFile + sourceLine）
+        // 辅助：剥离模块前缀和尾部括号，提取裸函数名
+        const getBareName = (n: string, k: string): string => {
+            let bare = n;
+            if (k === 'function') {
+                bare = bare.replace(/[（(]\s*[）)]\s*$/, '').trim();
+                const sepIdx = bare.search(/[.,:]/);
+                if (sepIdx > 0) {
+                    bare = bare.substring(sepIdx + 1).trim();
+                }
+            }
+            return bare;
+        };
+
+        // 1. 精确匹配（name + sourceFile + sourceLine）
         let item = this._allItems.find(i =>
             i.name === msg.name &&
             i.sourceFile === msg.sourceFile &&
             i.sourceLine === msg.sourceLine
         );
 
-        // 精确匹配失败，尝试按 name + sourceFile 再找一次（JSON 事件行号均为 -1）
+        // 2. 用裸函数名再试（处理带模块前缀的函数名）
+        if (!item && msg.kind === 'function') {
+            const bareName = getBareName(msg.name, msg.kind);
+            item = this._allItems.find(i =>
+                i.name === bareName &&
+                i.sourceFile === msg.sourceFile &&
+                i.sourceLine === msg.sourceLine
+            );
+        }
+
+        // 3. 精确匹配失败，尝试按 name + sourceFile 再找一次（JSON 事件行号均为 -1）
         if (!item) {
             item = this._allItems.find(i =>
                 i.name === msg.name &&
@@ -783,7 +839,7 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
             );
         }
 
-        // 仍失败 → 可能是展开的字段条目 (name 包含 .)，找到父类再取具体字段
+        // 4. 仍失败 → 可能是展开的字段条目 (name 包含 .)，找到父类再取具体字段
         let fieldDetail: { name: string; type: string; desc: string } | undefined;
         if (!item) {
             const dotIdx = msg.name.lastIndexOf('.');
@@ -836,6 +892,7 @@ export class ApiSearchProvider implements vscode.WebviewViewProvider {
                 name: msg.name,
                 kind: item.kind,
                 module: item.module,
+                className: item.className,
                 version: item.version,
                 description,
                 sourceFile: item.sourceFile,
