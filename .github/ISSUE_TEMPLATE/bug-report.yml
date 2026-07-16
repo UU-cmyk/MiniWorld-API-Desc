@@ -1,0 +1,29 @@
+name: Bug 反馈 | Bug Report
+description: 
+  反馈一个 MiniWorld API Desc 错误。| File a bug report for MiniWorld API Desc.
+title: "[Bug] "
+labels: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        提交前请确认：
+
+        * 该问题确实是 **MiniWorld API Desc 的错误**，而**不是其他原因所导致的问题**。
+
+        Before submitting, please confirm:
+
+        * This issue is indeed an **error in the MiniWorld API Desc**, and **not caused by anything else**.
+  - type: textarea
+    id: bug-report
+    attributes:
+      label: 问题描述 | Bug Description
+      description: |
+        请尽可能地详细描述你所遇到的问题，并描述如何重新触发这个问题。
+        Please describe the bug you met in as much detail as possible. Additionally, describe the steps to reproduce this bug.
+      placeholder: |
+        1. 点击某个按钮 | Click a button ...
+        2. 向下翻页 | Scroll down
+        3. ...
+    validations:
+      required: true
