@@ -119,10 +119,34 @@ try {
         if ($LASTEXITCODE -ne 0) { throw "vsce 安装失败" }
     }
 
+    # 使用插件专用的 README 替换根目录 README，打包后恢复
+    $AddonReadme = Join-Path $CompleteDir "README.md"
+    $RootReadme = Join-Path $ProjectRoot "README.md"
+    $RootReadmeBackup = Join-Path $ProjectRoot "README.md.bak"
+
+    $HasBackup = $false
+    if (Test-Path $RootReadme) {
+        Copy-Item -Path $RootReadme -Destination $RootReadmeBackup -Force
+        $HasBackup = $true
+        Write-Step "已备份根目录 README.md → README.md.bak"
+    }
+    if (Test-Path $AddonReadme) {
+        Copy-Item -Path $AddonReadme -Destination $RootReadme -Force
+        Write-Step "已使用 addon/README.md 替换根目录 README.md"
+    }
+
     $OutputVsix = Join-Path $ProjectRoot "miniworld-api-desc-addon.vsix"
-    vsce package --out $OutputVsix
-    if ($LASTEXITCODE -ne 0) { throw "打包失败" }
-    Write-Success "打包完成！输出: $OutputVsix"
+    try {
+        vsce package --out $OutputVsix
+        if ($LASTEXITCODE -ne 0) { throw "打包失败" }
+        Write-Success "打包完成！输出: $OutputVsix"
+    } finally {
+        # 恢复根目录 README.md
+        if ($HasBackup) {
+            Move-Item -Path $RootReadmeBackup -Destination $RootReadme -Force
+            Write-Step "已恢复根目录 README.md"
+        }
+    }
 } finally {
     Pop-Location
 }

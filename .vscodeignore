@@ -23,7 +23,7 @@ pack.ps1
 node_modules/
 
 # 文档
-*.md
+/*.md
 complete/*.md
 docs/
 

@@ -98,77 +98,55 @@ Press `Ctrl+K` inside the search input to quickly clear the current query.
 
 ```bash
 MiniWorld-API-Desc/
-├── package.json                 # VS Code extension manifest
-├── tsconfig.json                # TypeScript compilation config
-├── eslint.config.mjs            # ESLint config
-├── pack.ps1                     # Build & packaging script
-├── .vscodeignore                # Extension publish ignore rules
-├── addon/                       # VS Code extension source
-│   ├── src/
-│   │   └── extension.ts         # Extension main logic
-│   └── types/                   # Declaration files
-├── multiple/                    # Modular declaration files
-│   ├── 2.0/                     # 28 module files
-│   └── 3.0/                     # 25 module files
-├── AiDesc/                      # AI-assisted description files
-│   └── 3.0/
-│       ├── AiDesc.md            # UGC 3.0 development guide (for AI)
-│       └── MNAiDesc.txt         # Plain-text API description
-├── tools/                       # Python utility scripts
-│   ├── 2.0/                     # 2.0 toolset
-│   │   ├── Merge.py
-│   │   ├── FuncCompare.py
-│   │   ├── EventCompare.py
-│   │   └── DescToAiDesc.py
-│   └── 3.0/                     # 3.0 toolset
-│       ├── Merge.py
-│       ├── FuncCompare.py
-│       ├── EventCompare.py
-│       ├── EnumLibCompare.py
-│       └── DescToAiDesc.py
-└── img/
-    └── Logo-128px.png           # Extension icon
+├── package.json  # VS Code extension manifest
+├── tsconfig.json  # TypeScript compilation config
+├── eslint.config.mjs  # ESLint config
+├── pack.ps1  # Build & packaging script
+├── .vscodeignore  # Extension publish ignore rules
+├── addon/  # VS Code extension source
+├── multiple/  # Modular declaration files
+├── docs/  # Project documentation
+├── tools/  # Python utility scripts
+└── img/  # Image assets
 ```
 
 ## Utility Scripts
 
-Run the following commands from the project root (requires Python 3.10+, dependencies in `pyproject.toml`):
+Run the following commands from the project root (requires Python 3.10+, dependencies in `uv.lock`):
 
-```bash
-# Merge declarations
-python tools/3.0/Merge.py              # Merge multiple/3.0/ into merged.3.0.lua
-python tools/2.0/Merge.py              # Merge multiple/2.0/ into merged.2.0.lua
-
-# API comparison (compare local declarations against official online docs)
-python tools/3.0/FuncCompare.py        # 3.0 function comparison
-python tools/3.0/EventCompare.py       # 3.0 event comparison
-python tools/3.0/EnumLibCompare.py     # 3.0 enum comparison
-python tools/2.0/FuncCompare.py        # 2.0 function comparison
-python tools/2.0/EventCompare.py       # 2.0 event comparison
-
-# AI description generation
-python tools/3.0/DescToAiDesc.py       # Generate AiDesc/3.0/MNAiDesc.txt
-python tools/2.0/DescToAiDesc.py       # Generate AiDesc/2.0/MNAiDesc.txt
-```
+| Category | Command | Description |
+| :-: | :-- | :-: |
+| Merge declarations | `python tools/3.0/Merge.py` | Merge multiple/3.0/ into merged.3.0.lua |
+| Merge declarations | `python tools/2.0/Merge.py` | Merge multiple/2.0/ into merged.2.0.lua |
+| API comparison | `python tools/3.0/FuncCompare.py` | 3.0 function comparison |
+| API comparison | `python tools/3.0/EventCompare.py` | 3.0 event comparison |
+| API comparison | `python tools/3.0/EnumLibCompare.py` | 3.0 enum comparison |
+| API comparison | `python tools/2.0/FuncCompare.py` | 2.0 function comparison |
+| API comparison | `python tools/2.0/EventCompare.py` | 2.0 event comparison |
+| AI description | `python tools/3.0/DescToAiDesc.py` | Generate AiDesc/3.0/MNAiDesc.txt |
+| AI description | `python tools/2.0/DescToAiDesc.py` | Generate AiDesc/2.0/MNAiDesc.txt |
 
 ## AI Usage
 
-Provide the following files to an AI assistant to help it understand the UGC 3.0 API:
+Providing the following file contents to the AI assistant can help it understand UGC:
 
-- **[AiDesc/3.0/AiDesc.md](./AiDesc/3.0/AiDesc.md)** — UGC 3.0 development guide covering script conventions, event usage, coordinate system, skybox, and more
-- **[AiDesc/3.0/MNAiDesc.txt](./AiDesc/3.0/MNAiDesc.txt)** — Plain-text API description without type annotation markers, suitable for markup-sensitive scenarios
+- UGC 3.0
+  - [SKILL.md](./docs/miniworld-ugc-30/SKILL.md)
+  - [API.txt](./docs/miniworld-ugc-30/references/API.txt)
+- UGC 2.0
+  - [API.txt](./docs/miniworld-ugc-20/references/API.txt)
 
 ## Building from Source
 
 Requires Node.js. Run from the project root:
 
-```powershell
-./pack.ps1                          # Full build & package
-./pack.ps1 -CompileOnly             # Compile only, skip packaging
-./pack.ps1 -SkipLint                # Skip lint check
-./pack.ps1 -SkipInstall             # Skip npm install
-./pack.ps1 -Clean                   # Clean build output only
-```
+| Command | Description |
+| :-- | :-: |
+| `./pack.ps1` | Full build & package |
+| `./pack.ps1 -CompileOnly` | Compile only, skip packaging |
+| `./pack.ps1 -SkipLint` | Skip lint check |
+| `./pack.ps1 -SkipInstall` | Skip npm install |
+| `./pack.ps1 -Clean` | Clean build output only |
 
 After packaging, a `.vsix` file is generated in the project root, ready to install into VS Code.
 
@@ -199,4 +177,4 @@ After packaging, a `.vsix` file is generated in the project root, ready to insta
 
 ## License
 
-[MIT](./LICENSE)
+This project is released under the [MIT](./LICENSE) License
