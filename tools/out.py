@@ -5,47 +5,51 @@ import logging
 from pathlib import Path
 
 # 配置日志
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # 路径配置
 BASE_DIR = Path(__file__).resolve().parent
-AI_DESC_30_INPUT_PATH = BASE_DIR / ".." / "AiDesc" / "3.0"
-AI_DESC_20_INPUT_PATH = BASE_DIR / ".." / "AiDesc" / "2.0"
+AI_DESC_30_INPUT_PATH = BASE_DIR / ".." / "docs" / "miniworld-ugc-30"
+AI_DESC_20_INPUT_PATH = BASE_DIR / ".." / "docs" / "miniworld-ugc-20"
 OUTPUT_PATH = BASE_DIR / ".." / "out"
 
 
 def ai_desc_30() -> None:
-    """将 AiDesc 3.0 的两个文件打包为 zip"""
+    """将 AiDesc 3.0 目录递归打包为 zip，保留文件夹结构"""
     OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
 
     zip_path = OUTPUT_PATH / "ai-desc-3.0.zip"
-    file1 = AI_DESC_30_INPUT_PATH / "AiDesc.md"
-    file2 = AI_DESC_30_INPUT_PATH / "MNAiDesc.txt"
+    input_dir = AI_DESC_30_INPUT_PATH
 
-    if not file1.exists():
-        raise FileNotFoundError(f"源文件不存在: {file1}")
-    if not file2.exists():
-        raise FileNotFoundError(f"源文件不存在: {file2}")
+    if not input_dir.is_dir():
+        raise FileNotFoundError(f"源目录不存在: {input_dir}")
 
     with zipfile.ZipFile(zip_path, "w") as zf:
-        zf.write(file1, "AiDesc.md")
-        zf.write(file2, "MNAiDesc.txt")
+        for file in input_dir.rglob("*"):
+            if file.is_file():
+                arcname = file.relative_to(input_dir)
+                zf.write(file, arcname)
 
     logging.info("ai-desc-3.0.zip 已生成 -> %s", zip_path)
 
 
 def ai_desc_20() -> None:
-    """将 AiDesc 2.0 的文件打包为 zip"""
+    """将 AiDesc 2.0 目录递归打包为 zip，保留文件夹结构"""
     OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
 
     zip_path = OUTPUT_PATH / "ai-desc-2.0.zip"
-    file1 = AI_DESC_30_INPUT_PATH / "MNAiDesc.txt"
+    input_dir = AI_DESC_20_INPUT_PATH
 
-    if not file1.exists():
-        raise FileNotFoundError(f"源文件不存在: {file1}")
+    if not input_dir.is_dir():
+        raise FileNotFoundError(f"源目录不存在: {input_dir}")
 
     with zipfile.ZipFile(zip_path, "w") as zf:
-        zf.write(file1, "MNAiDesc.txt")
+        for file in input_dir.rglob("*"):
+            if file.is_file():
+                arcname = file.relative_to(input_dir)
+                zf.write(file, arcname)
 
     logging.info("ai-desc-2.0.zip 已生成 -> %s", zip_path)
 
@@ -62,17 +66,18 @@ def addon() -> None:
         capture_output=True,
         text=True,
         encoding="utf-8",
-        timeout=180,  # 增加超时保护
-        cwd=str(BASE_DIR),  # 明确工作目录为脚本所在目录
+        timeout=180,
+        cwd=str(BASE_DIR),
     )
 
     if result.returncode != 0:
         error_msg = result.stderr.strip() or result.stdout.strip()
-        raise RuntimeError(f"PowerShell 执行失败 (返回码 {result.returncode}):\n{error_msg}")
+        raise RuntimeError(
+            f"PowerShell 执行失败 (返回码 {result.returncode}):\n{error_msg}"
+        )
 
     logging.info("PowerShell 脚本执行成功，输出:\n%s", result.stdout)
 
-    # 移动生成的 VSIX 文件
     vsix_name = "miniworld-api-desc-addon.vsix"
     vsix_path = BASE_DIR / ".." / vsix_name
     dest_dir = OUTPUT_PATH

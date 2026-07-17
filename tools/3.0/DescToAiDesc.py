@@ -2,19 +2,25 @@ import os
 import re
 
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
-INPUT_FILE: str = os.path.join(SCRIPT_DIR, "..", "..", "MNDeclaration.d.lua")
-OUTPUT_DIR: str = os.path.join(SCRIPT_DIR, "..", "..", "AiDesc")
-OUTPUT_FILE: str = os.path.join(OUTPUT_DIR, "MNAiDesc.txt")
+INPUT_FILE: str = os.path.join(SCRIPT_DIR, "..", "..", "merged.3.0.lua")
+OUTPUT_DIR: str = os.path.join(
+    SCRIPT_DIR, "..", "..", "docs", "miniworld-ugc-30", "references"
+)
+OUTPUT_FILE: str = os.path.join(OUTPUT_DIR, "API.txt")
 
 # 匹配 "--- @" 开头的注释行，仅剔除 @tag 本身（如 @return、@param），保留后方类型和描述
 # 例如: "--- @return table @解码后的Table数据" → "--- table @解码后的Table数据"
-ANNOTATION_TAG_RE: re.Pattern[str] = re.compile(r"^([ \t]*---[ \t]*)@\w+\b[ \t]*", re.MULTILINE)
+ANNOTATION_TAG_RE: re.Pattern[str] = re.compile(
+    r"^([ \t]*---[ \t]*)@\w+\b[ \t]*", re.MULTILINE
+)
 
 # 移除 "---" 注释行中残留的 "@" 符号（描述文字前的 @ 标记）
 REMOVE_AT_SIGN_RE: re.Pattern[str] = re.compile(r"^[ \t]*---.*$", re.MULTILINE)
 
 # 匹配无内容的注释行 (移除 @ 后只剩 "---" )
-EMPTY_COMMENT_LINE_RE: re.Pattern[str] = re.compile(r"^[ \t]*---[ \t]*\r?\n", re.MULTILINE)
+EMPTY_COMMENT_LINE_RE: re.Pattern[str] = re.compile(
+    r"^[ \t]*---[ \t]*\r?\n", re.MULTILINE
+)
 
 
 def strip_annotations(content: str) -> str:

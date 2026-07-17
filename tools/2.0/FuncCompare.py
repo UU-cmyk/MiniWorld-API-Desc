@@ -39,13 +39,13 @@ FUNC_URLS: dict[str, str] = {
 
 # 2.0 声明文件所在目录
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
-FUNC_FILES_PATH: str = os.path.abspath(os.path.join(SCRIPT_DIR, os.pardir, "multiple", "2.0"))
-
-# 匹配函数声明行
-FUNCTION_RE: re.Pattern[str] = re.compile(r"^function\s+([A-Za-z_][\w\.:]*)")
-
-# 网页函数名过滤黑名单（跳过非函数标题）
-WEB_FILTER_BLACKLIST: set[str] = {
+FUNC_FILES_PATH: str = os.path.abspath(
+    os.path.join(SCRIPT_DIR, os.pardir, "multiple", "2.0")
+)
+FUNCTION_RE: re.Pattern[str] = re.compile(
+    r"^function\s+([A-Za-z_][\w\.:]*)"
+)  # 匹配函数声明行
+WEB_FILTER_BLACKLIST: set[str] = {  # 网页函数名过滤黑名单（跳过非函数标题）
     "序号",
     "函数名",
     "函数描述",
@@ -138,7 +138,9 @@ def module_name_from_file(filename: str) -> str:
     return base.replace("MN", "", 1) if base.startswith("MN") else base
 
 
-def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) -> list[str]:
+def compare_funcs(
+    local_funcs: set[str], web_funcs: set[str], module_name: str
+) -> list[str]:
     """比较本地和网页函数名，并返回差异行
     Args:
         local_funcs (set[str]): 本地函数名集合
@@ -154,7 +156,9 @@ def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) 
     if not local_funcs:
         diff_lines.append(f"[{module_name}] 本地文件未解析到函数或本地文件缺失。")
     if not web_funcs:
-        diff_lines.append(f"[{module_name}] 网页未解析到函数，请检查文档页面或解析规则。")
+        diff_lines.append(
+            f"[{module_name}] 网页未解析到函数，请检查文档页面或解析规则。"
+        )
 
     only_local = sorted(local_funcs - web_funcs)
     only_web = sorted(web_funcs - local_funcs)
@@ -178,7 +182,9 @@ def main() -> None:
     all_diff: list[str] = []
 
     # 收集本地所有 .d.lua 文件
-    local_files: list[str] = sorted(f for f in os.listdir(FUNC_FILES_PATH) if f.endswith(".d.lua"))
+    local_files: list[str] = sorted(
+        f for f in os.listdir(FUNC_FILES_PATH) if f.endswith(".d.lua")
+    )
 
     for filename in local_files:
         module_name: str = module_name_from_file(filename)
@@ -216,7 +222,10 @@ def main() -> None:
 
     # 统计
     only_local_count = sum(
-        1 for l in all_diff if l.startswith("  - ") and "仅在本地" in all_diff[max(0, all_diff.index(l) - 1)]
+        1
+        for l in all_diff
+        if l.startswith("  - ")
+        and "仅在本地" in all_diff[max(0, all_diff.index(l) - 1)]
     )
     print(f"\n总计: {len(local_files)} 个模块")
     if only_local_count:

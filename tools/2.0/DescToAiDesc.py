@@ -5,12 +5,18 @@ import re
 
 SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
 INPUT_FILE: str = os.path.join(SCRIPT_DIR, "..", "..", "merged.2.0.lua")
-OUTPUT_DIR: str = os.path.join(SCRIPT_DIR, "..", "..", "AiDesc", "2.0")
-OUTPUT_FILE: str = os.path.join(OUTPUT_DIR, "MNAiDesc.2.0.txt")
+OUTPUT_DIR: str = os.path.join(
+    SCRIPT_DIR, "..", "..", "docs", "miniworld-ugc-20", "references"
+)
+OUTPUT_FILE: str = os.path.join(OUTPUT_DIR, "API.txt")
 
-ANNOTATION_TAG_RE: re.Pattern[str] = re.compile(r"^([ \t]*---[ \t]*)@\w+\b[ \t]*", re.MULTILINE)
+ANNOTATION_TAG_RE: re.Pattern[str] = re.compile(
+    r"^([ \t]*---[ \t]*)@\w+\b[ \t]*", re.MULTILINE
+)
 REMOVE_AT_SIGN_RE: re.Pattern[str] = re.compile(r"^[ \t]*---.*$", re.MULTILINE)
-EMPTY_COMMENT_LINE_RE: re.Pattern[str] = re.compile(r"^[ \t]*---[ \t]*\r?\n", re.MULTILINE)
+EMPTY_COMMENT_LINE_RE: re.Pattern[str] = re.compile(
+    r"^[ \t]*---[ \t]*\r?\n", re.MULTILINE
+)
 
 
 def strip_annotations(content: str) -> str:
