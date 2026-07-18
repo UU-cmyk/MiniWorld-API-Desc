@@ -13,6 +13,23 @@ API declaration library, code completion extension, and helper tools for UGC Lua
 > **It is no longer recommended to manually configure declaration files. Use the VS Code extension instead.**  
 > After installing the extension, press `Ctrl+Shift+P` and run the corresponding command to automatically set up the declaration paths — no manual configuration needed.
 
+📚 **Table of Contents**
+
+- [Quick Start](#quick-start)
+- [API Search](#api-search)
+- [Extension Commands](#extension-commands)
+- [Project Structure](#project-structure)
+- [Utility Scripts](#utility-scripts)
+- [AI Usage](#ai-usage)
+- [Building from Source](#building-from-source)
+- [Compatibility](#compatibility)
+- [Contributing](#contributing)
+- [Changelog](#changelog)
+- [Notes](#notes)
+- [License](#license)
+
+---
+
 Provides complete Lua type declaration files that work with VS Code's [Lua Language Server (sumneko.lua)](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) to deliver intelligent autocompletion, type hints, and parameter documentation. Also includes an event completion extension, code snippet templates, and API comparison scripts to boost UGC component development productivity.
 
 ## Quick Start
@@ -140,13 +157,31 @@ Providing the following file contents to the AI assistant can help it understand
 
 Requires Node.js. Run from the project root:
 
+### Build Options
+
 | Command | Description |
 | :-- | :-: |
-| `./pack.ps1` | Full build & package |
+| `./pack.ps1` | Full build (compile + lint + package) |
 | `./pack.ps1 -CompileOnly` | Compile only, skip packaging |
 | `./pack.ps1 -SkipLint` | Skip lint check |
 | `./pack.ps1 -SkipInstall` | Skip npm install |
 | `./pack.ps1 -Clean` | Clean build output only |
+
+### Build Process
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Compile TypeScript
+tsc
+
+# 3. Package extension
+./pack.ps1
+
+# 4. Install extension (optional)
+code --install-extension MiniWorld-API-Desc.vsix
+```
 
 After packaging, a `.vsix` file is generated in the project root, ready to install into VS Code.
 
@@ -174,6 +209,57 @@ After packaging, a `.vsix` file is generated in the project root, ready to insta
    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
  </picture>
 </a>
+
+## Contributing
+
+Welcome to contribute to this project! Please follow these guidelines:
+
+### Reporting Issues
+
+- Use [GitHub Issues](https://github.com/LK-cmyk/MiniWorld-API-Desc/issues) to report bugs
+- Provide detailed reproduction steps and error information
+- Include relevant code snippets and logs
+
+### Submitting Pull Requests
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Create a Pull Request
+
+### Code Standards
+
+- Follow the project's ESLint configuration
+- Maintain consistent code style
+- Add appropriate comments and documentation
+- Ensure tests pass (if applicable)
+
+## Changelog
+
+### [v0.6.1] - 2024-XX-XX
+
+- Added API Search panel functionality
+- Optimized CSS transition performance
+- Fixed several known issues
+
+### [v0.6.0] - 2024-XX-XX
+
+- Added support for MiniWorld UGC 3.0
+- Refactored project structure
+- Improved declaration files
+
+### [v0.5.x] - 2024-XX-XX
+
+- Added support for MiniWorld UGC 2.0
+- Implemented event completion feature
+- Provided code snippet templates
+
+### [v0.4.x] - 2024-XX-XX
+
+- Initial version release
+- Basic API declaration files
+- VS Code extension support
 
 ## License
 
