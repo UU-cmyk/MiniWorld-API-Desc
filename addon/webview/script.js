@@ -244,17 +244,15 @@
             : d.name;
         const detailCopyText = detailDisplayName;
 
-        // 第 1 行：代码名 + 复制按钮
-        let html = `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-            <div class="detail-name" style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--vscode-textLink-foreground,#3794ff);word-break:break-all">${escapeHtml(detailDisplayName)}</div>
-            <button class="copy-btn detail-copy-btn" data-copy="${escapeHtml(detailCopyText)}" title="复制名称">${SVG.copy}</button>
-        </div>`;
+        // 第 1 行：代码名（独立一行）
+        let html = `<div class="detail-name" style="font-family:var(--font-mono);font-weight:700;font-size:16px;color:var(--vscode-textLink-foreground,#3794ff);word-break:break-all;margin-bottom:6px">${escapeHtml(detailDisplayName)}</div>`;
 
-        // 第 2 行：标签
+        // 第 2 行：标签 + 复制按钮
         html += `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px">
             <span class="result-kind ${kindClass}">${kindLabel}</span>
             <span class="result-version ${verClass}">${d.version}</span>
             <span style="font-size:11px;opacity:0.6">${escapeHtml(d.module)}</span>
+            <button class="copy-btn detail-copy-btn" data-copy="${escapeHtml(detailCopyText)}" title="复制名称">${SVG.copy}</button>
         </div>`;
 
         // 第 3 行：描述（Markdown 渲染）
@@ -385,16 +383,18 @@
         }
 
         let html = '';
-        // 上一页
+        // 第 1 行：上下页按钮
+        html += `<div class="page-nav-row">`;
         html += `<button class="page-prev" ${page <= 1 ? 'disabled' : ''}>◀ 上一页</button>`;
+        html += `<button class="page-next" ${page >= totalPages ? 'disabled' : ''}>下一页 ▶</button>`;
+        html += `</div>`;
 
-        // 页码信息 + 输入框
+        // 第 2 行：页码信息 + 输入框
+        html += `<div class="page-input-row">`;
         html += `<span class="page-info">第</span>`;
         html += `<input type="number" class="page-input" id="pageInput" value="${page}" min="1" max="${totalPages}" />`;
         html += `<span class="page-info">/ ${totalPages} 页</span>`;
-
-        // 下一页
-        html += `<button class="page-next" ${page >= totalPages ? 'disabled' : ''}>下一页 ▶</button>`;
+        html += `</div>`;
 
         paginationEl.innerHTML = html;
 
@@ -472,12 +472,12 @@
             card.innerHTML = `
                 <div class="result-header">
                     <span class="result-name">${displayName}</span>
-                    <button class="copy-btn result-copy-btn" data-copy="${displayName}" title="复制名称">${SVG.copy}</button>
                 </div>
                 <div class="result-tags">
                     <span class="result-kind kind-${item.kind}">${kindLabel}</span>
                     <span class="result-version version-${item.version}-tag">${item.version}</span>
                     <span class="result-module">${item.module}</span>
+                    <button class="copy-btn result-copy-btn" data-copy="${displayName}" title="复制名称">${SVG.copy}</button>
                 </div>
                 ${briefDesc ? '<div class="result-desc">' + escapeHtml(briefDesc) + '</div>' : ''}
                 ${paramsPreview ? '<div class="result-meta">' + paramsPreview + '</div>' : ''}
