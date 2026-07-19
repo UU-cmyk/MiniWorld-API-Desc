@@ -22,12 +22,12 @@ param(
     [switch]$Clean # 仅清除输出目录
 )
 
-# ---------- 路径定义 ----------
+# 路径定义
 $ProjectRoot = $PSScriptRoot
 $CompleteDir = Join-Path $ProjectRoot "addon"
 $OutDir = Join-Path $CompleteDir "out"
 
-# ---------- 颜色辅助 ----------
+# 颜色辅助
 function Write-Step {
     param([string]$Text)
     Write-Host "`n>>> $Text" -ForegroundColor Cyan

@@ -6,146 +6,180 @@
 ![VS Code](https://img.shields.io/badge/VS%20Code-^1.125.0-blue)
 ![Lua](https://img.shields.io/badge/Lua-5.1%2B-yellow)
 
-[![中文版自述文件](https://img.shields.io/badge/中文-README-blue?logo=markdown)](./README.md)
+[![Chinese Version README](https://img.shields.io/badge/Chinese-README-blue?logo=markdown)](./README.md)
 
-API declaration library, code completion extension, and helper tools for UGC Lua development in *Mini World* (迷你世界).
+API declaration library, code completion plugin, and auxiliary toolset for MiniWorld UGC Lua development.
 
-> **It is no longer recommended to manually configure declaration files. Use the VS Code extension instead.**  
-> After installing the extension, press `Ctrl+Shift+P` and run the corresponding command to automatically set up the declaration paths — no manual configuration needed.
+> **No longer recommended to use declaration files for declarations, declaration plugins are recommended.**  
+> After installing this extension, you can automatically configure declaration paths by executing corresponding commands via `Ctrl+Shift+P`, no manual operation required.
 
 📚 **Table of Contents**
 
 - [Quick Start](#quick-start)
 - [API Search](#api-search)
-- [Extension Commands](#extension-commands)
+- [Plugin Commands](#plugin-commands)
 - [Project Structure](#project-structure)
-- [Utility Scripts](#utility-scripts)
-- [AI Usage](#ai-usage)
+- [Tool Scripts](#tool-scripts)
+- [AI Usage Recommendations](#ai-usage-recommendations)
 - [Building from Source](#building-from-source)
-- [Compatibility](#compatibility)
-- [Contributing](#contributing)
-- [Changelog](#changelog)
-- [Notes](#notes)
+- [Applicability](#applicability)
+- [Contributing Guidelines](#contributing-guidelines)
+- [Important Notes](#important-notes)
 - [License](#license)
 
 ---
 
-Provides complete Lua type declaration files that work with VS Code's [Lua Language Server (sumneko.lua)](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) to deliver intelligent autocompletion, type hints, and parameter documentation. Also includes an event completion extension, code snippet templates, and API comparison scripts to boost UGC component development productivity.
+Provides complete Lua type declaration files,配合 VS Code's [Lua Language Service (sumneko.lua)](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) to get intelligent completion, type hints, and parameter documentation; also provides event completion plugins, code snippet templates, and API comparison scripts to enhance UGC component development efficiency.
 
 ## Quick Start
 
 ### Prerequisites
 
-- [VS Code](https://code.visualstudio.com/)
-- [Lua Language Server extension (sumneko.lua)](https://marketplace.visualstudio.com/items?itemName=sumneko.lua)
-- Python 3.10+ (only needed for utility scripts)
-- Node.js (only needed if building the extension yourself)
+| Dependency | Required | Description |
+| :-- | :-: | :-: |
+| [VS Code](https://code.visualstudio.com/) | Yes | Provides code completion, type hints, and other features |
+| [Lua Language Service Plugin (sumneko.lua)](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) | Yes | Provides Lua language service, plugin installation required |
+| Python 3.10+ | No | Only required when using tool scripts |
+| Node.js | No | Only required when building extension from source |
+| PowerShell 5.1+ | No | Only required when building extension from source |
 
-### Install the Extension
+### Install Extension
 
-Download the `.vsix` file from [GitHub Releases](https://github.com/LK-cmyk/MiniWorld-API-Desc/releases), then in VS Code:
+1. Download `.vsix` file from [GitHub Releases](https://github.com/LK-cmyk/MiniWorld-API-Desc/releases)
+2. Open Extensions panel (`Ctrl+Shift+X`)
+3. Click `···` in top-right corner → `Install from VSIX...`
+4. Select the downloaded `.vsix` file
 
-1. Open the Extensions panel (`Ctrl+Shift+X`)
-2. Click the `···` menu in the top-right → `Install from VSIX...`
-3. Select the downloaded `.vsix` file
+After installation, press `Ctrl+Shift+P` and execute any of the following commands to enable type hints
 
-After installation, press `Ctrl+Shift+P` and run **MiniWorld API Description: Add MiniWorld UGC 3.0 Declarations** or **MiniWorld API Description: Add MiniWorld UGC 2.0 Declarations** to enable type hints.
+- `MiniWorld API Description: Add MiniWorld UGC 3.0 Declaration`
+- `MiniWorld API Description: Add MiniWorld UGC 2.0 Declaration`
 
-### First-Time Setup
+> 💡 2.0 and 3.0 declarations are mutually exclusive and cannot coexist
 
-When you open any `.lua` file, the extension automatically checks whether declaration paths are configured. If not, a prompt appears:
+### First Use Workflow
+
+When opening any `.lua` file, the plugin automatically checks if declaration paths are configured. If not configured, a prompt window appears:
 
 | Option | Behavior |
 | :-: | :-: |
-| **Don't add declarations** | Suppress prompt for 4 hours |
-| **Never remind** | Suppress prompt permanently |
-| **Add 2.0 / 3.0 declarations** | Show scope picker to write declaration paths to the selected scope |
+| **Do not add declaration** | No prompt for 4 hours |
+| **Never remind** | Never prompt again |
+| **Add 2.0 / 3.0 declaration** | Opens scope selection, writes declaration path to specified scope |
 
-2.0 and 3.0 declarations are mutually exclusive — they cannot coexist.
+## Plugin Commands
 
-## Extension Commands
-
-Press `Ctrl+Shift+P` and type `MiniWorld` to find all available commands:
+Press `Ctrl+Shift+P` to open command palette, enter keyword `MiniWorld` to find the following commands:
 
 | Command | Description |
 | :-: | :-: |
-| `MiniWorld API Description: Add MiniWorld UGC 2.0 Declarations` | Add the 2.0 declaration directory to `Lua.workspace.library` |
-| `MiniWorld API Description: Remove MiniWorld UGC 2.0 Declarations` | Remove the 2.0 declaration directory from the config |
-| `MiniWorld API Description: Add MiniWorld UGC 3.0 Declarations` | Add the 3.0 declaration directory to `Lua.workspace.library` |
-| `MiniWorld API Description: Remove MiniWorld UGC 3.0 Declarations` | Remove the 3.0 declaration directory from the config |
-| `MiniWorld API Description: Open API Search` | Open the API search panel for quick access to functions, enums, and events |
-| `MiniWorld API Description: Refresh API Search Index` | Rescan declaration files to update the search index |
+| `MiniWorld API Description: Add MiniWorld UGC 2.0 Declaration` | Add 2.0 declaration directory to `Lua.workspace.library` |
+| `MiniWorld API Description: Remove MiniWorld UGC 2.0 Declaration` | Remove 2.0 declaration directory from configuration |
+| `MiniWorld API Description: Add MiniWorld UGC 3.0 Declaration` | Add 3.0 declaration directory to `Lua.workspace.library` |
+| `MiniWorld API Description: Remove MiniWorld UGC 3.0 Declaration` | Remove 3.0 declaration directory from configuration |
+| `MiniWorld API Description: Open API Search` | Open API search panel for quick search of functions, enums, events |
+| `MiniWorld API Description: Refresh API Search Index` | Rescan declaration files and update search index |
 
-When running add/remove commands, a scope picker appears:
+### Scopes
 
-| Scope | Description |
-| :-: | :-: |
-| **Global** | Write to user settings — affects all workspaces |
-| **Workspace** | Write to `.vscode/settings.json` — affects the current workspace only |
-| **Workspace Folder** | Write to workspace folder settings |
+- When executing add/remove commands, you can choose the scope for configuration writing
 
-The extension automatically filters available options based on current config state: add commands only show scopes **not already containing** the declarations; remove commands only show scopes **currently containing** them.
+  | Scope | Description |
+  | :-: | :-: |
+  | **Global** | Write to user settings, effective for all workspaces |
+  | **Workspace** | Write to `.vscode/settings.json`, effective only for current workspace |
+  | **WorkspaceFolder** | Write to workspace folder settings |
+
+The plugin automatically filters available options based on the current configuration status of each scope: when adding, only shows scopes that do not include the declaration; when removing, only shows scopes that already include the declaration
+
+### Usage Examples
+
+```lua
+-- Example using type hints
+local actor = MNActor.create("testActor")
+local pos = actor:GetPosition()  -- Smart completion and type hints
+actor:SetPosition(pos.x + 1, pos.y, pos.z)
+```
+
+```lua
+-- Using event system
+local function onPlayerJoin(player)
+    print("Player joined: " .. player.name)
+end
+
+MNGame.addEventListener("onPlayerJoin", onPlayerJoin)
+```
 
 ## API Search
 
-> New in v0.6.1
+v0.6.1 introduces the **API Search Panel**, supporting quick search of all MiniWorld APIs in the VS Code sidebar without leaving the editor to browse documentation
 
-The **API Search panel** lets you quickly search all MiniWorld APIs directly from the VS Code sidebar — no need to leave your editor to browse documentation.
+### Opening Methods
 
-### How to Open
-
-| Method | Action |
+| Method | Operation |
 | :-: | :-: |
-| **Command Palette** | `Ctrl+Shift+P` → run **MiniWorld API Description: Open API Search** |
-| **Sidebar** | Click the 🔍 **MiniWorld API Search** icon in the activity bar |
+| **Command Palette** | `Ctrl+Shift+P` → Enter **MiniWorld API Description: Open API Search** |
+| **Sidebar Button** | Click the 🔍 **MiniWorld API Search** icon in the left activity bar |
 
-### Features
+### Feature Introduction
 
-- **Fuzzy Search** — Type keywords to fuzzy-match against API names, parameters, and descriptions. Supports acronym matching (e.g., `GP` matches `GetPosition`)
-- **Filters** — Filter by version (2.0 / 3.0), module, and type (function / enum / event)
-- **Detail View** — Click a result to see full parameter lists, return values, enum values, and event parameters
-- **Click to Navigate** — Click any result to jump directly to the corresponding declaration file
-- **Refresh Index** — Run **MiniWorld API Description: Refresh API Search Index** to rescan declaration files
+- **Fuzzy Search** — Enter keywords to fuzzy match by name, parameters, description, supports first-letter abbreviations (e.g., enter `GP` to match `GetPosition`)
+- **Filtering** — Filter by version (2.0 / 3.0), module, type (function / enum / event)
+- **Detail View** — Click search results to view complete parameter lists, return values, enum values, and event parameters
+- **Click to Jump** — Click result entries to jump to the source code location of the corresponding declaration file
+- **Refresh Index** — Execute **MiniWorld API Description: Refresh API Search Index** command to rescan declaration files
 
-### Shortcuts
+### Keyboard Shortcuts
 
-Press `Ctrl+K` inside the search input to quickly clear the current query.
+Press `Ctrl+K` in the search input box to quickly clear search content.
 
 ## Project Structure
 
 ```bash
 MiniWorld-API-Desc/
 ├── package.json  # VS Code extension manifest
-├── tsconfig.json  # TypeScript compilation config
-├── eslint.config.mjs  # ESLint config
-├── pack.ps1  # Build & packaging script
-├── .vscodeignore  # Extension publish ignore rules
-├── addon/  # VS Code extension source
-├── multiple/  # Modular declaration files
+├── tsconfig.json  # TypeScript compilation configuration
+├── eslint.config.mjs  # ESLint configuration
+├── pack.ps1  # Build and packaging script
+├── .vscodeignore  # Extension publishing ignore rules
+├── addon/  # VS Code extension source code
+├── multiple/  # Declaration files split by module
 ├── docs/  # Project documentation
-├── tools/  # Python utility scripts
-└── img/  # Image assets
+├── tools/  # Python tool scripts
+└── img/  # Image resources
 ```
 
-## Utility Scripts
+## Tool Scripts
 
-Run the following commands from the project root (requires Python 3.10+, dependencies in `uv.lock`):
+Run the following commands in the repository root directory (requires Python 3.10+, dependencies in `uv.lock`):
+
+### Declaration Management
 
 | Category | Command | Description |
 | :-: | :-- | :-: |
-| Merge declarations | `python tools/3.0/Merge.py` | Merge multiple/3.0/ into merged.3.0.lua |
-| Merge declarations | `python tools/2.0/Merge.py` | Merge multiple/2.0/ into merged.2.0.lua |
-| API comparison | `python tools/3.0/FuncCompare.py` | 3.0 function comparison |
-| API comparison | `python tools/3.0/EventCompare.py` | 3.0 event comparison |
-| API comparison | `python tools/3.0/EnumLibCompare.py` | 3.0 enum comparison |
-| API comparison | `python tools/2.0/FuncCompare.py` | 2.0 function comparison |
-| API comparison | `python tools/2.0/EventCompare.py` | 2.0 event comparison |
-| AI description | `python tools/3.0/DescToAiDesc.py` | Generate AiDesc/3.0/MNAiDesc.txt |
-| AI description | `python tools/2.0/DescToAiDesc.py` | Generate AiDesc/2.0/MNAiDesc.txt |
+| Declaration Merge | `python tools/3.0/Merge.py` | Merge multiple/3.0/ into merged.3.0.lua |
+| Declaration Merge | `python tools/2.0/Merge.py` | Merge multiple/2.0/ into merged.2.0.lua |
 
-## AI Usage
+### API Comparison
 
-Providing the following file contents to the AI assistant can help it understand UGC:
+| Category | Command | Description |
+| :-: | :-- | :-: |
+| 3.0 Function Comparison | `python tools/3.0/FuncCompare.py` | Compare 3.0 version function differences |
+| 3.0 Event Comparison | `python tools/3.0/EventCompare.py` | Compare 3.0 version event differences |
+| 3.0 Enum Comparison | `python tools/3.0/EnumLibCompare.py` | Compare 3.0 version enum differences |
+| 2.0 Function Comparison | `python tools/2.0/FuncCompare.py` | Compare 2.0 version function differences |
+| 2.0 Event Comparison | `python tools/2.0/EventCompare.py` | Compare 2.0 version event differences |
+
+### AI Tools
+
+| Category | Command | Description |
+| :-: | :-- | :-: |
+| AI Description Generation | `python tools/3.0/DescToAiDesc.py` | Generate AiDesc/3.0/MNAiDesc.txt |
+| AI Description Generation | `python tools/2.0/DescToAiDesc.py` | Generate AiDesc/2.0/MNAiDesc.txt |
+
+## AI Usage Recommendations
+
+Providing the following file contents to AI assistants can help them understand UGC:
 
 - UGC 3.0
   - [SKILL.md](./docs/miniworld-ugc-30/SKILL.md)
@@ -155,14 +189,14 @@ Providing the following file contents to the AI assistant can help it understand
 
 ## Building from Source
 
-Requires Node.js. Run from the project root:
+Requires Node.js environment. Execute in the project root directory:
 
 ### Build Options
 
 | Command | Description |
 | :-- | :-: |
-| `./pack.ps1` | Full build (compile + lint + package) |
-| `./pack.ps1 -CompileOnly` | Compile only, skip packaging |
+| `./pack.ps1` | Complete build (compile + check + package) |
+| `./pack.ps1 -CompileOnly` | Compile only, do not package |
 | `./pack.ps1 -SkipLint` | Skip lint check |
 | `./pack.ps1 -SkipInstall` | Skip npm install |
 | `./pack.ps1 -Clean` | Clean build output only |
@@ -183,84 +217,65 @@ tsc
 code --install-extension MiniWorld-API-Desc.vsix
 ```
 
-After packaging, a `.vsix` file is generated in the project root, ready to install into VS Code.
+After packaging, a `.vsix` file will be generated in the root directory, which can be directly installed to VS Code.
 
-## Compatibility
+## Applicability
 
 | Project | Version |
-| :-: | :-: |
-| *Mini World* game | v1.56+ |
-| UGC SDK | 3.0 & 2.0 |
+| :-- | :-: |
+| MiniWorld Game | v1.56+ |
+| UGC Development Kit | 3.0 & 2.0 |
 | Python | 3.10+ |
 | VS Code | ^1.125.0 |
 
-## Notes
+### System Requirements
 
-- The declaration files and extension in this repository are designed for **UGC 3.0** & **UGC 2.0** only — do not use with other versions.
-- Some APIs may differ from the actual game behavior; always refer to the game for the final word.
-- If you find issues or need additional APIs, feel free to open an [Issue](https://github.com/LK-cmyk/MiniWorld-API-Desc/issues) or submit a Pull Request.
+- **Operating System**: Windows, macOS, Linux
+- **Memory**: Minimum 4GB RAM
+- **Storage**: Minimum 100MB available space
+- **Network**: Stable internet connection (for downloading extensions)
+
+### Known Limitations
+
+- Only supports UGC 3.0 and 2.0 versions
+- Some advanced features may require VS Code restart
+- Large projects may require VS Code performance adjustments
+
+## Important Notes
+
+- This repository's declaration files and extension are only for **UGC 3.0** & **UGC 2.0**, do not use for other versions
+- Some interfaces may differ from actual game versions, please refer to actual game behavior
+- If you find issues or need API additions, welcome to submit [Issues](https://github.com/LK-cmyk/MiniWorld-API-Desc/issues) or create Pull Requests
 
 ## Star History
 
-<a href="https://www.star-history.com/?repos=LK-cmyk%2FMiniWorld-API-Desc&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&theme=dark&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
- </picture>
-</a>
+[![Star History Chart](https://api.star-history.com/chart?repos=UU-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=4cyhbjVHKRN0PDaVtuWiTHVlDqVePSy4bhXV9-kk7E4mAvoA3Trj5OWw-BoAwRDDB-V8WyDJgFxBYsSqzpp4ygy20daMLZUrhQOa_RA0OYiQkMPonOTlgOHkVJbJczSog89zshYnQf_PDPnhpIOlre6oK7jsVZks9VhrSXEotmzuzAJpl-EIvX9jgxKz)](https://www.star-history.com/?repos=UU-cmyk%2FMiniWorld-API-Desc&type=date&legend=top-left)
 
-## Contributing
+## Contributing Guidelines
 
-Welcome to contribute to this project! Please follow these guidelines:
+Welcome to contribute code or submit issues to this project!
 
 ### Reporting Issues
 
 - Use [GitHub Issues](https://github.com/LK-cmyk/MiniWorld-API-Desc/issues) to report bugs
 - Provide detailed reproduction steps and error information
-- Include relevant code snippets and logs
+- Attach relevant code snippets and logs
 
 ### Submitting Pull Requests
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Create a Pull Request
+1. Fork this repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Create Pull Request
 
 ### Code Standards
 
 - Follow the project's ESLint configuration
 - Maintain consistent code style
 - Add appropriate comments and documentation
-- Ensure tests pass (if applicable)
-
-## Changelog
-
-### [v0.6.1] - 2024-XX-XX
-
-- Added API Search panel functionality
-- Optimized CSS transition performance
-- Fixed several known issues
-
-### [v0.6.0] - 2024-XX-XX
-
-- Added support for MiniWorld UGC 3.0
-- Refactored project structure
-- Improved declaration files
-
-### [v0.5.x] - 2024-XX-XX
-
-- Added support for MiniWorld UGC 2.0
-- Implemented event completion feature
-- Provided code snippet templates
-
-### [v0.4.x] - 2024-XX-XX
-
-- Initial version release
-- Basic API declaration files
-- VS Code extension support
+- Ensure tests pass (if any)
 
 ## License
 
-This project is released under the [MIT](./LICENSE) License
+This project is licensed under the [MIT](./LICENSE) license

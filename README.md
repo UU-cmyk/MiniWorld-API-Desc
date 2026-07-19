@@ -24,7 +24,6 @@
 - [自行构建](#自行构建)
 - [适用范围](#适用范围)
 - [贡献指南](#贡献指南)
-- [更新日志](#更新日志)
 - [注意事项](#注意事项)
 - [许可协议](#许可协议)
 
@@ -42,6 +41,7 @@
 | [Lua 语言服务插件（sumneko.lua）](https://marketplace.visualstudio.com/items?itemName=sumneko.lua) | 是 | 提供 Lua 语言服务，需安装插件 |
 | Python 3.10+ | 否 | 仅使用工具脚本时需要 |
 | Node.js | 否 | 仅自行构建扩展时需要 |
+| PowerShell 5.1+ | 否 | 仅自行构建扩展时需要 |
 
 ### 安装扩展
 
@@ -249,13 +249,7 @@ code --install-extension MiniWorld-API-Desc.vsix
 
 ## Star 历史
 
-<a href="https://www.star-history.com/?repos=LK-cmyk%2FMiniWorld-API-Desc&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&theme=dark&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=LK-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=-iH9xbwxhzvpzCuOrPjrIwCmi2uemPhf6biWoG4UA0NHHpY6fr_QqM0L8lxPzS4J_APdisJuSPEp8q0qqGDLhu98FUcXLJg9Mvz5cXHlojjYk-AtgrEGl8PXhLtOHe0mW_GUEVo4_0fkDGZX2EQxicPo88CSSP9bysVqe6NNlFwmZR_QVx2XtlzUUOgn" />
- </picture>
-</a>
+[![Star History Chart](https://api.star-history.com/chart?repos=UU-cmyk/MiniWorld-API-Desc&type=date&legend=top-left&sealed_token=4cyhbjVHKRN0PDaVtuWiTHVlDqVePSy4bhXV9-kk7E4mAvoA3Trj5OWw-BoAwRDDB-V8WyDJgFxBYsSqzpp4ygy20daMLZUrhQOa_RA0OYiQkMPonOTlgOHkVJbJczSog89zshYnQf_PDPnhpIOlre6oK7jsVZks9VhrSXEotmzuzAJpl-EIvX9jgxKz)](https://www.star-history.com/?repos=UU-cmyk%2FMiniWorld-API-Desc&type=date&legend=top-left)
 
 ## 贡献指南
 
@@ -281,32 +275,6 @@ code --install-extension MiniWorld-API-Desc.vsix
 - 保持代码风格一致
 - 添加适当的注释和文档
 - 确保测试通过（如果有）
-
-## 更新日志
-
-### [v0.6.1] - 2024-XX-XX
-
-- 新增 API 搜索面板功能
-- 优化 CSS 过渡动画性能
-- 修复一些已知问题
-
-### [v0.6.0] - 2024-XX-XX
-
-- 支持 MiniWorld UGC 3.0
-- 重构项目结构
-- 改进类型声明文件
-
-### [v0.5.x] - 2024-XX-XX
-
-- 支持 MiniWorld UGC 2.0
-- 添加事件补全功能
-- 提供代码片段模板
-
-### [v0.4.x] - 2024-XX-XX
-
-- 初始版本发布
-- 基本的 API 声明文件
-- VS Code 扩展支持
 
 ## 许可协议
 
