@@ -151,7 +151,7 @@ MiniWorld-API-Desc/
 
 ## Tool Scripts
 
-Run the following commands in the repository root directory (requires Python 3.10+, dependencies in `uv.lock`):
+Run the following commands in the repository root directory (requires Python 3.12+, dependencies in `pyproject.toml`):
 
 ### Declaration Management
 
@@ -204,17 +204,10 @@ Requires Node.js environment. Execute in the project root directory:
 ### Build Process
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Compile TypeScript
-tsc
-
-# 3. Package extension
-./pack.ps1
-
-# 4. Install extension (optional)
-code --install-extension MiniWorld-API-Desc.vsix
+npm install # 1. Install dependencies
+tsc # 2. Compile TypeScript
+./pack.ps1 # 3. Package extension
+code --install-extension MiniWorld-API-Desc.vsix # 4. Install extension (optional)
 ```
 
 After packaging, a `.vsix` file will be generated in the root directory, which can be directly installed to VS Code.

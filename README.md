@@ -151,7 +151,7 @@ MiniWorld-API-Desc/
 
 ## 工具脚本
 
-在仓库根目录运行以下命令（需 Python 3.10+，依赖见 `uv.lock`）：
+在仓库根目录运行以下命令（需 Python 3.12+，依赖见 `pyproject.toml`）：
 
 ### 声明管理
 
@@ -204,17 +204,10 @@ MiniWorld-API-Desc/
 ### 构建流程
 
 ```bash
-# 1. 安装依赖
-npm install
-
-# 2. 编译 TypeScript
-tsc
-
-# 3. 打包扩展
-./pack.ps1
-
-# 4. 安装扩展（可选）
-code --install-extension MiniWorld-API-Desc.vsix
+npm install # 1. 安装依赖
+tsc # 2. 编译 TypeScript
+./pack.ps1 # 3. 打包扩展
+code --install-extension MiniWorld-API-Desc.vsix # 4. 安装扩展（可选）
 ```
 
 打包完成后会在根目录生成 `.vsix` 文件，可直接安装到 VS Code。
