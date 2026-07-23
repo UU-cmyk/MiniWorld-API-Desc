@@ -6,15 +6,14 @@
 
 from pathlib import Path
 
-# ============================================================
 # 项目根目录（基于本文件位置计算）
 # tools/common/config.py → tools/ → 项目根
-# ============================================================
+
 PROJECT_ROOT: Path = Path(__file__).resolve().parent.parent.parent
 
-# ============================================================
+
 # 公共目录
-# ============================================================
+
 TOOLS_DIR: Path = PROJECT_ROOT / "tools"
 OUT_DIR: Path = PROJECT_ROOT / "out"
 
@@ -26,17 +25,17 @@ MULTIPLE_30_DIR: Path = PROJECT_ROOT / "multiple" / "3.0"
 DOCS_20_DIR: Path = PROJECT_ROOT / "docs" / "miniworld-ugc-20" / "references"
 DOCS_30_DIR: Path = PROJECT_ROOT / "docs" / "miniworld-ugc-30" / "references"
 
-# ============================================================
+
 # 输出文件路径
-# ============================================================
+
 MERGED_20_FILE: Path = OUT_DIR / "merged.2.0.lua"
 MERGED_30_FILE: Path = OUT_DIR / "merged.3.0.lua"
 API_20_FILE: Path = DOCS_20_DIR / "API.txt"
 API_30_FILE: Path = DOCS_30_DIR / "API.txt"
 
-# ============================================================
+
 # 合并顺序定义
-# ============================================================
+
 ORDER_20: list[str] = [
     "MNEnumLib",  # 枚举库
     "MNGame",  # 游戏
@@ -95,9 +94,9 @@ ORDER_30: list[str] = [
     "MNTimeline",  # 剧情动画
 ]
 
-# ============================================================
+
 # 2.0 函数对比 URL 映射
-# ============================================================
+
 FUNC_URLS_20: dict[str, str] = {
     "Actor": "https://dev-wiki.mini1.cn/wiki/673b36183ffc6baf0859d3a0",
     "Area": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d38e",
@@ -128,11 +127,11 @@ FUNC_URLS_20: dict[str, str] = {
     "WorldContainer": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d37d",
 }
 
-# ============================================================
+
 # 3.0 函数对比 URL 配置
-# ============================================================
-FUNC_URL_30_PREFIX: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/"
-FUNC_URL_30_LIST: list[str] = [
+
+FUNC_URL_30_PREFIX: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/"  # API 文档前缀
+FUNC_URL_30_LIST: list[str] = [  # API 文档列表
     "world.html",
     "gameobject.html",
     "actor.html",
@@ -156,24 +155,26 @@ FUNC_URL_30_LIST: list[str] = [
     "map.html",
 ]
 
-# ============================================================
+
 # 枚举对比 URL
-# ============================================================
+
+# 2.0 枚举库
 ENUM_URL_20: str = "https://dev-wiki.mini1.cn/wiki/673b36183ffc6baf0859d39f"
+# 3.0 枚举库
 ENUM_URL_30: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/global.html"
 
-# ============================================================
+
 # 事件对比 URL
-# ============================================================
+
 EVENT_URL_20: str = "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d391"
 TRIGGER_EVENT_URL_30: str = "https://dev-wiki.mini1.cn/ugc-wiki/apis/triggerevent.html"
 COMPONENT_EVENT_URL_30: str = (
     "https://dev-wiki.mini1.cn/ugc-wiki/apis/componentevent.html"
 )
 
-# ============================================================
+
 # 过滤规则 / 忽略集合
-# ============================================================
+
 
 # 2.0 函数对比黑名单（跳过非函数标题行）
 WEB_FILTER_BLACKLIST_20: set[str] = {
