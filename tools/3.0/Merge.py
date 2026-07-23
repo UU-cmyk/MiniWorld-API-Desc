@@ -1,12 +1,13 @@
-import os
+import sys
+from pathlib import Path
 
-SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
-FOLDER_PATH: str = os.path.abspath(
-    os.path.join(SCRIPT_DIR, os.pardir, os.pardir, "multiple", "3.0")
-)  # 输入文件夹路径
-OUTPUT_FILE: str = os.path.abspath(
-    os.path.join(SCRIPT_DIR, os.pardir, os.pardir, "out", "merged.3.0.lua")
-)  # 输出文件路径
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from common.merge import merge_lua_files
+from common.config import MULTIPLE_30_DIR, MERGED_30_FILE, ORDER_30
+
+FOLDER_PATH = str(MULTIPLE_30_DIR)
+OUTPUT_FILE = str(MERGED_30_FILE)
 ORDER_DEFINITION: list[str] = [  # 自定义顺序定义
     "MNGlobalFunc",  # 全局函数
     "MNEnumLib",  # 枚举库
@@ -36,86 +37,12 @@ ORDER_DEFINITION: list[str] = [  # 自定义顺序定义
 ]
 
 
-def get_ordered_files(FOLDER_PATH: str) -> list[str]:
-    """获取指定顺序的文件列表
-    Args:
-        FOLDER_PATH (str): 文件夹路径
-    Returns:
-        list[str]: 有序文件列表
-    """
-    all_files: set[str] = {
-        f for f in os.listdir(FOLDER_PATH) if f.endswith(".lua")
-    }  # 获取所有.lua文件
-    ordered_files: list[str] = []  # 用于存储有序文件列表
-    for name in ORDER_DEFINITION:
-        filename: str = f"{name}.d.lua"  # 构建当前名称对应的文件名
-        if filename in all_files:
-            ordered_files.append(filename)  # 将当前名称对应的文件添加到有序列表中
-            all_files.discard(filename)  # 从集合中移除当前名称对应的文件（O(1)）
-
-    if all_files:
-        # 将剩余文件按字母顺序添加到有序列表末尾
-        ordered_files.extend(sorted(all_files))
-    return ordered_files  # 返回有序文件列表
-
-
-def merge_lua_files(FOLDER_PATH: str, OUTPUT_FILE: str) -> None:
-    """合并多个.lua文件
-    Args:
-        FOLDER_PATH (str): 文件夹路径
-        OUTPUT_FILE (str): 输出目标文件路径
-    Returns:
-        None: 无返回值
-    """
-    ordered_files: list[str] = get_ordered_files(FOLDER_PATH)  # 获取有序文件列表
-
-    if not ordered_files:  # 检查是否有文件
-        print("错误：未找到任何.lua文件")
-        return
-
-    merged_parts: list[str] = []  # 用于存储合并后的内容
-    total_lines: int = 0  # 统计总行数
-
-    for filename in ordered_files:
-        file_path: str = os.path.join(FOLDER_PATH, filename)  # 构建文件路径
-        try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                content: str = f.read()  # 读取文件内容
-
-            # 统计行数（避免 split 创建临时列表）
-            total_lines += content.count("\n") + (0 if content.endswith("\n") else 1)
-
-            if not merged_parts:
-                merged_parts.append(content)
-            else:
-                if not merged_parts[-1].endswith(("\n", "\r")):
-                    merged_parts.append("\n")
-                merged_parts.append(content)
-
-        except Exception as e:
-            print(f"错误：处理文件 {filename} 时出错 - {e}")
-
-    try:
-        result: str = "".join(merged_parts)  # 按文件原始换行情况进行拼接
-        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-            f.write(result)
-
-        print(f"合并完成！合并了 {len(ordered_files)} 个文件，总 {total_lines} 行")
-        print(f"输出文件：{OUTPUT_FILE}")
-
-    except Exception as e:
-        print(f"错误：写入输出文件时出错 - {e}")
-
-
 def main():
-    """主函数
-    Returns:
-        None: 无返回值
-    """
-    if not os.path.exists(FOLDER_PATH):
+    """主函数"""
+    if not MULTIPLE_30_DIR.exists():
         print(f"错误：文件夹 '{FOLDER_PATH}' 不存在")
         return
-    merge_lua_files(FOLDER_PATH, OUTPUT_FILE)  # 合并文件
+    merge_lua_files(FOLDER_PATH, OUTPUT_FILE, ORDER_DEFINITION)
 
 
 if __name__ == "__main__":

@@ -1,95 +1,35 @@
 """对比 2.0 本地声明文件与 2.0 网页 API 文档的函数差异"""
 
-import requests
-import sys
-import io
 import os
 import re
-from bs4 import BeautifulSoup, Tag
+import sys
+from pathlib import Path
 
-FUNC_URLS: dict[str, str] = {
-    "Actor": "https://dev-wiki.mini1.cn/wiki/673b36183ffc6baf0859d3a0",
-    "Area": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d38e",
-    "Backpack": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d384",
-    "Block": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d38a",
-    "Buff": "https://dev-wiki.mini1.cn/wiki/673b36143ffc6baf0859d32f",
-    "Chat": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d375",
-    "CloudSever": "https://dev-wiki.mini1.cn/wiki/673b36153ffc6baf0859d348",
-    "Creature": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d38d",
-    "Customui": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d385",
-    "DisPlayBoard": "https://dev-wiki.mini1.cn/wiki/673b36153ffc6baf0859d355",
-    "Game": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d387",
-    "GameRule": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d389",
-    "Graphics": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d383",
-    "Item": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d37b",
-    "ListenParam": "https://dev-wiki.mini1.cn/wiki/673b36153ffc6baf0859d373",
-    "MapMark": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d377",
-    "MiniTimer": "https://dev-wiki.mini1.cn/wiki/673b36153ffc6baf0859d36e",
-    "ObjectLib": "https://dev-wiki.mini1.cn/wiki/673b36143ffc6baf0859d32b",
-    "Player": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d39c",
-    "Spawnport": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d374",
-    "Team": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d37a",
-    "Timer": "https://dev-wiki.mini1.cn/wiki/673b36153ffc6baf0859d36e",
-    "UI": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d388",
-    "ValueGroup": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d37f",
-    "VarLib": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d378",
-    "World": "https://dev-wiki.mini1.cn/wiki/673b36173ffc6baf0859d390",
-    "WorldContainer": "https://dev-wiki.mini1.cn/wiki/673b36163ffc6baf0859d37d",
-}
+import requests
+from bs4 import BeautifulSoup
 
-# 2.0 声明文件所在目录
-SCRIPT_DIR: str = os.path.dirname(os.path.abspath(__file__))
-FUNC_FILES_PATH: str = os.path.abspath(
-    os.path.join(SCRIPT_DIR, os.pardir, "multiple", "2.0")
-)
-FUNCTION_RE: re.Pattern[str] = re.compile(
-    r"^function\s+([A-Za-z_][\w\.:]*)"
-)  # 匹配函数声明行
-WEB_FILTER_BLACKLIST: set[str] = {  # 网页函数名过滤黑名单（跳过非函数标题）
-    "序号",
-    "函数名",
-    "函数描述",
-    "参数及类型",
-    "返回值及类型",
-    "该方法的主要作用",
-    "具体使用案例如下",
-}
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from common.io_utils import init_stdout
+from common.lua_parser import get_function_names
+from common.compare import compare_funcs
+from common.config import FUNC_URLS_20, MULTIPLE_20_DIR, WEB_FILTER_BLACKLIST_20
 
-def init() -> None:
-    """初始化输出编码"""
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
-
-
-def analyze_file(path: str) -> set[str]:
-    """从本地 Lua 声明文件中提取函数名
-    Args:
-        path (str): 本地文件路径
-    Returns:
-        set[str]: 函数名集合
-    """
-    out_funcs: set[str] = set()
-    with open(path, "r", encoding="utf-8") as file:
-        for line in file:
-            line = line.strip()
-            if not line.startswith("function "):
-                continue
-            match = FUNCTION_RE.match(line)
-            if not match:
-                continue
-            function_name: str = match.group(1)
-            if ":" in function_name:
-                _, function_name = function_name.split(":", 1)
-            out_funcs.add(function_name)
-    return out_funcs
+FUNC_URLS = FUNC_URLS_20
+FUNC_FILES_PATH = str(MULTIPLE_20_DIR)
+WEB_FILTER_BLACKLIST = WEB_FILTER_BLACKLIST_20
 
 
 def analyze_web(url: str) -> set[str]:
     """从 2.0 网页 API 文档中提取函数名
+
+    从表格第二列和标题中提取函数名。
+
     Args:
-        url (str): 文档页面 URL
+        url: 文档页面 URL
+
     Returns:
-        set[str]: 函数名集合
+        函数名集合
     """
     out_funcs: set[str] = set()
     try:
@@ -106,13 +46,10 @@ def analyze_web(url: str) -> set[str]:
         for row in table.find_all("tr"):
             cells = row.find_all("td")
             if len(cells) >= 2:
-                # 表格第二列通常是函数名
                 func_cell = cells[1]
                 func_text = func_cell.get_text(strip=True)
-                # 清理函数名（去掉参数部分）
                 func_name = re.sub(r"\(.*\)$", "", func_text).strip()
                 if func_name and func_name not in WEB_FILTER_BLACKLIST:
-                    # 只保留纯字母数字下划线的函数名
                     if re.fullmatch(r"[A-Za-z_]\w*", func_name):
                         out_funcs.add(func_name)
 
@@ -129,51 +66,20 @@ def analyze_web(url: str) -> set[str]:
 
 def module_name_from_file(filename: str) -> str:
     """从文件名推断模块名称
+
     Args:
-        filename (str): 文件名（如 MNActor.d.lua）
+        filename: 文件名（如 MNActor.d.lua）
+
     Returns:
-        str: 模块名称（如 Actor）
+        模块名称（如 Actor）
     """
     base = filename.replace(".d.lua", "")
     return base.replace("MN", "", 1) if base.startswith("MN") else base
 
 
-def compare_funcs(
-    local_funcs: set[str], web_funcs: set[str], module_name: str
-) -> list[str]:
-    """比较本地和网页函数名，并返回差异行
-    Args:
-        local_funcs (set[str]): 本地函数名集合
-        web_funcs (set[str]): 网页函数名集合
-        module_name (str): 模块名称
-    Returns:
-        list[str]: 差异行列表
-    """
-    diff_lines: list[str] = []
-    if not local_funcs and not web_funcs:
-        diff_lines.append(f"[{module_name}] 未找到本地函数，也未提取到网页函数。")
-        return diff_lines
-    if not local_funcs:
-        diff_lines.append(f"[{module_name}] 本地文件未解析到函数或本地文件缺失。")
-    if not web_funcs:
-        diff_lines.append(
-            f"[{module_name}] 网页未解析到函数，请检查文档页面或解析规则。"
-        )
-
-    only_local = sorted(local_funcs - web_funcs)
-    only_web = sorted(web_funcs - local_funcs)
-    if only_local:
-        diff_lines.append(f"[{module_name}] 仅在本地存在函数:")
-        diff_lines.extend(f"  - {name}" for name in only_local)
-    if only_web:
-        diff_lines.append(f"[{module_name}] 仅在网页存在函数:")
-        diff_lines.extend(f"  - {name}" for name in only_web)
-    return diff_lines
-
-
 def main() -> None:
     """主程序：对比本地声明和网页 API 文档函数"""
-    init()
+    init_stdout()
 
     if not os.path.exists(FUNC_FILES_PATH):
         print(f"错误：2.0 声明目录不存在: {FUNC_FILES_PATH}")
@@ -191,11 +97,10 @@ def main() -> None:
         local_path: str = os.path.join(FUNC_FILES_PATH, filename)
 
         # 读取本地函数
-        local_funcs: set[str] = analyze_file(local_path)
+        local_funcs: set[str] = get_function_names(local_path)
 
         # 获取网页函数
         web_funcs: set[str] = set()
-        # 尝试精确匹配（模块名大小写不敏感）
         matched_url: str | None = None
         for key, url in FUNC_URLS.items():
             if key.lower() == module_name.lower():
@@ -220,7 +125,6 @@ def main() -> None:
     for line in all_diff:
         print(line)
 
-    # 统计
     only_local_count = sum(
         1
         for l in all_diff

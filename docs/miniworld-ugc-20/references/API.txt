@@ -564,6 +564,20 @@ _G.MiniShopPage = MiniShopPage
 --- STOP number 停止
 local QQMUSICOP = {}
 _G.QQMUSICOP = QQMUSICOP
+
+--- CurEventParam
+--- EventDate EventDate
+
+--- EventDate
+--- time number 时间戳
+--- year number 年
+--- month number 月
+--- day number 日
+--- hour number 小时
+--- minute number 分钟
+--- second number 秒
+local CurEventParam = {}
+_G.CurEventParam = CurEventParam
 --- Game
 --- 游戏模块管理接口 Game
 local Game = {}
