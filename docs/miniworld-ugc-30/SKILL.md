@@ -221,10 +221,10 @@ You can apply an environment preset with a one-click template, or fine-tune para
 local Script = {}
 
 function Script:OnStart()
-  World:SetSkyBoxTemplate(1)                                            -- switch to "Classic" environment template
-  World:SetSkyBoxColor(SkyboxTime.TimeAll, SkyboxColor.Top, 0x87CEEB)   -- set top sky color for the whole day to light blue
-  World:SetSkyBoxAttr(SkyboxTime.TimeAll, SkyboxAttr.CloudDensity, 50)  -- set cloud density for the whole day
-  World:SetSkyBoxSwitch(SkyboxTime.TimeAll, SkyboxSwitch.Fogenable, 1)  -- enable fog
+  World:SetSkyBoxTemplate(1) -- switch to "Classic" environment template
+  World:SetSkyBoxColor(SkyboxTime.TimeAll, SkyboxColor.Top, 0x87CEEB) -- set top sky color for the whole day to light blue
+  World:SetSkyBoxAttr(SkyboxTime.TimeAll, SkyboxAttr.CloudDensity, 50) -- set cloud density for the whole day
+  World:SetSkyBoxSwitch(SkyboxTime.TimeAll, SkyboxSwitch.Fogenable, 1) -- enable fog
 end
 
 return Script
@@ -942,6 +942,3 @@ Currently, only the Model component and Firearm component support instantiation.
 - Custom data supports `string`, `bool`, `number`, `Object`, and `Array` types, each with its own access interface.
 - Some functions (such as firearm-related ones) require component support. Make sure the item instance carries the corresponding component before use.
 - The instance ID can be used to track a specific item, distinct from the static item template ID.
-
----
-*AI生成*
