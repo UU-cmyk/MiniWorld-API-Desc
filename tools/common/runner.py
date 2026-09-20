@@ -74,9 +74,7 @@ COMPARE_TYPES: list[str] = ["func", "enum", "event"]
 # FuncCompare
 
 
-def _apply_20_skip_filters(
-    module_name: str, local_funcs: set[str], web_funcs: set[str]
-) -> tuple[set[str], set[str]]:
+def _apply_20_skip_filters(module_name: str, local_funcs: set[str], web_funcs: set[str]) -> tuple[set[str], set[str]]:
     """对 2.0 过滤规则做大小写归一化"""
     normalized_module = module_name.strip()
     exact_skip = set()
@@ -103,9 +101,7 @@ def run_func_compare(version: str) -> Optional[CompareResult]:
         if not os.path.exists(_FUNC_PATH_20):
             return None
 
-        local_files: list[str] = sorted(
-            f for f in os.listdir(_FUNC_PATH_20) if f.endswith(".d.lua")
-        )
+        local_files: list[str] = sorted(f for f in os.listdir(_FUNC_PATH_20) if f.endswith(".d.lua"))
 
         for filename in local_files:
             module_name: str = _func_name_20(filename)
@@ -131,17 +127,14 @@ def run_func_compare(version: str) -> Optional[CompareResult]:
             else:
                 all_diff.append(f"[{module_name}]  ⚠ 未配置网页文档 URL")
                 local_count += 1
-                only_local_count += 1
+                only_local_count += len(local_funcs)
                 continue
 
             local_funcs, web_funcs = _apply_20_skip_filters(module_name, local_funcs, web_funcs)
-            diff = compare_funcs(local_funcs, web_funcs, module_name)
+            diff, stats = compare_funcs(local_funcs, web_funcs, module_name)
             all_diff.extend(diff)
-
-            if local_funcs and not web_funcs:
-                only_local_count += 1
-            elif web_funcs and not local_funcs:
-                only_web_count += 1
+            only_local_count += stats.only_local
+            only_web_count += stats.only_web
 
     else:
         for url in _FUNC_URLS_30:
@@ -156,13 +149,10 @@ def run_func_compare(version: str) -> Optional[CompareResult]:
                 all_diff.append(f"[{module_name}]  ⚠ 本地文件不存在")
             web_count += 1
 
-            diff = compare_funcs(local_funcs, web_funcs, module_name)
+            diff, stats = compare_funcs(local_funcs, web_funcs, module_name)
             all_diff.extend(diff)
-
-            if local_funcs and not web_funcs:
-                only_local_count += 1
-            elif web_funcs and not local_funcs:
-                only_web_count += 1
+            only_local_count += stats.only_local
+            only_web_count += stats.only_web
 
     summary = Summary(
         title="函数对比",
@@ -175,7 +165,7 @@ def run_func_compare(version: str) -> Optional[CompareResult]:
     return CompareResult(summary=summary, details=all_diff)
 
 
-# EnumLibCompare ───────────────────────────────────────────
+# EnumLibCompare
 
 
 def run_enum_compare(version: str) -> Optional[CompareResult]:
@@ -198,11 +188,15 @@ def run_enum_compare(version: str) -> Optional[CompareResult]:
     web_enums = web_fn(enum_url)
 
     if version == "2.0":
-        diff_lines = compare_enums(local_enums, web_enums, skip_classes=skip_classes)
+        diff_lines, stats = compare_enums(
+            local_enums,
+            web_enums,
+            skip_classes=skip_classes,
+        )
         local_set = set(local_enums) - skip_classes
         web_set = set(web_enums) - skip_classes
     else:
-        diff_lines = compare_enums(
+        diff_lines, stats = compare_enums(
             local_enums,
             web_enums,
             skip_web_only_classes={"Mini"},
@@ -213,16 +207,14 @@ def run_enum_compare(version: str) -> Optional[CompareResult]:
         web_set = set(web_enums) - {"Mini"}
 
     common = local_set & web_set
-    only_local = local_set - web_set
-    only_web = web_set - local_set
 
     summary = Summary(
         title="枚举对比",
         local_count=len(local_set),
         web_count=len(web_set),
         common_count=len(common),
-        only_local_count=len(only_local),
-        only_web_count=len(only_web),
+        only_local_count=stats.only_local,
+        only_web_count=stats.only_web,
     )
     return CompareResult(summary=summary, details=diff_lines)
 
@@ -490,9 +482,7 @@ def run_upload(
         with open(file_path, "r", encoding="utf-8") as fp:
             payload = json.load(fp)
     except FileNotFoundError:
-        return UploadResult(
-            success=False, kind=kind, data=data_id, error=f"文件不存在: {file_path}"
-        )
+        return UploadResult(success=False, kind=kind, data=data_id, error=f"文件不存在: {file_path}")
     except json.JSONDecodeError as e:
         return UploadResult(success=False, kind=kind, data=data_id, error=f"JSON 解析失败: {e}")
 
@@ -502,9 +492,7 @@ def run_upload(
     try:
         resp = requests.post(url, json=body, timeout=30)
     except requests.RequestException as e:
-        return UploadResult(
-            success=False, kind=kind, data=data_id, url=url, error=f"请求失败: {e}"
-        )
+        return UploadResult(success=False, kind=kind, data=data_id, url=url, error=f"请求失败: {e}")
 
     try:
         resp_json = resp.json()

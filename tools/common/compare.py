@@ -9,7 +9,17 @@
   [SectionName]  ⚠ 仅在网页（本地未收录）  ← 整节仅网页有
 """
 
+from dataclasses import dataclass
+
 SEP: str = "─" * 60
+
+
+@dataclass
+class DiffStats:
+    """对比结果派生的统计（成员级/函数级）"""
+
+    only_local: int = 0
+    only_web: int = 0
 
 
 def _fmt_set(items: list[str]) -> str:
@@ -30,7 +40,7 @@ def _wrap(items: list[list[str]], label_local: str = "本地", label_web: str = 
     return lines
 
 
-def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) -> list[str]:
+def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) -> tuple[list[str], DiffStats]:
     """比较本地和网页函数名，返回差异描述行
 
     Args:
@@ -42,38 +52,38 @@ def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) 
         差异描述行列表
     """
     diff_lines: list[str] = []
+    stats: DiffStats = DiffStats()
+
     if not local_funcs and not web_funcs:
         diff_lines.append(f"[{module_name}]  ⚠ 未找到任何函数")
-        return diff_lines
+        return diff_lines, stats
+
     if not local_funcs:
         diff_lines.append(f"[{module_name}]  ⚠ 仅在网页（本地未收录）")
-        # 但仍列出网页独有函数
         only_web = sorted(web_funcs)
+        stats.only_web = len(only_web)
         diff_lines.extend(_wrap([[], only_web], "本地", "网页"))
-        return diff_lines
+        return diff_lines, stats
+
     if not web_funcs:
         diff_lines.append(f"[{module_name}]  ⚠ 仅在本地（网页未收录）")
         only_local = sorted(local_funcs)
+        stats.only_local = len(only_local)
         diff_lines.extend(_wrap([only_local, []], "本地", "网页"))
-        return diff_lines
+        return diff_lines, stats
 
     only_local = sorted(local_funcs - web_funcs)
     only_web = sorted(web_funcs - local_funcs)
+    stats.only_local = len(only_local)
+    stats.only_web = len(only_web)
 
     if not only_local and not only_web:
         diff_lines.append(f"[{module_name}]  ✓ 完全一致")
-        return diff_lines
+        return diff_lines, stats
 
-    no_local = not local_funcs
-    no_web = not web_funcs
-    if no_local:
-        diff_lines.append(f"[{module_name}]  ⚠ 仅在网页（本地未收录）")
-    elif no_web:
-        diff_lines.append(f"[{module_name}]  ⚠ 仅在本地（网页未收录）")
-    else:
-        diff_lines.append(f"[{module_name}]")
+    diff_lines.append(f"[{module_name}]")
     diff_lines.extend(_wrap([only_local, only_web], "本地", "网页"))
-    return diff_lines
+    return diff_lines, stats
 
 
 def compare_enums(
@@ -83,7 +93,7 @@ def compare_enums(
     skip_web_only_classes: set[str] | None = None,
     skip_local_only_classes: set[str] | None = None,
     skip_fields: dict[str, set[str]] | None = None,
-) -> list[str]:
+) -> tuple[list[str], DiffStats]:
     """比较本地枚举定义和网页枚举定义之间的差异
 
     Args:
@@ -103,6 +113,7 @@ def compare_enums(
     skip_fields = skip_fields or {}
 
     diff_lines: list[str] = []
+    stats: DiffStats = DiffStats()
     all_classes: list[str] = sorted(set(local_enums) | set(web_enums))
 
     for class_name in all_classes:
@@ -112,7 +123,6 @@ def compare_enums(
         local_fields: set[str] = set(local_enums.get(class_name, []))
         web_fields: set[str] = set(web_enums.get(class_name, []))
 
-        # 排除需要跳过的字段
         skipped = skip_fields.get(class_name, set())
         local_fields -= skipped
         web_fields -= skipped
@@ -120,21 +130,26 @@ def compare_enums(
         if class_name not in local_enums:
             if class_name not in skip_web_only_classes:
                 diff_lines.append(f"[{class_name}]  ⚠ 仅在网页（本地未收录）")
+            stats.only_web += len(web_fields)  # ← 整类缺失时全部计入
             continue
+
         if class_name not in web_enums:
             if class_name not in skip_local_only_classes:
                 diff_lines.append(f"[{class_name}]  ⚠ 仅在本地（网页未收录）")
+            stats.only_local += len(local_fields)
             continue
 
         only_local: list[str] = sorted(local_fields - web_fields)
         only_web: list[str] = sorted(web_fields - local_fields)
+        stats.only_local += len(only_local)
+        stats.only_web += len(only_web)
 
         if not only_local and not only_web:
-            continue  # 完全一致不输出
+            continue
         diff_lines.append(f"[{class_name}]")
         diff_lines.extend(_wrap([only_local, only_web], "本地", "网页"))
 
-    return diff_lines
+    return diff_lines, stats
 
 
 def build_summary(

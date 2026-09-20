@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Optional
 
 import typer
+from rich import box
 from rich.console import Console
 from rich.panel import Panel
 from rich.rule import Rule
@@ -77,20 +78,47 @@ def print_section_header(title: str) -> None:
     console.print(Panel(title, style="bold cyan", expand=False))
 
 
-def _format_compare_result(result: CompareResult) -> None:
-    """格式化输出 CompareResult"""
+def _make_compare_table(result: CompareResult) -> Table:
+    """构建 CompareResult 的 Rich 表格"""
     s = result.summary
-    console.print(SEP)
-    console.print(f"  {s.title}")
-    console.print(SEP)
-    console.print(f"  本地:     {s.local_count:>4}")
-    console.print(f"  网页:     {s.web_count:>4}")
-    console.print(f"  共同:     {s.common_count:>4}")
-    console.print(f"  仅本地:   {s.only_local_count:>4}")
-    console.print(f"  仅网页:   {s.only_web_count:>4}")
-    console.print(SEP)
+    table: Table = Table(
+        title_style="bold cyan",
+        box=box.ROUNDED,
+        border_style="cyan",
+        header_style="bold green",
+        show_lines=False,
+        padding=(0, 2),
+    )
+    table.add_column("项目", style="bold")
+    table.add_column("数量", justify="right", style="yellow")
+
+    table.add_row("本地", str(s.local_count))
+    table.add_row("网页", str(s.web_count))
+    table.add_row("共同", str(s.common_count))
+    table.add_row("仅本地", str(s.only_local_count))
+    table.add_row("仅网页", str(s.only_web_count))
+    return table
+
+
+def _render_table_to_text(table: Table, width: int = 80) -> str:
+    """把 Rich 表格渲染为无颜色的纯文本，便于写入文件"""
+    file_console: Console = Console(
+        record=True,
+        width=width,
+        no_color=True,
+        highlight=False,
+        legacy_windows=False,
+        force_terminal=False,
+    )
+    file_console.print(table)
+    return file_console.export_text()
+
+
+def _format_compare_result(result: CompareResult) -> None:
+    """格式化输出 CompareResult（控制台）"""
+    console.print(_make_compare_table(result))
     if result.details:
-        console.print("")
+        console.print()
         for line in result.details:
             console.print(line)
 
@@ -159,8 +187,9 @@ def _run_compare_and_format(
 
     # 文件输出
     if output_path:
-        s = result.summary
-        text = f"{plain_title}" f"{SEP}\n" f"  {s.title}\n" f"{SEP}\n" f"  本地:     {s.local_count:>4}\n" f"  网页:     {s.web_count:>4}\n" f"  共同:     {s.common_count:>4}\n" f"  仅本地:   {s.only_local_count:>4}\n" f"  仅网页:   {s.only_web_count:>4}\n" f"{SEP}\n"
+        text: str = plain_title + "\n"
+        text += _render_table_to_text(_make_compare_table(result))
+        text += "\n"
         if result.details:
             text += "\n" + "\n".join(result.details) + "\n"
         _write_to_file(text, output_path)
