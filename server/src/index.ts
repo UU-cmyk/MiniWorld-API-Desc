@@ -384,9 +384,9 @@ function dataIdForKind(kind: Kind): string {
 	return `${kind}_map`;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 时间工具                                    */
-/* -------------------------------------------------------------------------- */
+
+/* 时间工具 */
+
 
 function parseTimestamp(value: string | null): number | null {
 	if (!value) {
@@ -437,9 +437,9 @@ async function getRotateDays(env: Env): Promise<number> {
 	return Math.max(MIN_TOKEN_ROTATE_DAYS, parsed);
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 请求处理                                    */
-/* -------------------------------------------------------------------------- */
+
+/* 请求处理 */
+
 
 type JsonBodyResult = { ok: true; body: any } | { ok: false; tooLarge: boolean };
 
@@ -541,9 +541,9 @@ async function isWriteRateLimited(request: Request, env: Env, route: string, tok
 	return false;
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 加解密工具                                   */
-/* -------------------------------------------------------------------------- */
+
+/* 加解密工具*/
+
 
 function validateEmail(email: string): boolean {
 	return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
@@ -599,9 +599,9 @@ async function sha256Hex(value: string): Promise<string> {
 		.join('');
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                   邮件                                      */
-/* -------------------------------------------------------------------------- */
+
+/* 邮件 */
+
 
 async function sendResetTokenEmail(adminEmail: string, token: string, resendApiKey: string, resendFrom: string): Promise<Response> {
 	return fetch('https://api.resend.com/emails', {
@@ -645,9 +645,9 @@ async function safeReadResponseBody(response: Response): Promise<string> {
 	}
 }
 
-/* -------------------------------------------------------------------------- */
-/*                                 响应与 CORS                                 */
-/* -------------------------------------------------------------------------- */
+
+/* 响应与 CORS */
+
 
 function jsonResponse(body: unknown, status = 200): Response {
 	return new Response(JSON.stringify(body), {
