@@ -42,12 +42,10 @@ def _wrap(items: list[list[str]], label_local: str = "本地", label_web: str = 
 
 def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) -> tuple[list[str], DiffStats]:
     """比较本地和网页函数名，返回差异描述行
-
     Args:
         local_funcs: 本地函数名集合
         web_funcs: 网页函数名集合
         module_name: 模块名称（用于输出标识）
-
     Returns:
         差异描述行列表
     """
@@ -60,20 +58,20 @@ def compare_funcs(local_funcs: set[str], web_funcs: set[str], module_name: str) 
 
     if not local_funcs:
         diff_lines.append(f"[{module_name}]  ⚠ 仅在网页（本地未收录）")
-        only_web = sorted(web_funcs)
+        only_web: list[str] = sorted(web_funcs)
         stats.only_web = len(only_web)
         diff_lines.extend(_wrap([[], only_web], "本地", "网页"))
         return diff_lines, stats
 
     if not web_funcs:
         diff_lines.append(f"[{module_name}]  ⚠ 仅在本地（网页未收录）")
-        only_local = sorted(local_funcs)
+        only_local: list[str] = sorted(local_funcs)
         stats.only_local = len(only_local)
         diff_lines.extend(_wrap([only_local, []], "本地", "网页"))
         return diff_lines, stats
 
-    only_local = sorted(local_funcs - web_funcs)
-    only_web = sorted(web_funcs - local_funcs)
+    only_local: list[str] = sorted(local_funcs - web_funcs)
+    only_web: list[str] = sorted(web_funcs - local_funcs)
     stats.only_local = len(only_local)
     stats.only_web = len(only_web)
 
@@ -150,38 +148,3 @@ def compare_enums(
         diff_lines.extend(_wrap([only_local, only_web], "本地", "网页"))
 
     return diff_lines, stats
-
-
-def build_summary(
-    title: str,
-    local_count: int,
-    web_count: int,
-    common_count: int,
-    only_local_count: int,
-    only_web_count: int,
-) -> list[str]:
-    """构建统一的统计摘要行列表
-
-    Args:
-        title: 摘要标题（如 "函数对比"、"枚举对比"）
-        local_count: 本地实体数
-        web_count: 网页实体数
-        common_count: 共同实体数
-        only_local_count: 仅本地实体数
-        only_web_count: 仅网页实体数
-
-    Returns:
-        格式化的统计摘要行列表
-    """
-    lines = [
-        SEP,
-        f"  {title}",
-        SEP,
-        f"  本地:     {local_count:>4}",
-        f"  网页:     {web_count:>4}",
-        f"  共同:     {common_count:>4}",
-        f"  仅本地:   {only_local_count:>4}",
-        f"  仅网页:   {only_web_count:>4}",
-        SEP,
-    ]
-    return lines

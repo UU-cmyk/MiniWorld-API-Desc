@@ -2,26 +2,40 @@
 
 import re
 
-ANNOTATION_TAG_RE: re.Pattern[str] = re.compile(r"^([ \t]*---[ \t]*)@\w+\b[ \t]*", re.MULTILINE)
-REMOVE_AT_SIGN_RE: re.Pattern[str] = re.compile(r"^[ \t]*---.*$", re.MULTILINE)
-EMPTY_COMMENT_LINE_RE: re.Pattern[str] = re.compile(r"^[ \t]*---[ \t]*\r?\n", re.MULTILINE)
+# 一次性匹配整行 LuaLS 注释
+_LINE_RE = re.compile(
+    r"^([ \t]*---[ \t]*)([^\r\n]*)(\r\n|\n|\r|$)",
+    re.MULTILINE,
+)
+# 行首 @tag（如 @param / @return），连同尾随空白一起吃掉
+_TAG_RE = re.compile(r"@\w+[ \t]*")
+
+
+def _repl(m: re.Match[str]) -> str:
+    """
+    正则替换回调函数，用于清理匹配文本中的 @ 提及或标签
+    Args:
+        m (re.Match[str]): 正则匹配对象，必须包含至少 3 个捕获组
+    Returns:
+        str: 清理后的替换字符串，或空字符串（表示删除匹配）
+    """
+    body = m.group(2)
+
+    if "@" in body:
+        if body[0] == "@":
+            tag = _TAG_RE.match(body)
+            if tag is not None:
+                body = body[tag.end() :]
+        body = body.replace("@", "")
+
+    return m.group(1) + body + m.group(3) if body.strip() else ""
 
 
 def strip_annotations(content: str) -> str:
     """剔除 LuaLS 注释中的 @tag，并移除所有 @ 符号，清理空注释行
-
     Args:
         content: 原始文件内容
-
     Returns:
-        处理后的文件内容
+        str: 处理后的文件内容
     """
-    # 仅剔除 @tag 本身 (如 @return → 空, 保留 table)
-    content = ANNOTATION_TAG_RE.sub(r"\1", content)
-    # 移除 "---" 行中残留的 @ 符号 (描述文字前的 @ 标记)
-    content = REMOVE_AT_SIGN_RE.sub(lambda m: m.group(0).replace("@", ""), content)
-    # 移除无内容的注释行
-    content = EMPTY_COMMENT_LINE_RE.sub("", content)
-    # 处理文件末尾可能残留的无内容注释行 (无换行符的情况)
-    content = re.sub(r"^[ \t]*---[ \t]*$", "", content, flags=re.MULTILINE)
-    return content
+    return _LINE_RE.sub(_repl, content)

@@ -128,11 +128,11 @@ def enum_analyze_web(url: str) -> dict[str, list[str]]:
         if not first_cell:
             continue
 
-        first_text = first_cell.get_text(strip=True)
+        first_text: str = first_cell.get_text(strip=True)
         if "." not in first_text:
             continue
 
-        wiki_class_name = first_text.split(".", 1)[0]
+        wiki_class_name: str = first_text.split(".", 1)[0]
         if wiki_class_name in SKIP_CLASSES:
             continue
 
@@ -141,10 +141,10 @@ def enum_analyze_web(url: str) -> dict[str, list[str]]:
             field_cell: Tag | None = row.td
             if not field_cell or not field_cell.get_text(strip=True):
                 continue
-            field_text = field_cell.get_text(strip=True)
+            field_text: str = field_cell.get_text(strip=True)
             if "." not in field_text:
                 continue
-            row_class = field_text.split(".", 1)[0]
+            row_class: str = field_text.split(".", 1)[0]
             if row_class != wiki_class_name:
                 continue
             current_fields.append(field_text.split(".", 1)[1])

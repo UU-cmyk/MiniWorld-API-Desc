@@ -1,6 +1,6 @@
 """结果数据模型
 
-定义所有操作返回的结构化数据，避免各模块直接 print/log。
+定义所有操作返回的结构化数据，避免各模块直接 print/log
 """
 
 from __future__ import annotations

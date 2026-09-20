@@ -31,12 +31,10 @@ FUNC_FILES_PATH: str = str(MULTIPLE_30_DIR)
 
 def func_analyze_web(url: str) -> set[str]:
     """从网页 API 文档中提取函数名
-
-    从标题（h2/h3/h4）中提取纯函数名，若未找到则从 Markdown 表格中提取。
+    从标题（h2/h3/h4）中提取纯函数名，若未找到则从 Markdown 表格中提取
 
     Args:
         url: 文档 URL 的相对路径
-
     Returns:
         函数名集合
     """
@@ -179,9 +177,7 @@ def event_analyze_web(url: str) -> dict[str, list[str]]:
     except Exception:
         return out_dict
 
-    pattern: re.Pattern[str] = re.compile(
-        r"(TriggerEvent|ObjectEvent|CurEventParam)\.([A-Za-z0-9_]+)"
-    )
+    pattern: re.Pattern[str] = re.compile(r"(TriggerEvent|ObjectEvent|CurEventParam)\.([A-Za-z0-9_]+)")
     matches = pattern.findall(text)
     if not matches:
         return out_dict
@@ -198,7 +194,6 @@ def event_analyze_web(url: str) -> dict[str, list[str]]:
 
 def compare_events(local: dict[str, list[str]], web: dict[str, list[str]]) -> list[str]:
     """比较本地和网页的事件定义，生成差异描述列表
-
     Args:
         local: 本地事件定义 {类名: [字段名列表]}
         web: 网页事件定义 {类名: [字段名列表]}

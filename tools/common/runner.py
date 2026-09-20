@@ -12,7 +12,7 @@ from typing import Optional
 
 import requests
 
-from common.compare import build_summary, compare_enums, compare_funcs
+from common.compare import compare_enums, compare_funcs
 from common.config import (
     API_20_FILE,
     API_30_FILE,
