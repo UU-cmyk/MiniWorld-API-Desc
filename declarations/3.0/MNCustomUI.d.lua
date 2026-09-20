@@ -1,9 +1,9 @@
 --- @class CustomUI
----界面模块管理接口 - CustomUI
+--- 界面模块管理接口 - CustomUI
 local CustomUI = {}
 _G.CustomUI = CustomUI
 
----设置文本元件内容
+--- 设置文本元件内容
 --- @return boolean
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -384,21 +384,21 @@ function CustomUI:SetRelationPosition(playerId, uiId, elementId, v, xOffset, xUn
 --- @param heigthUnits number @高度单位枚举(PixelUnits)
 function CustomUI:SetRelationSize(playerId, uiId, elementId, width, widthUnits, heigth, heigthUnits) return true end
 
----动态创建元件
+--- 动态创建元件
 --- @return string @成功时返回元件ID
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
 --- @param elementType number @元件类型枚举(ElementType)
 function CustomUI:CreateElement(playerId, uiId, elementType) return "" end
 
----克隆元件
+--- 克隆元件
 --- @return string @成功时返回元件ID
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
 --- @param elementId string @目标元件ID
 function CustomUI:CloneElement(playerId, uiId, elementId) return "" end
 
----修改元件父元件
+--- 修改元件父元件
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -406,7 +406,7 @@ function CustomUI:CloneElement(playerId, uiId, elementId) return "" end
 --- @param parentElementId string @父元件ID
 function CustomUI:ChangeParent(playerId, uiId, elementId, parentElementId) return true end
 
----设置玩家界面进度条的值
+--- 设置玩家界面进度条的值
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -415,7 +415,7 @@ function CustomUI:ChangeParent(playerId, uiId, elementId, parentElementId) retur
 --- @param value number @设定值
 function CustomUI:SetProgressBarValue(playerId, uiId, elementId, iType, value) return true end
 
----获取玩家界面进度条的值
+--- 获取玩家界面进度条的值
 --- @return number, number, number @成功时返回最小值，最大值，当前值
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -423,7 +423,7 @@ function CustomUI:SetProgressBarValue(playerId, uiId, elementId, iType, value) r
 --- @param iType number @类型枚举(ProgressType)
 function CustomUI:GetProgressBarValue(playerId, uiId, elementId, iType) return 0, 0, 0 end
 
----设置玩家界面进度条的纹理
+--- 设置玩家界面进度条的纹理
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -432,7 +432,7 @@ function CustomUI:GetProgressBarValue(playerId, uiId, elementId, iType) return 0
 --- @param url string @纹理资源ID 
 function CustomUI:SetProgressBarResId(playerId, uiId, elementId, iType, url) return true end
 
----进度条文本平滑计时
+--- 进度条文本平滑计时
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -442,7 +442,7 @@ function CustomUI:SetProgressBarResId(playerId, uiId, elementId, iType, url) ret
 --- @param time number @动画时长
 function CustomUI:SmoothChangeProgress(playerId, uiId, elementId, bVal, eVal, time) return true end
 
----设置动画元件动画ID
+--- 设置动画元件动画ID
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -452,7 +452,7 @@ function CustomUI:SmoothChangeProgress(playerId, uiId, elementId, bVal, eVal, ti
 --- @param playMode number @播放模式枚举(ViedoPlayMode)
 function CustomUI:SetSpineAnimID(playerId, uiId, elementId, animId, animIndex, playMode) return true end
 
----进度条文本平滑增加计时
+--- 进度条文本平滑增加计时
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
@@ -462,7 +462,7 @@ function CustomUI:SetSpineAnimID(playerId, uiId, elementId, animId, animIndex, p
 --- @param value number @变化值
 function CustomUI:SmoothIncreaseProgress(playerId, uiId, elementId, time, pType, value) return true end
 
----设置伤害文本
+--- 设置伤害文本
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param elementId string @元件ID
@@ -483,7 +483,7 @@ function CustomUI:SetFloatDamageTxt(playerId, elementId, objId, text, color, off
 --- @return number, number @返回屏幕大小(width, height)
 function CustomUI:GetScreenSize(playerId) return 0, 0 end
 
----删除UI元件
+--- 删除UI元件
 --- @return boolean @成功返回True, 失败返回False
 --- @param playerId number @玩家ID
 --- @param uiId string @界面ID
