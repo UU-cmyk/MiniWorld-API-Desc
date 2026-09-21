@@ -34,6 +34,10 @@ end
 
 - Note: You cannot set a metatable on your component table itself, but other tables can have metatables.
 
+## Access
+
+After you globalize a globalizable object, it is also accessible from other scripts.
+
 ## OnTick
 
 ```lua
